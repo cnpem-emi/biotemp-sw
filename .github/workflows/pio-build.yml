@@ -1,7 +1,8 @@
-name: pio-build
+name: build-project
 on:
   push:
     branches: master
+
 jobs:
   build:
     name: build files
@@ -22,5 +23,6 @@ jobs:
           python-version: '3.11'
       - name: Install PlatformIO Core
         run: pip install platformio
+
       - name: Build project
         run: pio run
