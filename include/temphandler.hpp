@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <cmath>
 #include <Arduino.h>
 #include <Adafruit_MAX31865.h>
 
@@ -13,6 +14,9 @@ class TempHandler {
 
         float getTemperature();
 };
+
+const int CS_PIN = 10;
+const float RREF = 430.0;
 
 class SensorPT100 : public TempHandler {
     public:
@@ -28,6 +32,12 @@ class SensorPT100 : public TempHandler {
         float getTemperature();
 };
 
+const int ADC1_PIN = 3;
+const int ADC2_PIN = 2;
+const int BETA_COEFF = 3935;
+const float T_0 = 298.15;
+const int R_0 = 10000;
+
 class SensorNTC : public TempHandler {
     public:
         int currentMode;
@@ -38,12 +48,15 @@ class SensorNTC : public TempHandler {
 
         // Disable NTC sensor
         void disableNTC();
-
-        // Linearize the ADC input
-        void lienarizeADC();
     
-        // Get the temperature from the NTC sensor
-        float getTemperature();
+        /*************************************************************/
+        /*!
+            @brief Gets the temperature from NTC sensor.
+            @param ntcID is the ADC id.
+            @returns the temperature in degrees Celsius.
+        */
+        /*************************************************************/
+        float getTemperature(int ntcID);
 
     private:
         /*************************************************************/
@@ -53,7 +66,7 @@ class SensorNTC : public TempHandler {
             @returns ADC value in bits.
         */
         /*************************************************************/
-        int adcReader(int ntcID);
+        float adcReader(int ntcID);
 
 };
 

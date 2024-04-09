@@ -6,9 +6,6 @@
 ############################################################
 */
 
-#define CS_PIN 10
-#define RREF 430.0
-
 Adafruit_MAX31865 max = Adafruit_MAX31865(CS_PIN);
 
 void SensorPT100::enablePT100() {
@@ -35,9 +32,6 @@ float SensorPT100::getTemperature() {
 ############################################################
 */
 
-#define ADC1_PIN 3
-#define ADC2_PIN 2
-
 void SensorNTC::enableNTC() {
     enabled = true;
 }
@@ -46,22 +40,25 @@ void SensorNTC::disableNTC() {
     enabled = false;
 }
 
-void SensorNTC::lienarizeADC() {
-    // Usar método de linearização
-    
+float SensorNTC::getTemperature(int ntcID) {
+    float v_adc;
+    float r_ntc;
+    float temperature;
+
+    v_adc = adcReader(ntcID); // Voltage measured from the ADC
+    r_ntc = R_0/((3.3/v_adc)-1); // NTC resistance
+    temperature = (BETA_COEFF*T_0)/(std::log(r_ntc/R_0)*T_0 + BETA_COEFF); // Gets the temperature in Kelvin
+    temperature = temperature - 273.15; // Converts to Celsius
+
+    return temperature;
 }
 
-float SensorNTC::getTemperature() {
-    // Ler ADC (Usar função específica)
-    // retornar valor de temperatura
-}
-
-int SensorNTC::adcReader(int ntcID) {
-    int adcValue;
+float SensorNTC::adcReader(int ntcID) {
+    float adcValue;
 
     switch(ntcID) {
         case 1:
-            adcValue = analogReadMilliVolts(ADC2_PIN);
+            adcValue = analogReadMilliVolts(ADC1_PIN);
             break;
 
         case 2:
@@ -69,7 +66,7 @@ int SensorNTC::adcReader(int ntcID) {
             break;
 
         default:
-            adcValue = analogReadMilliVolts(ADC2_PIN);
+            adcValue = analogReadMilliVolts(ADC1_PIN);
             break;
     }
     
