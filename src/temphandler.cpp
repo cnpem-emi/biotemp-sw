@@ -1,4 +1,4 @@
-#include "../include/temphandler.hpp"
+#include "temphandler.hpp"
 
 /*
 ############################################################
@@ -69,6 +69,5 @@ float SensorNTC::adcReader(int ntcID) {
             adcValue = analogReadMilliVolts(ADC1_PIN);
             break;
     }
-    
     return adcValue;
 }

@@ -67,7 +67,6 @@ class SensorNTC : public TempHandler {
         */
         /*************************************************************/
         float adcReader(int ntcID);
-
 };
 
 #endif  // _INCLUDE_TEMPHANDLER_HPP_
