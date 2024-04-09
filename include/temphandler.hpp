@@ -5,6 +5,7 @@
 #include <string>
 #include <cmath>
 #include <Arduino.h>
+#include <Wire.h>
 #include <Adafruit_MAX31865.h>
 
 class TempHandler {
@@ -20,6 +21,7 @@ const float RREF = 430.0;
 
 class SensorPT100 : public TempHandler {
     public:
+        Adafruit_MAX31865 max = Adafruit_MAX31865(CS_PIN);
         bool enabled = true;
 
         // Enable PT100 sensor

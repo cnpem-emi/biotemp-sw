@@ -6,8 +6,6 @@
 ############################################################
 */
 
-Adafruit_MAX31865 max = Adafruit_MAX31865(CS_PIN);
-
 void SensorPT100::enablePT100() {
     digitalWrite(CS_PIN, HIGH);
     max.begin(MAX31865_3WIRE);
