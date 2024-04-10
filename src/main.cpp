@@ -1,18 +1,18 @@
-#include <Arduino.h>
+#include <temphandler.hpp>
 
-// put function declarations here:
-int myFunction(int, int);
+#define NTC_ID 1
+
+float temp;
+SensorNTC s1;
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+  Serial.begin(9600);
+  s1.enableNTC();
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-}
-
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+  temp = s1.getTemperature(NTC_ID);
+  Serial.print("Temperatura: ");
+  Serial.println(temp);
+  delay(200);
 }

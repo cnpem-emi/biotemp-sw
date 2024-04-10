@@ -36,8 +36,8 @@ class SensorPT100 : public TempHandler {
         Adafruit_MAX31865 max = Adafruit_MAX31865(CS_PIN);
 };
 
-const int ADC1_PIN = 3;
-const int ADC2_PIN = 2;
+const int ADC1_PIN = 35; // 3
+const int ADC2_PIN = 2; // 2
 const int BETA_COEFF = 3935;
 const float T_0 = 298.15;
 const int R_0 = 10000;

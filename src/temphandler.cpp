@@ -44,6 +44,7 @@ float SensorNTC::getTemperature(int ntcID) {
     float temperature;
 
     v_adc = adcReader(ntcID); // Voltage measured from the ADC
+    v_adc = v_adc/1000;
     r_ntc = R_0/((3.3/v_adc)-1); // NTC resistance
     temperature = (BETA_COEFF*T_0)/(std::log(r_ntc/R_0)*T_0 + BETA_COEFF); // Gets the temperature in Kelvin
     temperature = temperature - 273.15; // Converts to Celsius
