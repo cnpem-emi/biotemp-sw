@@ -21,7 +21,6 @@ const float RREF = 430.0;
 
 class SensorPT100 : public TempHandler {
     public:
-        Adafruit_MAX31865 max = Adafruit_MAX31865(CS_PIN);
         bool enabled = true;
 
         // Enable PT100 sensor
@@ -32,6 +31,9 @@ class SensorPT100 : public TempHandler {
 
         //Get the temperature from the PT100 sensor
         float getTemperature();
+    
+    private:
+        Adafruit_MAX31865 max = Adafruit_MAX31865(CS_PIN);
 };
 
 const int ADC1_PIN = 3;
