@@ -38,12 +38,11 @@ void SensorNTC::disableNTC() {
     enabled = false;
 }
 
-float SensorNTC::getTemperature(int ntcID) {
+float SensorNTC::getTemperature() {
     float v_adc;
     float r_ntc;
-    float temperature;
 
-    v_adc = adcReader(ntcID); // Voltage measured from the ADC
+    v_adc = adcReader(); // Voltage measured from the ADC
     v_adc = v_adc/1000;
     r_ntc = R_0/((3.3/v_adc)-1); // NTC resistance
     temperature = (BETA_COEFF*T_0)/(std::log(r_ntc/R_0)*T_0 + BETA_COEFF); // Gets the temperature in Kelvin
@@ -52,7 +51,7 @@ float SensorNTC::getTemperature(int ntcID) {
     return temperature;
 }
 
-float SensorNTC::adcReader(int ntcID) {
+float SensorNTC::adcReader() {
     float adcValue;
 
     switch(ntcID) {
@@ -69,4 +68,9 @@ float SensorNTC::adcReader(int ntcID) {
             break;
     }
     return adcValue;
+}
+
+SensorNTC::SensorNTC(int id) {
+    ntcID = id;
+    sensorID = "NTC " + std::to_string(ntcID);
 }

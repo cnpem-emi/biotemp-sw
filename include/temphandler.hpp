@@ -1,7 +1,6 @@
 #ifndef _INCLUDE_TEMPHANDLER_HPP_
 #define _INLCUDE_TEMPHANDLER_HPP_
 
-#include <vector>
 #include <string>
 #include <cmath>
 #include <Arduino.h>
@@ -45,6 +44,7 @@ const int R_0 = 10000;
 class SensorNTC : public TempHandler {
     public:
         int currentMode;
+        int ntcID;
         bool enabled = true;
 
         // Enable NTC sensor
@@ -60,7 +60,9 @@ class SensorNTC : public TempHandler {
             @returns the temperature in degrees Celsius.
         */
         /*************************************************************/
-        float getTemperature(int ntcID);
+        float getTemperature();
+
+        SensorNTC(int ntcID);
 
     private:
         /*************************************************************/
@@ -70,7 +72,7 @@ class SensorNTC : public TempHandler {
             @returns ADC value in bits.
         */
         /*************************************************************/
-        float adcReader(int ntcID);
+        float adcReader();
 };
 
 #endif  // _INCLUDE_TEMPHANDLER_HPP_
