@@ -18,10 +18,15 @@ class TempHandler {
 const int CS_PIN = 10;
 const float RREF = 430.0;
 
+/*****************************************************/
+/*!
+    @brief PT100 sensor interface class. The sensor initializes disabled.
+*/
+/*****************************************************/
 class SensorPT100 : public TempHandler {
     public:
         std::string pt100ID = "PT100"; 
-        bool enabled = true;
+        bool enabled = false;
 
         // Enable PT100 sensor
         void enablePT100();
@@ -42,11 +47,16 @@ const int BETA_COEFF = 3935;
 const float T_0 = 298.15;
 const int R_0 = 10000;
 
+/*****************************************************/
+/*!
+    @brief NTC sensor interface class. The sensor initializes disabled.
+*/
+/*****************************************************/
 class SensorNTC : public TempHandler {
     public:
         int currentMode;
         int ntcID;
-        bool enabled = true;
+        bool enabled = false;
 
         // Enable NTC sensor
         void enableNTC();
