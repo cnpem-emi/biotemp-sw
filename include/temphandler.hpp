@@ -20,6 +20,7 @@ const float RREF = 430.0;
 
 class SensorPT100 : public TempHandler {
     public:
+        std::string pt100ID = "PT100"; 
         bool enabled = true;
 
         // Enable PT100 sensor
@@ -56,20 +57,24 @@ class SensorNTC : public TempHandler {
         /*************************************************************/
         /*!
             @brief Gets the temperature from NTC sensor.
-            @param ntcID is the ADC id.
             @returns the temperature in degrees Celsius.
         */
         /*************************************************************/
         float getTemperature();
 
+        /*************************************************************/
+        /*!
+            @brief NTC sensor class constructor.
+            @param ntcID the ID of the sensor, selects the correct ADC pin.
+        */
+        /*************************************************************/
         SensorNTC(int ntcID);
 
     private:
         /*************************************************************/
         /*!
             @brief Reads the ADC from a specified ID.
-            @param ntcID The ADC id to read. Default: ADC1.
-            @returns ADC value in bits.
+            @returns ADC value in millivolts.
         */
         /*************************************************************/
         float adcReader();
