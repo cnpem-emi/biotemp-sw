@@ -7,13 +7,11 @@
 */
 
 void SensorPT100::enablePT100() {
-    digitalWrite(CS_PIN, HIGH);
     max.begin(MAX31865_3WIRE);
     enabled = true;
 }
 
 void SensorPT100::disablePT100() {
-    digitalWrite(CS_PIN, LOW);
     enabled = false;
 }
 
@@ -39,12 +37,12 @@ void SensorNTC::disableNTC() {
 }
 
 float SensorNTC::getTemperature() {
-    float v_adc;
-    float r_ntc;
+    float v_adc; // Voltage measured from the ADC
+    float r_ntc; // NTC resistance
 
-    v_adc = adcReader(); // Voltage measured from the ADC
+    v_adc = adcReader(); 
     v_adc = v_adc/1000;
-    r_ntc = R_0/((3.3/v_adc)-1); // NTC resistance
+    r_ntc = R_0/((3.3/v_adc)-1); 
     temperature = (BETA_COEFF*T_0)/(std::log(r_ntc/R_0)*T_0 + BETA_COEFF); // Gets the temperature in Kelvin
     temperature = temperature - 273.15; // Converts to Celsius
 
