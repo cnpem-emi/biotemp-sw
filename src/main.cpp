@@ -1,18 +1,18 @@
 #include <Arduino.h>
+#include <InputController.hpp>
 
-// put function declarations here:
-int myFunction(int, int);
+InputController encoder;
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+
+  encoder.restart_counter();
+
+  // use interrupt for CLK pin is enough
+  // call ISR_encoder() when CLK pin changes from LOW to HIGH
+  attachInterrupt(digitalPinToInterrupt(CLK_PIN), ISR_encoder, RISING);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-}
-
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+  encoder.encoder_position;
+  encoder.isPressed();
 }
