@@ -7,9 +7,16 @@
 
 class DataClient {
     public:
-        std::string currentMode;
+        void subscribe(SensorPT100 *s);
+        void subscribe(SensorNTC *s);
 
-        void getData(std::vector<TempHandler> sensorList);
+        void unsubscribe(SensorPT100 *s);
+        void unsubscribe(SensorNTC *s);
+
+        void getData();
+
+    private:
+        bool registered[3] = {false, false, false};
 };
 
 #endif  // _INCLUDE_DATACLIENT_HPP_
