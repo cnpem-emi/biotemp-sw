@@ -17,7 +17,6 @@
     @brief Rotary encoder interface class.
 */
 /*****************************************************/
-
 class InputController{
     public:
         uint8_t encoder_position; // Position of the encoder

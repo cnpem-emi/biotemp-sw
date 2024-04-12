@@ -7,7 +7,7 @@ void setup() {
 
   encoder.restart_counter();
 
-  // use interrupt for CLK pin is enough
+  // Use interrupt for CLK pin is enough
   // call ISR_encoder() when CLK pin changes from LOW to HIGH
   attachInterrupt(digitalPinToInterrupt(CLK_PIN), ISR_encoder, RISING);
 }

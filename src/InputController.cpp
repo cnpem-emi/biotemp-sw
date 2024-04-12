@@ -11,15 +11,16 @@ volatile int direction = DIRECTION_CW;
 volatile unsigned long last_time;  // for debouncing
 int prev_counter;
 
-void InputController::restart_counter() {
-  counter = 0;
-}
-
 void InputController::encoderPosition() {
   encoder_position = counter;
   }
 
+void InputController::restart_counter() {
+  counter = 0;
+}
+
 bool InputController::isPressed(){
+    
     button.loop();
     if (button.isPressed()){
       return true;
