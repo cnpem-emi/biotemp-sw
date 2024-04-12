@@ -28,9 +28,10 @@ class InputController{
 
         InputController(); 
 
-    private:
         // Pass the value of the position to "encoder_position" variable
         void encoderPosition();
+
+    private:
 
         ezButton button = ezButton(SW_PIN);
 };

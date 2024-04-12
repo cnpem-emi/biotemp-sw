@@ -12,7 +12,7 @@ volatile unsigned long last_time;  // for debouncing
 int prev_counter;
 
 void InputController::encoderPosition() {
-  encoder_position = counter;
+    encoder_position = counter;
   }
 
 void InputController::restart_counter() {

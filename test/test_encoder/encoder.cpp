@@ -27,9 +27,7 @@ class MockEncoder {
         int getPosition() { 
             return counter; 
             }
-
-    private:
-        int currentPosition = 0;
+            
 };
 
 MockEncoder mockEncoder;
