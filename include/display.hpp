@@ -2,59 +2,47 @@
 #define _INLCUDE_DISPLAY_HPP_
 
 //INCLUDES
-#include <string>
+#include <Wire.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
 #include <vector>
 
 
-class GraphicalViewHandler {
+#define SCREEN_WIDTH 128 // OLED display width, in pixels
+#define SCREEN_HEIGHT 32 // OLED display height, in pixels
+#define OLED_RESET    -1 // Reset pin # (or -1 if sharing Arduino reset pin)
+
+#define UP_BUTTON_PIN 4
+#define DOWN_BUTTON_PIN 3
+#define SELECT_BUTTON_PIN 2
+
+class Display {
     public:
-        float pt100_temp;
-        float ntc_1_temp;
-        float ntc_2_temp;
-        std::vector <int> menu_list;
-        std::vector <int> menu_name_list;
+        void displayConfig();
+        void displayTeste();
+
+        void displayText(int value, int pixelLine, bool newline);
+        void displayText(float value, int pixelLine, bool newline);
+        void displayText(std::string text, int line, bool newline);
         
-        void button_pressed_event();
-        void splash_screen();
-        void status_screen();
-        void defaut_screen();
+        int pixelLine = 0;
+        int getCenterX();
 
-        void option_menu(OptionsMenu);  
-};
+        void showMenuTitle();
+        void drawArrow(int line);
+        void clearDisplay();
+        void createMenu(std::vector<std::string> menuList);
+        void upButton();
+        void downButton();
+        void selectButton();
 
-class OptionsMenu {
-    public:
-        std::string active_menu;
 
-        void call_menu();
-};
-
-class Menu {
-    public:
-        int8_t arrow_position;
-        std::string menu_name;
-
-        void button_pressed_event();
-        void show_menu();
+        int arrowPos = 0;
+        const byte EspacoLinha1 = 9;              // espaçamento entre linhas (6 linhas)
+        
 
     private:
-            
-
-
+        
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 #endif // _INCLUDE_DISPLAY_HPP_
-

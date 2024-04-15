@@ -1,18 +1,34 @@
-#include <Arduino.h>
 
-// put function declarations here:
-int myFunction(int, int);
+#include "display.hpp"
+
+Display disp;
+
+int arrowPos = 0;
+
+std::vector<std::string> menuList = {"Menu 1", "Menu 2", "Menu 3"};
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+  Serial.begin(9600);
+  disp.displayConfig();
+  //disp.displayTeste();
+
+  //disp.displayText (135, 10);
+  //disp.displayText (3.14f, 25);
+  //disp.displayText("texto teste", 40);
+
+  pinMode(UP_BUTTON_PIN, INPUT);
+  pinMode(DOWN_BUTTON_PIN, INPUT);
+  pinMode(SELECT_BUTTON_PIN, INPUT);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+
+  disp.showMenuTitle();
+  disp.createMenu(menuList);
+  disp.upButton(); 
+  disp.drawArrow(arrowPos);
+  Serial.println(arrowPos);
+  delay(500);                                       
+  
 }
 
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
-}
