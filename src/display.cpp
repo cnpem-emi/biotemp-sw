@@ -78,11 +78,8 @@ void Display::showMenuTitle() {
 
 void Display::drawArrow(int line) {
   int gfxChar = 0x10;
-  if (line == 0){
-      pixelLine = 15;
-    } else {
-      pixelLine = line * 15;
-    } 
+  line += 1;
+  pixelLine = line * 15; 
   display.setCursor(2, pixelLine);
   display.write(gfxChar);
   display.display();
@@ -95,29 +92,30 @@ void Display::clearDisplay() {
 }
 
 void Display::upButton() {
-    if (!digitalRead(UP_BUTTON_PIN)) {
+    if (digitalRead(UP_BUTTON_PIN) == HIGH) {
         arrowPos++;
-    if (arrowPos > 2) {
-      arrowPos = 0; 
+      if (arrowPos > 2) {
+          arrowPos = 0; 
+      }
+      display.clearDisplay();
     }
-  }
 }
 
 void Display::downButton() {
-    if (!digitalRead(DOWN_BUTTON_PIN)) {
-        arrowPos++;
-    if (arrowPos > 2) {
-      arrowPos = 0; 
+    if (digitalRead(DOWN_BUTTON_PIN) == HIGH) {
+        arrowPos--;
+      if (arrowPos < 0) {
+          arrowPos = 2; 
+      }
+      display.clearDisplay();
     }
-  }
 }
 
 void Display::selectButton() {
-    if (!digitalRead(SELECT_BUTTON_PIN)) {
-    Serial.print("Selected Menu: ");
-    Serial.println(arrowPos + 1);
+    if (digitalRead(SELECT_BUTTON_PIN) == HIGH) {
+    Serial.print("Selected");
     //void mainMenu2();
-  }
+    }
 
 }
 

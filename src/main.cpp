@@ -3,9 +3,11 @@
 
 Display disp;
 
-int arrowPos = 0;
+//int arrowPos = 0;
 
 std::vector<std::string> menuList = {"Menu 1", "Menu 2", "Menu 3"};
+
+
 
 void setup() {
   Serial.begin(9600);
@@ -23,12 +25,14 @@ void setup() {
 
 void loop() {
 
+  
   disp.showMenuTitle();
   disp.createMenu(menuList);
-  disp.upButton(); 
-  disp.drawArrow(arrowPos);
-  Serial.println(arrowPos);
-  delay(500);                                       
+  disp.upButton();
+  disp.downButton(); 
+  disp.drawArrow(disp.arrowPos);
+  Serial.println(disp.arrowPos);
+  delay(100);                                       
   
 }
 

@@ -13,8 +13,8 @@
 #define OLED_RESET    -1 // Reset pin # (or -1 if sharing Arduino reset pin)
 
 #define UP_BUTTON_PIN 4
-#define DOWN_BUTTON_PIN 3
-#define SELECT_BUTTON_PIN 2
+#define DOWN_BUTTON_PIN 19
+#define SELECT_BUTTON_PIN 3
 
 class Display {
     public:
