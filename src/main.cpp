@@ -3,8 +3,6 @@
 
 Display disp;
 
-//int arrowPos = 0;
-
 std::vector<std::string> menuList = {"Menu 1", "Menu 2", "Menu 3"};
 
 
@@ -12,11 +10,6 @@ std::vector<std::string> menuList = {"Menu 1", "Menu 2", "Menu 3"};
 void setup() {
   Serial.begin(9600);
   disp.displayConfig();
-  //disp.displayTeste();
-
-  //disp.displayText (135, 10);
-  //disp.displayText (3.14f, 25);
-  //disp.displayText("texto teste", 40);
 
   pinMode(UP_BUTTON_PIN, INPUT);
   pinMode(DOWN_BUTTON_PIN, INPUT);
@@ -26,7 +19,7 @@ void setup() {
 void loop() {
 
   
-  disp.showMenuTitle();
+  disp.showMenuTitle("Menu Principal");
   disp.createMenu(menuList);
   disp.upButton();
   disp.downButton(); 

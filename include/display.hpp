@@ -1,7 +1,6 @@
 #ifndef _INCLUDE_DISPLAY_HPP_
 #define _INLCUDE_DISPLAY_HPP_
 
-//INCLUDES
 #include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
@@ -12,37 +11,90 @@
 #define SCREEN_HEIGHT 32 // OLED display height, in pixels
 #define OLED_RESET    -1 // Reset pin # (or -1 if sharing Arduino reset pin)
 
-#define UP_BUTTON_PIN 4
-#define DOWN_BUTTON_PIN 19
-#define SELECT_BUTTON_PIN 3
+#define UP_BUTTON_PIN 4 // Push button test up pin
+#define DOWN_BUTTON_PIN 19 // Push button test down pin
+#define SELECT_BUTTON_PIN 3 // Push button test select pin
 
+/***************************************************************/
+/*!
+    @brief SSD1306 display interface class. This module is a
+    higher-level abstraction to the Adafruit_SSD1306.h library
+    made to easily create interactive menus.
+*/
+/***************************************************************/
 class Display {
     public:
-        void displayConfig();
-        void displayTeste();
+        int arrowPos = 0; // Position  of the menu arrow
 
-        void displayText(int value, int pixelLine, bool newline);
-        void displayText(float value, int pixelLine, bool newline);
+        // Display initial configuration. Needs to be called inside the setup function.
+        void displayConfig();
+        
+        /***************************************************************/
+        /*!
+            @brief Displays the text input from the user.
+            @param value Integer value to be printed.
+            @param line The line in the display to be printed.
+            @param newLine End the line if true.
+        */
+        /***************************************************************/
+        void displayText(int value, int line, bool newline);
+        /***************************************************************/
+        /*!
+            @brief Displays the text input from the user.
+            @param value Float value to be printed.
+            @param line The line in the display to be printed.
+            @param newLine End the line if true.
+        */
+        /***************************************************************/
+        void displayText(float value, int line, bool newline);
+        /***************************************************************/
+        /*!
+            @brief Displays the text input from the user.
+            @param text Text to be printed.
+            @param line The line in the display to be printed.
+            @param newLine End the line if true.
+        */
+        /***************************************************************/
         void displayText(std::string text, int line, bool newline);
         
-        int pixelLine = 0;
-        int getCenterX();
-
-        void showMenuTitle();
-        void drawArrow(int line);
+        // Clears teh display.
         void clearDisplay();
+        
+        /***************************************************************/
+        /*!
+            @brief Shows the menu title.
+            @param menuTitle The menu title string.
+        */
+        /***************************************************************/
+        void showMenuTitle(String menuTitle);
+
+        /***************************************************************/
+        /*!
+            @brief Draws an arrow in the screen.
+            @param line The line on which the arrow is drawn.
+        */
+        /***************************************************************/
+        void drawArrow(int line);
+
+        /***************************************************************/
+        /*!
+            @brief Creates a menu.
+            @param menuList A vector with the strings of the menus.
+        */
+        /***************************************************************/
         void createMenu(std::vector<std::string> menuList);
+
         void upButton();
         void downButton();
         void selectButton();
 
-
-        int arrowPos = 0;
-        const byte EspacoLinha1 = 9;              // espaçamento entre linhas (6 linhas)
-        
-
     private:
+        int pixelLine = 0; // Number of pixels between lines
+        const byte EspacoLinha1 = 9; // Spacing between lines (showMenuTitle)
+
+        // Gets the center position of the display
+        int getCenterX();
         
 };
 
-#endif // _INCLUDE_DISPLAY_HPP_
+#endif  // _INCLUDE_DISPLAY_HPP_
