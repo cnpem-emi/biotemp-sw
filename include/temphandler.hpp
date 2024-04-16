@@ -15,13 +15,18 @@ class TempHandler {
         float getTemperature();
 };
 
-const int CS_PIN = 10;
-const float RREF = 430.0;
+#define CS_PIN 10 // PT100 SPI chip selector pin
+#define RREF 430.0 // PT100 reference 25°C resistance
 
+/*****************************************************/
+/*!
+    @brief PT100 sensor interface class. The sensor initializes disabled.
+*/
+/*****************************************************/
 class SensorPT100 : public TempHandler {
     public:
-        std::string pt100ID = "PT100"; 
-        bool enabled = true;
+        std::string sensorID = "PT100"; 
+        bool enabled = false;
 
         // Enable PT100 sensor
         void enablePT100();
@@ -36,17 +41,21 @@ class SensorPT100 : public TempHandler {
         Adafruit_MAX31865 max = Adafruit_MAX31865(CS_PIN);
 };
 
-const int ADC1_PIN = 35; // 3
-const int ADC2_PIN = 2; // 2
-const int BETA_COEFF = 3935;
-const float T_0 = 298.15;
-const int R_0 = 10000;
+#define ADC1_PIN 35 // Default ESP32 S2 pin: GPIO3
+#define ADC2_PIN 34 // Default ESP32 S2 pin: GPIO2
+#define BETA_COEFF 3935 // NTC beta coefficient at 25/50
+#define T_0 298.15 // NTC reference temperature: 25°C 
+#define R_0 10000 // NTC reference resistance: R(T_0)
 
+/*****************************************************/
+/*!
+    @brief NTC sensor interface class. The sensor initializes disabled.
+*/
+/*****************************************************/
 class SensorNTC : public TempHandler {
     public:
-        int currentMode;
         int ntcID;
-        bool enabled = true;
+        bool enabled = false;
 
         // Enable NTC sensor
         void enableNTC();
