@@ -78,7 +78,6 @@ void Display::showMenuTitle(String menuTitle) {
 
 void Display::drawArrow(int line) {
   int gfxChar = 0x10;
-
   line += 1;
   pixelLine = line * 15; 
   display.setCursor(2, pixelLine);

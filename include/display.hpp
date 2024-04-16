@@ -57,7 +57,7 @@ class Display {
         /***************************************************************/
         void displayText(std::string text, int line, bool newline);
         
-        // Clears teh display.
+        // Clears the display.
         void clearDisplay();
         
         /***************************************************************/

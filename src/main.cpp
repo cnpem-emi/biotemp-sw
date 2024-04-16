@@ -17,8 +17,6 @@ void setup() {
 }
 
 void loop() {
-
-  
   disp.showMenuTitle("Menu Principal");
   disp.createMenu(menuList);
   disp.upButton();
