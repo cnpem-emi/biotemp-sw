@@ -49,7 +49,8 @@ class SensorPT100 : public TempHandler {
 
 /*****************************************************/
 /*!
-    @brief NTC sensor interface class. The sensor initializes disabled.
+    @brief NTC sensor interface class. The sensor initializes disabled. 
+    It must be specified the sensor ID (1 or 2).
 */
 /*****************************************************/
 class SensorNTC : public TempHandler {
