@@ -7,6 +7,11 @@
 #include <Wire.h>
 #include <Adafruit_MAX31865.h>
 
+/*****************************************************/
+/*!
+    @brief PT100 and NTC sensors base class.
+*/
+/*****************************************************/
 class TempHandler {
     public:
         float temperature;
