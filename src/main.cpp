@@ -1,22 +1,21 @@
-#include <temphandler.hpp>
+#include <dataclient.hpp>
 
-#define NTC_ID 1
+#define NTC1_ID 1
+#define NTC2_ID 2
 
-SensorNTC s1(NTC_ID);
-
-float temp;
-std::string id;
+SensorNTC s1(NTC1_ID);
+SensorNTC s2(NTC2_ID);
+DataClient dc;
 
 void setup() {
   Serial.begin(9600);
-  s1.enableNTC();
-  id = s1.sensorID;
+  dc.subscribe(s1);
+  dc.subscribe(s2);
 }
 
 void loop() {
-  temp = s1.getTemperature();
-  Serial.println(id.c_str());
-  Serial.print("Temperatura: ");
-  Serial.println(temp);
-  delay(200);
+  dc.getData(s1);
+  dc.getData(s2);
+
+  delay(1000);
 }
