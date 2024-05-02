@@ -48,7 +48,7 @@ void callback(char *topic, byte *payload, unsigned int length) {
 
 void WiFiConnection::publishMessage(const char* topic, String payload , boolean retained){
     if (MQTT.publish(topic, payload.c_str(), true))
-        Serial.println("Message publised ["+String(topic)+"]: "+payload);
+        Serial.println("Message published ["+String(topic)+"]: "+payload);
 }
 
 void WiFiConnection::reconnect() {

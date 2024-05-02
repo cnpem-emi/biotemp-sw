@@ -5,8 +5,6 @@
 #include <PubSubClient.h>
 #include <WiFiClientSecure.h>
 
-#define MSG_BUFFER_SIZE 50
-
 /**
  * @class WiFiConnection
  * @brief Class for managing WiFi connections.
@@ -16,8 +14,18 @@
 class WiFiConnection {
     public:
         void config();  // Configures the WiFi connection
-        void configMQTT();
-        void mqttLoop();
+        void configMQTT(); // MQTT main configuration, needs to be called at "void setup()"
+        void mqttLoop(); // MQTT main loop, needs to be called at "void loop()"
+
+        /*************************************************************/
+        /*!
+        *   @brief Sends a message to the broker.
+        *   @param topic The topic of the message.
+        *   @param payload The message to be sent.
+        *   @param retained If true, stores the message to ensure that 
+        *       any nre client subscribing to the topic will receive the message.
+        */
+        /*************************************************************/
         void publishMessage(const char* topic, String payload , boolean retained);
         String getIP(); // Gets the IP address assigned to the ESP device
         String getMAC(); // Gets the MAC address of the device
@@ -29,20 +37,27 @@ class WiFiConnection {
         const String WIFI_SSID = "Devices"; // CNPEM network ID
 
         const int mqtt_port = 8883; // MQTT standard port
-        const char *mqtt_broker = "f473eee517ca46888788ad8040276af7.s1.eu.hivemq.cloud";
-        const char *topic = "test";
-        const char *mqtt_username = "esp32";
-        const char *mqtt_password = "BioTemp0";
-        char msg[MSG_BUFFER_SIZE];
+        const char *mqtt_broker = "f473eee517ca46888788ad8040276af7.s1.eu.hivemq.cloud"; // broker URL 
+        const char *topic = "test"; // MQTT topic to publish messages
+        const char *mqtt_username = "esp32"; // MQTT user to connect to the broker
+        const char *mqtt_password = "BioTemp0"; // MQTT password to connect to the broker
 
-        WiFiClientSecure espClient;
+        WiFiClientSecure espClient; // Instace of secure client, needs certificate
         PubSubClient MQTT = PubSubClient(espClient);
 
         void reconnect();
 };
 
+/****************************************************************/
+/*!
+* @brief This function is called every time a message is received 
+*    from the broker
+*/
+/****************************************************************/
 void callback(char *topic, byte *payload, unsigned int length);
 
+
+// Certificate for secure connection
 static const char *root_ca PROGMEM = R"EOF(
 -----BEGIN CERTIFICATE-----
 MIIFazCCA1OgAwIBAgIRAIIQz7DSQONZRGPgu2OCiwAwDQYJKoZIhvcNAQELBQAw
