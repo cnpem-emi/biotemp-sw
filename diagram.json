@@ -1,0 +1,74 @@
+{
+  "version": 1,
+  "author": "",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "board-esp32-devkit-c-v4",
+      "id": "esp",
+      "top": -38.4,
+      "left": -52.76,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-ky-040",
+      "id": "encoder1",
+      "top": 215,
+      "left": -165.3,
+      "rotate": 270,
+      "attrs": {}
+    },
+    {
+      "type": "board-ssd1306",
+      "id": "oled1",
+      "top": 108.74,
+      "left": 86.63,
+      "attrs": { "i2cAddress": "0x3c" }
+    },
+    {
+      "type": "wokwi-ntc-temperature-sensor",
+      "id": "ntc1",
+      "top": 107.8,
+      "left": 259.2,
+      "rotate": 180,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-buzzer",
+      "id": "bz1",
+      "top": -170.4,
+      "left": 126.6,
+      "attrs": { "volume": "0.1" }
+    },
+    {
+      "type": "wokwi-ntc-temperature-sensor",
+      "id": "ntc2",
+      "top": 309.9,
+      "left": -0.1,
+      "rotate": 270,
+      "attrs": {}
+    }
+  ],
+  "connections": [
+    ["esp:TX", "$serialMonitor:RX", "", []],
+    ["esp:RX", "$serialMonitor:TX", "", []],
+    ["encoder1:GND", "esp:GND.1", "black", ["v0"]],
+    ["encoder1:VCC", "esp:5V", "red", ["v0"]],
+    ["encoder1:SW", "esp:27", "#8f4814", ["v0"]],
+    ["encoder1:DT", "esp:26", "green", ["v0"]],
+    ["encoder1:CLK", "esp:25", "orange", ["v0"]],
+    ["oled1:GND", "esp:GND.2", "black", ["v-28.8", "h-38.4", "v-86.4"]],
+    ["oled1:VCC", "esp:5V", "red", ["v-38.4", "h-67.05", "v115.2", "h-115.2"]],
+    ["oled1:SCL", "esp:22", "#8f4814", ["v0"]],
+    ["oled1:SDA", "esp:21", "orange", ["v0"]],
+    ["esp:15", "ntc1:OUT", "green", ["v0", "h28.8", "v-67.2", "h163.2"]],
+    ["esp:3V3", "ntc1:VCC", "red", ["h0.15", "v-48", "h278.4", "v201.6"]],
+    ["ntc1:GND", "esp:GND.3", "black", ["h-48", "v-67.2", "h-153.6", "v-38.4"]],
+    ["bz1:1", "esp:GND.2", "black", ["v0"]],
+    ["bz1:2", "esp:4", "green", ["v105.6", "h-106", "v86.4"]],
+    ["ntc2:OUT", "esp:2", "green", ["v0"]],
+    ["ntc2:VCC", "ntc1:VCC", "red", ["v-67.2", "h163.2", "v-67.2", "h19.2"]],
+    ["ntc2:GND", "ntc1:GND", "black", ["v-38.4", "h153.6", "v-86.4"]]
+  ],
+  "dependencies": {}
+}
