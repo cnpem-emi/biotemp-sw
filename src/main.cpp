@@ -14,8 +14,7 @@ void setup() {
 }
 
 void loop() {
-  dc.getData(s1);
-  dc.getData(s2);
-
+  Serial.println(dc.getData(s1));
+  Serial.println(dc.getData(s2));
   delay(1000);
 }

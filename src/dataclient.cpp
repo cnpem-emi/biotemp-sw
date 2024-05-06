@@ -30,18 +30,24 @@ void DataClient::unsubscribe(SensorNTC s) {
     s.enabled = false;
 }
 
-void DataClient::getData(SensorPT100 s) {
+String DataClient::getData(SensorPT100 s) {
     for(int i=0; i<sensorList.size(); i++) {
-        if(sensorList[i].model == s.pt100ID) {
+        if(sensorList[i].enabled == true && sensorList[i].model == s.pt100ID) {
             sensorList[i].temperature = s.getTemperature();
+            doc["id"] = sensorList[i].model;
+            doc["temperature"] = sensorList[i].temperature;
         }
     }
+    return doc.as<String>();
 }
 
-void DataClient::getData(SensorNTC s) {
+String DataClient::getData(SensorNTC s) {
     for(int i=0; i<sensorList.size(); i++) {
-        if(sensorList[i].model == s.sensorID) {
+        if(sensorList[i].enabled == true && sensorList[i].model == s.sensorID) {
             sensorList[i].temperature = s.getTemperature();
+            doc["id"] = sensorList[i].model;
+            doc["temperature"] = sensorList[i].temperature;
         }
     }
+    return doc.as<String>();
 }

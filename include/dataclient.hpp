@@ -4,6 +4,7 @@
 #include <Arduino.h>
 #include <vector>
 #include <temphandler.hpp>
+#include <ArduinoJson.h>
 
 /*****************************************************/
 /*!
@@ -35,12 +36,14 @@ class DataClient {
         void unsubscribe(SensorNTC s);
 
         // Gets the temperature from the sensor
-        void getData(SensorPT100 s);
+        String getData(SensorPT100 s);
         // Gets the temperature from the sensor
-        void getData(SensorNTC s);
+        String getData(SensorNTC s);
 
     private:
         std::vector<sensorData> sensorList; // The list that contains all the sensor structs.
+
+        JsonDocument doc;
 };
 
 #endif  // _INCLUDE_DATACLIENT_HPP_
