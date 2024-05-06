@@ -1,18 +1,16 @@
-#include <Arduino.h>
+#include <wifi.hpp>
 
-// put function declarations here:
-int myFunction(int, int);
+WiFiConnection wifi;
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+  Serial.begin(9600);
+  wifi.config();
+  wifi.configMQTT();
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-}
-
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+  wifi.mqttLoop();
+  wifi.publishMessage("test", "Hello World", false);
+  Serial.println(wifi.getIP());
+  delay(1000);
 }
