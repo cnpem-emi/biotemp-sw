@@ -1,16 +1,17 @@
-#include <wifi.hpp>
+#include <biotempMQTTClient.hpp>
 
-WiFiConnection wifi;
+BioTempMQTTClient biotemp;
 
 void setup() {
   Serial.begin(9600);
-  wifi.config();
-  wifi.configMQTT();
+  biotemp.mqttConfig();
 }
 
 void loop() {
-  wifi.mqttLoop();
-  wifi.publishMessage("test", "Hello World", false);
-  Serial.println(wifi.getIP());
+  Serial.println(biotemp.getIP());
+  Serial.println(biotemp.getMAC());
+  
+  biotemp.publish("test", "Hello World!");
+
   delay(1000);
 }
