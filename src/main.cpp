@@ -1,16 +1,10 @@
-#include <wifi.hpp>
+#include <Arduino.h>
+#include <InputController.hpp>
 
-WiFiConnection wifi;
+InputController encoder;
 
 void setup() {
-  Serial.begin(9600);
-  wifi.config();
-  wifi.configMQTT();
+  encoder.config(2);
 }
 
-void loop() {
-  wifi.mqttLoop();
-  wifi.publishMessage("test", "Hello World", false);
-  Serial.println(wifi.getIP());
-  delay(1000);
-}
+void loop() {}
