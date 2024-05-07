@@ -6,52 +6,40 @@
 ############################################################
 */
 
-volatile int counter = 0;
-volatile int direction = DIRECTION_CW;
-volatile unsigned long last_time;  // for debouncing
-int prev_counter;
 
-void InputController::encoderPosition() {
-    encoder_position = counter;
-  }
+void InputController::config(int upperBound) {
+  // This tells the library that the encoder has its own pull-up resistors
+  rotaryEncoder.setEncoderType( EncoderType::HAS_PULLUP );
 
-void InputController::restart_counter() {
-  counter = 0;
+  // Range of values to be returned by the encoder: minimum is 1, maximum is "upperBound"
+  // The third argument specifies whether turning past the minimum/maximum will
+  // wrap around to the other side:
+  //  - true  = turn past upperBound quantity, wrap to 1; turn past 1, wrap to upperBound
+  //  - false = turn past upperBound quantity, stay on upperBound; turn past 1, stay on 1
+  rotaryEncoder.setBoundaries( 1, upperBound, true );
+
+  // The function specified here will be called every time the knob is turned
+  // and the current value will be passed to it
+  rotaryEncoder.onTurned( &knobCallback );
+
+  // The function specified here will be called every time the button is pushed and
+  // the duration (in milliseconds) that the button was down will be passed to it
+  rotaryEncoder.onPressed( &buttonCallback );
+
+  // This is where the inputs are configured and the interrupts get attached
+  rotaryEncoder.begin();
 }
 
-bool InputController::isPressed(){
-    
-    button.loop();
-    if (button.isPressed()){
-      return true;
-    }else{
-      return false;
-    }
+// The function is designed to handle changes in the position of a rotary encoder
+void knobCallback( long value )
+{
+	 encoderPos = value;
+  //Serial.printf( "Value: %i\n", value );
 }
 
-InputController::InputController(){
-  // configure encoder pins as inputs
-  pinMode(CLK_PIN, INPUT);
-  pinMode(DT_PIN, INPUT);
-  button.setDebounceTime(50);  // set debounce time to 50 milliseconds
-
-}
-
-void IRAM_ATTR ISR_encoder() {
-
-  if ((millis() - last_time) < 50)  // debounce time is 50ms
-    return;
-
-  if (digitalRead(DT_PIN) == HIGH) {
-    // the encoder is rotating in counter-clockwise direction => decrease the counter
-    counter--;
-    direction = DIRECTION_CCW;
-  } else {
-    // the encoder is rotating in clockwise direction => increase the counter
-    counter++;
-    direction = DIRECTION_CW;
-  }
-
-  last_time = millis();
-  uint8_t encoderPosition();
+// The function is designed to handle changes in the button of a rotary encoder
+void buttonCallback( unsigned long duration )
+{
+	isPressed = true;
+  //Serial.printf( "boop! button was down for %u ms\n", duration );
 }

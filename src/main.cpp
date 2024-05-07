@@ -1,18 +1,8 @@
 #include <Arduino.h>
 #include <InputController.hpp>
 
-InputController encoder;
-
 void setup() {
-
-  encoder.restart_counter();
-
-  // Use interrupt for CLK pin is enough
-  // call ISR_encoder() when CLK pin changes from LOW to HIGH
-  attachInterrupt(digitalPinToInterrupt(CLK_PIN), ISR_encoder, RISING);
+  encoder.config(2);
 }
 
-void loop() {
-  encoder.encoder_position;
-  encoder.isPressed();
-}
+void loop() {}
