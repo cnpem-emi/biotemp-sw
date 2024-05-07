@@ -2,8 +2,7 @@
 #define _INCLUDE_INPUTCONTROLLER_HPP_
 
 //INCLUDES
-#include <cstdint>
-#include <ezButton.h>
+#include <ESP32RotaryEncoder.h>
 
 #define CLK_PIN 25  // PIN ESP32 S2 WEMOS -> 12
 #define DT_PIN 26   // PIN ESP32 S2 WEMOS -> 6
@@ -19,24 +18,13 @@
 /*****************************************************/
 class InputController{
     public:
-        uint8_t encoder_position; // Position of the encoder
-       
-        // Verify if the button was pressed
-        bool isPressed();
-        // Restart the counter. Use every time when enters a menu
-        void restart_counter();
-
-        InputController(); 
-
-        // Pass the value of the position to "encoder_position" variable
-        void encoderPosition();
+        void config(int upperBound);
 
     private:
-
-        ezButton button = ezButton(SW_PIN);
+        RotaryEncoder rotaryEncoder = RotaryEncoder(CLK_PIN, DT_PIN, SW_PIN);
 };
 
-// Interrupt function
-void IRAM_ATTR ISR_encoder();
+void knobCallback( long value );
+void buttonCallback( unsigned long duration );
 
 #endif // _INCLUDE_INPUTCONTROLLER_HPP_
