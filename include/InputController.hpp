@@ -11,8 +11,6 @@
 #define DIRECTION_CW 0   // clockwise direction
 #define DIRECTION_CCW 1  // counter-clockwise direction
 
-//RotaryEncoder rotaryEncoder(CLK_PIN, DT_PIN, SW_PIN);
-
 /*****************************************************/
 /*!
     @brief Rotary encoder interface class.
@@ -20,14 +18,13 @@
 /*****************************************************/
 class InputController{
     public:
-        void config();
-        void knobCallback( long value );
-        void buttonCallback( unsigned long duration );
+        void config(int upperBound);
+
     private:
         RotaryEncoder rotaryEncoder = RotaryEncoder(CLK_PIN, DT_PIN, SW_PIN);
-
-        
 };
 
+void knobCallback( long value );
+void buttonCallback( unsigned long duration );
 
 #endif // _INCLUDE_INPUTCONTROLLER_HPP_

@@ -6,6 +6,9 @@
 ############################################################
 */
 
+// Global variables to encoder manipulate
+int encoderPos = 0;
+bool isPressed = false;
 
 void InputController::config(int upperBound) {
   // This tells the library that the encoder has its own pull-up resistors
@@ -43,3 +46,4 @@ void buttonCallback( unsigned long duration )
 	isPressed = true;
   //Serial.printf( "boop! button was down for %u ms\n", duration );
 }
+
