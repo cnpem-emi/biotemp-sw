@@ -4,6 +4,11 @@
 ####################       NTC      ########################
 ############################################################
 */
+
+SensorNTC::SensorNTC(int ntc_id) {
+    sensor_id = "NTC " + std::to_string(ntc_id);
+}
+
 void SensorNTC::enableSensor() {
     is_enabled = true;
 }
@@ -41,6 +46,11 @@ float SensorNTC::readADCPin() {
     return adc_value;
 }
 
-SensorNTC::SensorNTC(int ntc_id) {
-    sensor_id = "NTC " + std::to_string(ntc_id);
+bool SensorNTC::isSensorEnabled() {
+    return is_enabled;
 }
+
+std::string SensorNTC::getSensorID() {
+    return sensor_id;
+}
+

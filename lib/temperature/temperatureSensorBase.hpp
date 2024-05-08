@@ -6,7 +6,7 @@
 class TemperatureSensorBase {
 public:
     // Constructor
-    TemperatureSensorBase() {}
+    //TemperatureSensorBase() {}
 
     // Virtual destructor
     //virtual ~SensorBase() {}
