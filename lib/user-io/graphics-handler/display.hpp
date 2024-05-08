@@ -22,7 +22,7 @@
     made to easily create interactive menus.
 */
 /***************************************************************/
-class Display {
+class DisplayController {
     public:
         int arrowPos = 0; // Position  of the menu arrow
 

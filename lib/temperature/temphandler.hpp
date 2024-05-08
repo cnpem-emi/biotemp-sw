@@ -8,7 +8,6 @@
 #include "temperatureSensorBase.hpp"
 
 //Change this if want to add more sensors
-#define SENSOR_NUM 2
 #define PT100_ID "PT100"
 #define NTC_PIN 1
 #define NTC_ID "NTC1"

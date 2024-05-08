@@ -2,7 +2,11 @@
 
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
-void Display::displayConfig() {
+void DisplayController::displayConfig() {
+    pinMode(UP_BUTTON_PIN, INPUT);
+    pinMode(DOWN_BUTTON_PIN, INPUT);
+    pinMode(SELECT_BUTTON_PIN, INPUT);
+
     if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { 
     Serial.println(F("SSD1306 allocation failed"));
     while(1);
@@ -12,7 +16,7 @@ void Display::displayConfig() {
     delay(2000);
 }
 
-void Display::displayText(int value, int line, bool newline) {
+void DisplayController::displayText(int value, int line, bool newline) {
     pixelLine = line * 15;
     char buffer[10];
     itoa(value, buffer, 10);
@@ -29,7 +33,7 @@ void Display::displayText(int value, int line, bool newline) {
     display.display();
 }
 
-void Display::displayText (float value, int line, bool newline) {
+void DisplayController::displayText (float value, int line, bool newline) {
     char buffer[10];
 
     pixelLine = line * 15;
@@ -47,7 +51,7 @@ void Display::displayText (float value, int line, bool newline) {
     display.display();
 }
 
-void Display::displayText (std::string text, int line, bool newline ) {
+void DisplayController::displayText (std::string text, int line, bool newline ) {
     pixelLine = line * 15;
     display.setTextSize(1);
     display.setTextColor(WHITE);
@@ -62,12 +66,12 @@ void Display::displayText (std::string text, int line, bool newline ) {
     display.display();
 }
 
-int Display::getCenterX() {
+int DisplayController::getCenterX() {
   int displayWidth = display.width(); 
   return displayWidth / 2; 
 }
 
-void Display::showMenuTitle(String menuTitle) {
+void DisplayController::showMenuTitle(String menuTitle) {
   display.setTextSize(1);
   display.setTextColor(WHITE);
   display.setCursor((getCenterX() - menuTitle.length()) / 2 , 0);
@@ -76,7 +80,7 @@ void Display::showMenuTitle(String menuTitle) {
   display.display();
 }
 
-void Display::drawArrow(int line) {
+void DisplayController::drawArrow(int line) {
   int gfxChar = 0x10;
   line += 1;
   pixelLine = line * 15; 
@@ -85,13 +89,13 @@ void Display::drawArrow(int line) {
   display.display();
 }
 
-void Display::clearDisplay() {
+void DisplayController::clearDisplay() {
   display.clearDisplay();
   display.setCursor(0, 0);
   display.display();
 }
 
-void Display::upButton() {
+void DisplayController::upButton() {
     if (digitalRead(UP_BUTTON_PIN) == HIGH) {
         arrowPos++;
       if (arrowPos > 2) {
@@ -101,7 +105,7 @@ void Display::upButton() {
     }
 }
 
-void Display::downButton() {
+void DisplayController::downButton() {
     if (digitalRead(DOWN_BUTTON_PIN) == HIGH) {
         arrowPos--;
       if (arrowPos < 0) {
@@ -111,14 +115,14 @@ void Display::downButton() {
     }
 }
 
-void Display::selectButton() {
+void DisplayController::selectButton() {
     if (digitalRead(SELECT_BUTTON_PIN) == HIGH) {
     Serial.print("Selected");
     }
 
 }
 
-void Display::createMenu(std::vector<std::string> menuList) {
+void DisplayController::createMenu(std::vector<std::string> menuList) {
   for(int i=0; i < menuList.size(); i++) {
     displayText(menuList[i], i+1, true);
   }

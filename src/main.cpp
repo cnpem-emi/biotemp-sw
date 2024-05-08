@@ -14,9 +14,7 @@ void setup() {
   TempHandler temp_handler; 
   Serial.begin(9600);
   disp.displayConfig();
-  pinMode(UP_BUTTON_PIN, INPUT);
-  pinMode(DOWN_BUTTON_PIN, INPUT);
-  pinMode(SELECT_BUTTON_PIN, INPUT);
+  
 }
 
 void loop() {
