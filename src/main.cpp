@@ -1,15 +1,16 @@
 
-#include "display.hpp"
+#include <display.hpp>
+#include <InputController.hpp>
 
+InputController encoder;
 Display disp;
 
 std::vector<std::string> menuList = {"Menu 1", "Menu 2", "Menu 3"};
 
-
-
 void setup() {
   Serial.begin(9600);
   disp.displayConfig();
+  encoder.config(2);
 
   pinMode(UP_BUTTON_PIN, INPUT);
   pinMode(DOWN_BUTTON_PIN, INPUT);
@@ -26,4 +27,3 @@ void loop() {
   delay(100);                                       
   
 }
-
