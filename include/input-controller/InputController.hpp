@@ -8,9 +8,6 @@
 #define DT_PIN 26   // PIN ESP32 S2 WEMOS -> 6
 #define SW_PIN 27   // PIN ESP32 S2 WEMOS -> 34
 
-#define DIRECTION_CW 0   // clockwise direction
-#define DIRECTION_CCW 1  // counter-clockwise direction
-
 /*****************************************************/
 /*!
     @brief Rotary encoder interface class.

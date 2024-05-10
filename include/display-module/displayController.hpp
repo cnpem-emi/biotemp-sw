@@ -1,5 +1,5 @@
-#ifndef _INCLUDE_DISPLAY_HPP_
-#define _INLCUDE_DISPLAY_HPP_
+#ifndef _INCLUDE_DISPLAYCONTROLLER_HPP_
+#define _INLCUDE_DISPLAYCONTROLLER_HPP_
 
 #include <Wire.h>
 #include <Adafruit_GFX.h>
@@ -22,7 +22,7 @@
     made to easily create interactive menus.
 */
 /***************************************************************/
-class Display {
+class DisplayController {
     public:
         int arrowPos = 0; // Position  of the menu arrow
 
@@ -97,4 +97,4 @@ class Display {
         
 };
 
-#endif  // _INCLUDE_DISPLAY_HPP_
+#endif  // _INCLUDE_DISPLAYCONTROLLER_HPP_
