@@ -10,6 +10,7 @@ void TempMenu::handleInputEvent(ButtonEvent event) {
     /*!
         @todo Criar eventos de acordo com a interface com o encoder.
     */
+   Serial.println("");
 }
 
 void TempMenu::setMode(Modes mode) {

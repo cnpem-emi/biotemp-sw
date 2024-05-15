@@ -1,12 +1,13 @@
 
-#include <displayController.hpp>
+#include <tempMenu.hpp>
 #include <InputController.hpp>
 
-InputController encoder;
-Display disp;
+//InputController encoder;
+DisplayController disp;
+TempMenu tempMenu;
 
-std::vector<std::string> menuList = {"Menu 1", "Menu 2", "Menu 3"};
-
+//std::vector<std::string> menuList = {"Menu 1", "Menu 2", "Menu 3"};
+/*
 void setup() {
   Serial.begin(9600);
   disp.displayConfig();
@@ -26,4 +27,13 @@ void loop() {
   Serial.println(disp.arrowPos);
   delay(100);                                       
   
+}
+*/
+
+void setup() {
+  disp.displayConfig();
+}
+
+void loop() {
+  tempMenu.showMenu(disp);
 }

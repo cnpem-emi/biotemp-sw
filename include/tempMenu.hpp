@@ -2,7 +2,6 @@
 #define _TEMPMENU_HPP_
 
 #include <menuBase.hpp>
-#include <displayController.hpp>
 
 #define DEFAULT_THRESHOLD 3.0 // Default temperature threshold to set the alarm
 

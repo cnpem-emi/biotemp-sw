@@ -8,9 +8,9 @@
 
 class MenuBase {
     public:
-        virtual void showMenu(DisplayController display);
-        virtual void handleInputEvent(ButtonEvent event);
-    
+        virtual void showMenu(DisplayController display) = 0;
+        virtual void handleInputEvent(ButtonEvent event) = 0;
+
     protected:
         int arrowPosition;
         String menuName;
