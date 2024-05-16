@@ -22,6 +22,10 @@ typedef enum {
 /*********************************************************/
 class TempMenu : public MenuBase {
     public:
+        
+        bool activeMenu = false;  
+
+        TempMenu(DisplayController display_controller, InputController input);
 
         /******************************************************/
         /*!
@@ -29,17 +33,27 @@ class TempMenu : public MenuBase {
             @param display The display object where the menu will be shown.
         */
         /******************************************************/
-        void showMenu(DisplayController display) override;
+        void showMenu() override;
 
         /******************************************************/
         /*!
-            @brief Handles the input controller events.
+            @brief Handles knob input controller events.
             @param event The callback event from the input controller.
         */
         /******************************************************/
-        void handleInputEvent(ButtonEvent event) override;
+        void handleKnobEvent(KnobEvent event) override;
+
+        /******************************************************/
+        /*!
+            @brief Handles press input controller events.
+            @param event The callback event from the input controller.
+        */
+        /******************************************************/
+        void handlePressEvent(ButtonPressEvent event) override;
 
     private:
+        DisplayController* disp;
+        InputController* encoder;
         String menuName = "TempMenu"; // Menu title shown on screen. 
         std::vector<std::string> itemsList = {"Item1", "Item2", "Item3"}; // List of items to be shown on screen.
         float currentThreshold = DEFAULT_THRESHOLD; // Temperature tolerance to activate the alarm

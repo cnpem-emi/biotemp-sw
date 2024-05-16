@@ -3,13 +3,16 @@
 
 #include <vector>
 #include <string>
-#include <buttonEvent.hpp>
-#include <displayController.hpp>
+#include "displayController.hpp"
+#include "InputEvent.hpp"
+#include "InputController.hpp"
 
 class MenuBase {
     public:
-        virtual void showMenu(DisplayController display) = 0;
-        virtual void handleInputEvent(ButtonEvent event) = 0;
+        bool activeMenu;
+        virtual void showMenu() = 0;
+        virtual void handleKnobEvent(long value) = 0;
+        virtual void handlePressEvent(ButtonPressEvent event) = 0;
 
     protected:
         int arrowPosition;

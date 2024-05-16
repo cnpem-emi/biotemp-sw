@@ -7,8 +7,8 @@
 */
 
 // Global variables to encoder manipulate
-int encoderPos = 0;
-bool isPressed = false;
+//int encoderPos = 0;
+//bool isPressed = false;
 
 void InputController::config(int upperBound) {
   // This tells the library that the encoder has its own pull-up resistors
@@ -23,27 +23,34 @@ void InputController::config(int upperBound) {
 
   // The function specified here will be called every time the knob is turned
   // and the current value will be passed to it
-  rotaryEncoder.onTurned( &knobCallback );
+  //rotaryEncoder.onTurned( &knobCallback );
 
   // The function specified here will be called every time the button is pushed and
   // the duration (in milliseconds) that the button was down will be passed to it
-  rotaryEncoder.onPressed( &buttonCallback );
+  //rotaryEncoder.onPressed( &buttonCallback );
 
   // This is where the inputs are configured and the interrupts get attached
   rotaryEncoder.begin();
 }
 
-// The function is designed to handle changes in the position of a rotary encoder
+/* The function is designed to handle changes in the position of a rotary encoder
 void knobCallback( long value )
 {
-	 encoderPos = value;
+  knob.position = value;
+
+  //encoderPos = value;
   //Serial.printf( "Value: %i\n", value );
 }
 
 // The function is designed to handle changes in the button of a rotary encoder
 void buttonCallback( unsigned long duration )
 {
-	isPressed = true;
+	press.pressed = true;
+  //isPressed = true;
   //Serial.printf( "boop! button was down for %u ms\n", duration );
-}
+}*/
 
+void InputController::setCallbacks(void (*knobCallback)(long), void (*buttonCallback)(long)){
+   rotaryEncoder.onTurned( knobCallback );
+   rotaryEncoder.onPressed( buttonCallback );
+}

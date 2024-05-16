@@ -1,10 +1,8 @@
-
-#include <tempMenu.hpp>
-#include <InputController.hpp>
+#include "optionsMenu.hpp"
 
 //InputController encoder;
 DisplayController disp;
-TempMenu tempMenu;
+OptionsMenu menu(disp);
 
 //std::vector<std::string> menuList = {"Menu 1", "Menu 2", "Menu 3"};
 /*
@@ -35,5 +33,5 @@ void setup() {
 }
 
 void loop() {
-  tempMenu.showMenu(disp);
+  menu.showMenu();
 }
