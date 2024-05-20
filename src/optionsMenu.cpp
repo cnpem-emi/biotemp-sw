@@ -3,8 +3,6 @@
 OptionsMenu::OptionsMenu(DisplayController display_controller, InputController input) {
     disp = &display_controller;
     encoder = &input;
-    
-    encoder->setCallbacks(handleKnobEvent, handlePressEvent);
 }
 
 void OptionsMenu::showMenu() {
@@ -14,11 +12,11 @@ void OptionsMenu::showMenu() {
     activeMenu = true;
 }
 
-void OptionsMenu::handleKnobEvent(long value) {
+void OptionsMenu::handleKnobEvent() {
     //!@todo KnobEvent, salvar o nome do menu sempre que a flecha apontar para ele
 }
 
-void OptionsMenu::handlePressEvent(ButtonPressEvent event) {
+void OptionsMenu::handlePressEvent() {
     callMenu();
 }
 

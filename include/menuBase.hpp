@@ -11,8 +11,8 @@ class MenuBase {
     public:
         bool activeMenu;
         virtual void showMenu() = 0;
-        virtual void handleKnobEvent(long value) = 0;
-        virtual void handlePressEvent(ButtonPressEvent event) = 0;
+        virtual void handleKnobEvent() = 0;
+        virtual void handlePressEvent() = 0;
 
     protected:
         int arrowPosition;

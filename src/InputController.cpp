@@ -49,8 +49,3 @@ void buttonCallback( unsigned long duration )
   //isPressed = true;
   //Serial.printf( "boop! button was down for %u ms\n", duration );
 }*/
-
-void InputController::setCallbacks(void (*knobCallback)(long), void (*buttonCallback)(long)){
-   rotaryEncoder.onTurned( knobCallback );
-   rotaryEncoder.onPressed( buttonCallback );
-}

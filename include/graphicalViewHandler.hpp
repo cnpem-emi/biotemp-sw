@@ -1,23 +1,17 @@
 #ifndef _INCLUDE_GRAPHICALVIEWHANDLER_HPP_
 #define _INCLUDE_GRAPHICALVIEWHANDLER_HPP_
 
-class graphicalViewHandler
-{
-private:
-    /* data */
-public:
-    graphicalViewHandler(/* args */);
-    ~graphicalViewHandler();
-};
+#include <optionsMenu.hpp>
 
-graphicalViewHandler::graphicalViewHandler(/* args */)
-{
-}
+class GraphicalViewHandler {
+    public:
+        void showOptionsMenu();
+        void config(int upperBound, KnobEvent knob, ButtonPressEvent press);
 
-graphicalViewHandler::~graphicalViewHandler()
-{
-}
+        GraphicalViewHandler(OptionsMenu menu);
 
-
+    private:
+        OptionsMenu* mainMenu;
+    };
 
 #endif // _INCLUDE_GRAPHICALVIEWHANDLER_HPP_

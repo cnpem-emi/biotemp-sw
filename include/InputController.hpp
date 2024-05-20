@@ -4,7 +4,6 @@
 //INCLUDES
 #include <ESP32RotaryEncoder.h>
 #include <InputEvent.hpp>
-#include <menuBase.hpp>
 
 #define CLK_PIN 25  // PIN ESP32 S2 WEMOS -> 12
 #define DT_PIN 26   // PIN ESP32 S2 WEMOS -> 6
@@ -24,14 +23,12 @@ class InputController{
         */
         /*****************************************************/
         void config(int upperBound);
-        void setCallbacks(void (*knobCallback)(long), void (*buttonCallback)(long));
-
 
     private:
         RotaryEncoder rotaryEncoder = RotaryEncoder(CLK_PIN, DT_PIN, SW_PIN);
 };
 
-void knobCallback( long value );
-void buttonCallback( unsigned long duration );
+//void knobCallback( long value );
+//void buttonCallback( unsigned long duration );
 
 #endif // _INCLUDE_INPUTCONTROLLER_HPP_

@@ -2,7 +2,7 @@
 
 //InputController encoder;
 DisplayController disp;
-OptionsMenu menu(disp);
+//OptionsMenu menu(disp);
 
 //std::vector<std::string> menuList = {"Menu 1", "Menu 2", "Menu 3"};
 /*
@@ -33,5 +33,5 @@ void setup() {
 }
 
 void loop() {
-  menu.showMenu();
+  //menu.showMenu();
 }

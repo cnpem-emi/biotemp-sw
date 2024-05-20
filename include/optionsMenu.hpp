@@ -10,9 +10,9 @@ class OptionsMenu : public MenuBase{
 
         void showMenu() override;
 
-        void handleKnobEvent(long value) override;
+        void handleKnobEvent() override;
 
-        void handlePressEvent(ButtonPressEvent event) override;
+        void handlePressEvent() override;
 
     private:
         int arrowPosition;
