@@ -4,6 +4,7 @@
 //INCLUDES
 #include <ESP32RotaryEncoder.h>
 #include <InputEvent.hpp>
+#include <inputCallbacks.hpp>
 
 #define CLK_PIN 25  // PIN ESP32 S2 WEMOS -> 12
 #define DT_PIN 26   // PIN ESP32 S2 WEMOS -> 6

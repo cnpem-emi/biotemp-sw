@@ -1,26 +1,35 @@
 #include "optionsMenu.hpp"
 
-OptionsMenu::OptionsMenu(DisplayController display_controller, InputController input) {
+OptionsMenu::OptionsMenu(
+        DisplayController display_controller, 
+        TempMenu temp
+            ) {
+
     disp = &display_controller;
-    encoder = &input;
+
+    temp_menu = &temp;
+    menuList.emplace_back(temp_menu); // id = 0
+    menuNamesList.emplace_back(temp_menu->menuName.c_str());
 }
 
 void OptionsMenu::showMenu() {
     disp->clearDisplay();
     disp->showMenuTitle(menuName);
-    disp->createMenu(menuList);
+    disp->createMenu(menuNamesList);
     activeMenu = true;
 }
 
-void OptionsMenu::handleKnobEvent() {
-    //!@todo KnobEvent, salvar o nome do menu sempre que a flecha apontar para ele
-}
-
-void OptionsMenu::handlePressEvent() {
-    callMenu();
-}
-
-void OptionsMenu::callMenu() {
+void OptionsMenu::handleKnobEvent(KnobEvent event) {
+    if (activeMenu != true) {
+        menuList[id]->handleKnobEvent(event);
+    }
     
-  
+}
+
+void OptionsMenu::handlePressEvent(ButtonPressEvent event) {
+    if (activeMenu != -1){
+        menuList[id]->handlePressEvent(event);
+    } else {
+
+    }
 }

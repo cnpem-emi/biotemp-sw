@@ -3,20 +3,22 @@
 
 #include <vector>
 #include <string>
-#include "displayController.hpp"
+//#include "displayController.hpp"
 #include "InputEvent.hpp"
-#include "InputController.hpp"
 
 class MenuBase {
     public:
-        bool activeMenu;
+        int id;
+        bool isActive;
+        std::string menuName;
+        
         virtual void showMenu() = 0;
-        virtual void handleKnobEvent() = 0;
-        virtual void handlePressEvent() = 0;
+        virtual void handleKnobEvent(KnobEvent event) = 0;
+        virtual void handlePressEvent(ButtonPressEvent event) = 0;
 
     protected:
         int arrowPosition;
-        String menuName;
+
 };
 
 #endif  // _MENUBASE_HPP_

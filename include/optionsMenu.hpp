@@ -1,30 +1,40 @@
 #ifndef _OPTIONSMENU_HPP_
 #define _OPTIONSMENU_HPP_
 
-#include <menuBase.hpp>
+#include "tempMenu.hpp"
+#include "displayController.hpp"
 
 class OptionsMenu : public MenuBase{
     public:
-        OptionsMenu(DisplayController display_controller, InputController input);
-        bool activeMenu = false;
+        int id;
+
+        OptionsMenu(
+            DisplayController display_controller,
+            TempMenu temp
+            );
+        
+        bool activeMenu;
 
         void showMenu() override;
 
-        void handleKnobEvent() override;
+        void handleKnobEvent(KnobEvent event) override;
 
-        void handlePressEvent() override;
+        void handlePressEvent(ButtonPressEvent event) override;
 
     private:
         int arrowPosition;
         String menuName = "Options Menu"; 
-        std::vector<std::string> menuList = {"Menu 1", "Menu 2", "Menu 3"};
+        std::vector<std::string> menuNamesList;
+        std::vector<MenuBase*> menuList;
+
+        // IO controller instances
         DisplayController* disp;
-        InputController* encoder;
-        String pointedMenu;
 
-        void callMenu();
+        // Menu instances
+        TempMenu* temp_menu;
+
+        void callMenu(int id, KnobEvent event);
+        void callMenu(int id, ButtonPressEvent event);
 };
-
-
 
 #endif  // _OPTIONSMENU_HPP_

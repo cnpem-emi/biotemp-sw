@@ -1,14 +1,20 @@
-#include <graphicalViewHandler.hpp>
-
+#include "graphicalViewHandler.hpp"
+/*
 GraphicalViewHandler::GraphicalViewHandler(OptionsMenu menu) {
-    mainMenu = &menu;
+    if(&menu != NULL) {
+        mainMenu = &menu;
+    }
 }
-
+*/
 void GraphicalViewHandler::showOptionsMenu() {
-    mainMenu->showMenu();
+    mainMenu.showMenu();
     
 }
 
-void GraphicalViewHandler::config(int upperBound, KnobEvent knob, ButtonPressEvent press) {
-    
+void GraphicalViewHandler::handleKnobEvent(KnobEvent event) {
+    mainMenu.handleKnobEvent(event);
+}
+
+void GraphicalViewHandler::handlePressEvent(ButtonPressEvent event) {
+
 }

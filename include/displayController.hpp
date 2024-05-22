@@ -1,5 +1,5 @@
 #ifndef _INCLUDE_DISPLAYCONTROLLER_HPP_
-#define _INLCUDE_DISPLAYCONTROLLER_HPP_
+#define _INCLUDE_DISPLAYCONTROLLER_HPP_
 
 #include <Wire.h>
 #include <Adafruit_GFX.h>

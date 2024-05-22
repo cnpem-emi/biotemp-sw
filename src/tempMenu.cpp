@@ -1,8 +1,7 @@
-#include <tempMenu.hpp>
+#include "tempMenu.hpp"
 
-TempMenu::TempMenu(DisplayController display_controller, InputController input){
+TempMenu::TempMenu(DisplayController display_controller){
     disp = &display_controller;
-    encoder = &input;
 }
 
 void TempMenu::showMenu() {

@@ -1,7 +1,8 @@
 #ifndef _TEMPMENU_HPP_
 #define _TEMPMENU_HPP_
 
-#include <menuBase.hpp>
+#include "menuBase.hpp"
+#include "displayController.hpp"
 
 #define DEFAULT_THRESHOLD 3.0 // Default temperature threshold to set the alarm
 
@@ -23,9 +24,10 @@ typedef enum {
 class TempMenu : public MenuBase {
     public:
         
-        bool activeMenu = false;  
+        int id = 0;
+        String menuName = "TempMenu"; // Menu title shown on screen. 
 
-        TempMenu(DisplayController display_controller, InputController input);
+        TempMenu(DisplayController display_controller);
 
         /******************************************************/
         /*!
@@ -53,8 +55,7 @@ class TempMenu : public MenuBase {
 
     private:
         DisplayController* disp;
-        InputController* encoder;
-        String menuName = "TempMenu"; // Menu title shown on screen. 
+
         std::vector<std::string> itemsList = {"Item1", "Item2", "Item3"}; // List of items to be shown on screen.
         float currentThreshold = DEFAULT_THRESHOLD; // Temperature tolerance to activate the alarm
         Modes currentMode = DEFAULT_MODE; // Device operation mode
