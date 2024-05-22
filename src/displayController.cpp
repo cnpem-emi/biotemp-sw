@@ -13,14 +13,14 @@ void DisplayController::displayConfig() {
 }
 
 void DisplayController::displayText(int value, int line, bool newline) {
-    pixelLine = line * 15;
+    pixelLine = line * 18;
     char buffer[10];
     itoa(value, buffer, 10);
     display.setTextSize(1);
     display.setTextColor(WHITE);
 
      if (newline == true) {
-      display.setCursor(10, pixelLine);
+      display.setCursor(14, pixelLine);
       display.println(buffer);
     } else {
       display.print(buffer);
@@ -32,13 +32,13 @@ void DisplayController::displayText(int value, int line, bool newline) {
 void DisplayController::displayText (float value, int line, bool newline) {
     char buffer[10];
 
-    pixelLine = line * 15;
+    pixelLine = line * 16;
     dtostrf(value, 3, 2, buffer);
     display.setTextSize(1);
     display.setTextColor(WHITE);
 
     if (newline == true) {
-      display.setCursor(10, pixelLine);
+      display.setCursor(14, pixelLine);
       display.println(buffer);
     } else {
       display.print(buffer);
@@ -48,12 +48,12 @@ void DisplayController::displayText (float value, int line, bool newline) {
 }
 
 void DisplayController::displayText (std::string text, int line, bool newline ) {
-    pixelLine = line * 15;
+    pixelLine = line * 16;
     display.setTextSize(1);
     display.setTextColor(WHITE);
 
     if (newline == true) {
-      display.setCursor(10, pixelLine);
+      display.setCursor(14, pixelLine);
       display.println(text.c_str());
     } else {
       display.print(text.c_str());
@@ -68,7 +68,7 @@ int DisplayController::getCenterX() {
 }
 
 void DisplayController::showMenuTitle(String menuTitle) {
-  display.setTextSize(1);
+  display.setTextSize(2);
   display.setTextColor(WHITE);
   display.setCursor((getCenterX() - menuTitle.length()) / 2 , 0);
   display.println(menuTitle.c_str());
@@ -77,11 +77,22 @@ void DisplayController::showMenuTitle(String menuTitle) {
 }
 
 void DisplayController::drawArrow(int line) {
+  display.setTextSize(1);
   int gfxChar = 0x10;
   line += 1;
-  pixelLine = line * 15; 
+  pixelLine = line * 16; 
   display.setCursor(2, pixelLine);
   display.write(gfxChar);
+  display.display();
+}
+
+void DisplayController::eraseArrow() {
+  eraseText(0, 16, 12, 48);
+}
+
+void DisplayController::eraseText(int x, int y, int size_x, int size_y) {
+  display.drawRect(x, y, size_x, size_y, BLACK);
+  display.fillRect(x, y, size_x, size_y, BLACK);
   display.display();
 }
 

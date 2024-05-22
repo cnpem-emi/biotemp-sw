@@ -29,7 +29,4 @@ class InputController{
         RotaryEncoder rotaryEncoder = RotaryEncoder(CLK_PIN, DT_PIN, SW_PIN);
 };
 
-//void knobCallback( long value );
-//void buttonCallback( unsigned long duration );
-
 #endif // _INCLUDE_INPUTCONTROLLER_HPP_

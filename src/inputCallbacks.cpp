@@ -1,7 +1,5 @@
 #include "inputCallbacks.hpp"
 
-GraphicalViewHandler handler;
-
 void knobCallback( long value )
 {
     KnobEvent event;

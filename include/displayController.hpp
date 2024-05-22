@@ -6,9 +6,8 @@
 #include <Adafruit_SSD1306.h>
 #include <vector>
 
-
 #define SCREEN_WIDTH 128 // OLED display width, in pixels
-#define SCREEN_HEIGHT 32 // OLED display height, in pixels
+#define SCREEN_HEIGHT 64 // OLED display height, in pixels
 #define OLED_RESET    -1 // Reset pin # (or -1 if sharing Arduino reset pin)
 
 #define UP_BUTTON_PIN 4 // Push button test up pin
@@ -84,17 +83,32 @@ class DisplayController {
         /***************************************************************/
         void createMenu(std::vector<std::string> menuList);
 
+        // Erases the arrows drawn ion screen
+        void eraseArrow();
+
+        // TEST FUNCTIONS (PUSH BUTTONS)
         void upButton();
         void downButton();
         void selectButton();
 
     private:
         int pixelLine = 0; // Number of pixels between lines
-        const byte EspacoLinha1 = 9; // Spacing between lines (showMenuTitle)
+        const byte EspacoLinha1 = 10; // Spacing between lines (showMenuTitle)
 
         // Gets the center position of the display
         int getCenterX();
-        
+
+        /***************************************************************/
+        /*!
+            @brief Blueprint function for erasing parts of the text writen 
+                on screen. It draws a rectangle with the specified parameters.
+            @param x the initial x coordenate.
+            @param y the initial y coordenate.
+            @param size_x the final x coordenate.
+            @param size_y the final y coordenate.
+        */
+        /***************************************************************/
+        void eraseText(int x, int y, int size_x, int size_y); 
 };
 
 #endif  // _INCLUDE_DISPLAYCONTROLLER_HPP_

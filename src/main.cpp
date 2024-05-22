@@ -1,10 +1,14 @@
 #include "InputController.hpp"
 
-void setup() {
+GraphicalViewHandler handler;
+InputController encoder;
 
-  //disp.displayConfig();
+void setup() {
+  Serial.begin(9600);
+  handler.config();
+  encoder.config(2);
 }
 
 void loop() {
-  //menu.showMenu();
+  handler.showOptionsMenu();
 }

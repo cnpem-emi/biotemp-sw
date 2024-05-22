@@ -6,10 +6,6 @@
 ############################################################
 */
 
-// Global variables to encoder manipulate
-//int encoderPos = 0;
-//bool isPressed = false;
-
 void InputController::config(int upperBound) {
   // This tells the library that the encoder has its own pull-up resistors
   rotaryEncoder.setEncoderType( EncoderType::HAS_PULLUP );

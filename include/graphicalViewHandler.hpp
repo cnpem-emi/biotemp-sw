@@ -4,14 +4,23 @@
 #include "optionsMenu.hpp"
 #include "InputEvent.hpp"
 #include "tempMenu.hpp"
-//#include <inputCallbacks.hpp>
 
-
+/*********************************************************/
+/*!
+    @brief Display Handler interface class. This class handles 
+        all interactions between the encoder and the display.
+*/
+/*********************************************************/
 class GraphicalViewHandler {
     public:
+        // Shows the main menu.
         void showOptionsMenu();
+
         void handleKnobEvent(KnobEvent event);
         void handlePressEvent(ButtonPressEvent event);
+
+        // Dipslay configuration abstraction.
+        void config();
 
     private:
         DisplayController oled;
@@ -19,20 +28,4 @@ class GraphicalViewHandler {
         OptionsMenu mainMenu = OptionsMenu(oled, temp);
     };
 
-/*
-inline void knobCallback( long value )
-{
-    KnobEvent event;
-    event.position = value;
-    handler.handleKnobEvent(event);
-}
-
-// The function is designed to handle changes in the button of a rotary encoder
-inline void buttonCallback( unsigned long duration )
-{
-    ButtonPressEvent event;
-    event.pressed = true;
-    handler.handlePressEvent(event);
-}
-*/
 #endif // _INCLUDE_GRAPHICALVIEWHANDLER_HPP_
