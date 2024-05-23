@@ -26,13 +26,13 @@ void OptionsMenu::showMenu() {
 }
 
 void OptionsMenu::handleKnobEvent(KnobEvent event) {
-    if (activeMenu != true) {
-        disp->clearDisplay();
-        menuList[id]->handleKnobEvent(event);
-    } else {
+    if (activeMenu == true) {
         arrowPosition = event.position - 1;
         disp->eraseArrow();
         disp->drawArrow(arrowPosition);
+    } else {
+        disp->clearDisplay();
+        menuList[id]->handleKnobEvent(event);
     }
 }
 
