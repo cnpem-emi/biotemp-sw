@@ -1,8 +1,8 @@
-#include "display.hpp"
+#include "displayController.hpp"
 
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
-void Display::displayConfig() {
+void DisplayController::displayConfig() {
     if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { 
     Serial.println(F("SSD1306 allocation failed"));
     while(1);
@@ -12,15 +12,15 @@ void Display::displayConfig() {
     delay(2000);
 }
 
-void Display::displayText(int value, int line, bool newline) {
-    pixelLine = line * 15;
+void DisplayController::displayText(int value, int line, bool newline) {
+    pixelLine = line * 18;
     char buffer[10];
     itoa(value, buffer, 10);
     display.setTextSize(1);
     display.setTextColor(WHITE);
 
      if (newline == true) {
-      display.setCursor(10, pixelLine);
+      display.setCursor(14, pixelLine);
       display.println(buffer);
     } else {
       display.print(buffer);
@@ -29,16 +29,16 @@ void Display::displayText(int value, int line, bool newline) {
     display.display();
 }
 
-void Display::displayText (float value, int line, bool newline) {
+void DisplayController::displayText (float value, int line, bool newline) {
     char buffer[10];
 
-    pixelLine = line * 15;
+    pixelLine = line * 16;
     dtostrf(value, 3, 2, buffer);
     display.setTextSize(1);
     display.setTextColor(WHITE);
 
     if (newline == true) {
-      display.setCursor(10, pixelLine);
+      display.setCursor(14, pixelLine);
       display.println(buffer);
     } else {
       display.print(buffer);
@@ -47,13 +47,13 @@ void Display::displayText (float value, int line, bool newline) {
     display.display();
 }
 
-void Display::displayText (std::string text, int line, bool newline ) {
-    pixelLine = line * 15;
+void DisplayController::displayText (std::string text, int line, bool newline ) {
+    pixelLine = line * 16;
     display.setTextSize(1);
     display.setTextColor(WHITE);
 
     if (newline == true) {
-      display.setCursor(10, pixelLine);
+      display.setCursor(14, pixelLine);
       display.println(text.c_str());
     } else {
       display.print(text.c_str());
@@ -62,13 +62,13 @@ void Display::displayText (std::string text, int line, bool newline ) {
     display.display();
 }
 
-int Display::getCenterX() {
+int DisplayController::getCenterX() {
   int displayWidth = display.width(); 
   return displayWidth / 2; 
 }
 
-void Display::showMenuTitle(String menuTitle) {
-  display.setTextSize(1);
+void DisplayController::showMenuTitle(String menuTitle) {
+  display.setTextSize(2);
   display.setTextColor(WHITE);
   display.setCursor((getCenterX() - menuTitle.length()) / 2 , 0);
   display.println(menuTitle.c_str());
@@ -76,22 +76,33 @@ void Display::showMenuTitle(String menuTitle) {
   display.display();
 }
 
-void Display::drawArrow(int line) {
+void DisplayController::drawArrow(int line) {
+  display.setTextSize(1);
   int gfxChar = 0x10;
   line += 1;
-  pixelLine = line * 15; 
+  pixelLine = line * 16; 
   display.setCursor(2, pixelLine);
   display.write(gfxChar);
   display.display();
 }
 
-void Display::clearDisplay() {
+void DisplayController::eraseArrow() {
+  eraseText(0, 16, 12, 48);
+}
+
+void DisplayController::eraseText(int x, int y, int size_x, int size_y) {
+  display.drawRect(x, y, size_x, size_y, BLACK);
+  display.fillRect(x, y, size_x, size_y, BLACK);
+  display.display();
+}
+
+void DisplayController::clearDisplay() {
   display.clearDisplay();
   display.setCursor(0, 0);
   display.display();
 }
 
-void Display::upButton() {
+void DisplayController::upButton() {
     if (digitalRead(UP_BUTTON_PIN) == HIGH) {
         arrowPos++;
       if (arrowPos > 2) {
@@ -101,7 +112,7 @@ void Display::upButton() {
     }
 }
 
-void Display::downButton() {
+void DisplayController::downButton() {
     if (digitalRead(DOWN_BUTTON_PIN) == HIGH) {
         arrowPos--;
       if (arrowPos < 0) {
@@ -111,14 +122,14 @@ void Display::downButton() {
     }
 }
 
-void Display::selectButton() {
+void DisplayController::selectButton() {
     if (digitalRead(SELECT_BUTTON_PIN) == HIGH) {
     Serial.print("Selected");
     }
 
 }
 
-void Display::createMenu(std::vector<std::string> menuList) {
+void DisplayController::createMenu(std::vector<std::string> menuList) {
   for(int i=0; i < menuList.size(); i++) {
     displayText(menuList[i], i+1, true);
   }

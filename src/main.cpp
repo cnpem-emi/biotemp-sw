@@ -1,15 +1,16 @@
-#include <Arduino.h>
+#include "biotemp.hpp"
+
+InputController encoder;
+extern GraphicalViewHandler handler;
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+  encoder.config(2);
+  //TempHandler temp_handler; 
+  Serial.begin(9600);
+  handler.config();
+  encoder.config(2);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-}
-
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+  handler.showOptionsMenu();
 }
