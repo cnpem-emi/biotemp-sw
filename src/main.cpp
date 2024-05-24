@@ -1,6 +1,7 @@
 #include "biotemp.hpp"
 
 InputController encoder;
+extern GraphicalViewHandler handler;
 
 void setup() {
   encoder.config(2);
