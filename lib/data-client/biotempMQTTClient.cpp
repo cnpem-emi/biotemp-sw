@@ -13,5 +13,7 @@ String BioTempMQTTClient::getIP() {
 }
 
 String BioTempMQTTClient::getMAC() {
+    // ENCONTRAR AGLUMA FUNÇÃO QUE RETIRE OS PONTOS DO ENREÇO MAC
+    // "A0:B7:65:DD:89:3C" -> "A0B765DD893C"
     return mqtt.getMAC();
 }
