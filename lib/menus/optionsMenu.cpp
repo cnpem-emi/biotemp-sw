@@ -4,7 +4,7 @@ OptionsMenu::OptionsMenu(
         DisplayController display_controller, 
         TempMenu temp
             ) {
-    activeMenu = true;
+    //activeMenu = true;
 
     disp = &display_controller;
 
@@ -37,9 +37,10 @@ void OptionsMenu::handleKnobEvent(KnobEvent event) {
 }
 
 void OptionsMenu::handlePressEvent(ButtonPressEvent event) {
-    if (activeMenu != true){
-        menuList[id]->handlePressEvent(event);
+    if (activeMenu == true){
+        showMenu();
     } else {
+        menuList[id]->handlePressEvent(event);
         //menuList[id]->showMenu();
         //activeMenu = false;
     }

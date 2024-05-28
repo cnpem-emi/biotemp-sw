@@ -24,6 +24,7 @@ class InputController{
         */
         /*****************************************************/
         void config(int upperBound);
+        
 
     private:
         RotaryEncoder rotaryEncoder = RotaryEncoder(CLK_PIN, DT_PIN, SW_PIN);

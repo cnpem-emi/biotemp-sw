@@ -86,6 +86,9 @@ class DisplayController {
         // Erases the arrows drawn ion screen
         void eraseArrow();
 
+        //
+        void showLogo(const unsigned char logo[]);
+
         // TEST FUNCTIONS (PUSH BUTTONS)
         void upButton();
         void downButton();

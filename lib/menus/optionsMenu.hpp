@@ -21,7 +21,7 @@ class OptionsMenu : public MenuBase{
             TempMenu temp
             );
         
-        bool activeMenu; // True if this menu is shown on the screen, false otherwise.
+        bool activeMenu = true; // True if this menu is shown on the screen, false otherwise.
         
         // Shows the main menu containing submenus.
         void showMenu() override;

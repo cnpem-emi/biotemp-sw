@@ -4,6 +4,10 @@
 #include "optionsMenu.hpp"
 #include "InputEvent.hpp"
 #include "tempMenu.hpp"
+#include "splashScreen.hpp"
+#include "sensorNTC.hpp"
+//#include "eventTimer.hpp"
+#include <esp32-hal-timer.h>
 
 /*********************************************************/
 /*!
@@ -22,10 +26,18 @@ class GraphicalViewHandler {
         // Dipslay configuration abstraction.
         void config();
 
+        void splashScreen(const unsigned char Logo[]);
+
+        // implementada apenas para teste visual
+        void defaultScreen();
+
     private:
         DisplayController oled;
         TempMenu temp = TempMenu(oled);
         OptionsMenu mainMenu = OptionsMenu(oled, temp);
+        SensorNTC temperature = SensorNTC(1);
     };
+
+    
 
 #endif // _INCLUDE_GRAPHICALVIEWHANDLER_HPP_

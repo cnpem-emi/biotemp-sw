@@ -3,5 +3,8 @@
 
 #include "global_instances.hpp"
 #include "InputController.hpp"
+#include "splashScreen.hpp"
+
+
 
 #endif

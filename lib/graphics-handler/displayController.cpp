@@ -134,3 +134,9 @@ void DisplayController::createMenu(std::vector<std::string> menuList) {
     displayText(menuList[i], i+1, true);
   }
 }
+
+void DisplayController::showLogo(const unsigned char logo[]){
+    display.clearDisplay();
+    display.drawBitmap(0, 0, logo, 128, 64, WHITE);
+    display.display();
+}
