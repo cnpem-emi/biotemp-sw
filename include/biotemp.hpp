@@ -5,6 +5,4 @@
 #include "InputController.hpp"
 #include "splashScreen.hpp"
 
-
-
 #endif

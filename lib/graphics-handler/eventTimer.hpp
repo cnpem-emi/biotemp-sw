@@ -3,13 +3,40 @@
 
 #include <esp32-hal-timer.h>
 
-// Variáveis globais para o timer
-hw_timer_t *timer = NULL;
-volatile bool timerFlag = false;
+#define PRESCALER 1000 // Scales down the APB clock (0 -> 65536)[16 bits]
 
-// Função de callback para a interrupção do timer
-void IRAM_ATTR onTimer() {
-    timerFlag = true;
+extern GraphicalViewHandler handler;
+
+// Interrupt callback
+void IRAM_ATTR Timer0_ISR() {
+    if (handler.userRecentlyInteracted == true) {
+        handler.userRecentlyInteracted = false;
+    } else {
+        if (handler.isScreenSaverOn == true) {
+            //handler.updateScreenSaver();
+        } else {
+            handler.showScreenSaver();
+            handler.isScreenSaverOn = true;
+        }
+    }
+}
+
+/******************************************************************/
+/*!
+    @brief Configures the event timer interrupt.
+    @param t_out The time to set an interrupt in seconds.
+*/
+/******************************************************************/
+void configTimer(int t_out) {
+    hw_timer_t *Timer0_Cfg = NULL;
+    float timer_ticks;
+
+    timer_ticks = t_out*APB_CLK_FREQ/PRESCALER;
+
+    Timer0_Cfg = timerBegin(0, PRESCALER, true);
+    timerAttachInterrupt(Timer0_Cfg, &Timer0_ISR, true);
+    timerAlarmWrite(Timer0_Cfg, timer_ticks, true);
+    timerAlarmEnable(Timer0_Cfg);
 }
 
 #endif // _EVENTTIMER_HPP_

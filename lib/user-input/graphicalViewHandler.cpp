@@ -1,8 +1,8 @@
 #include "graphicalViewHandler.hpp"
 
 void GraphicalViewHandler::showOptionsMenu() {
+    isScreenSaverOn = false;
     mainMenu.showMenu();
-    
 }
 
 void GraphicalViewHandler::handleKnobEvent(KnobEvent event) {
@@ -11,8 +11,13 @@ void GraphicalViewHandler::handleKnobEvent(KnobEvent event) {
 }
 
 void GraphicalViewHandler::handlePressEvent(ButtonPressEvent event) {
-    Serial.println(event.pressed);
-    mainMenu.handlePressEvent(event);
+    if (isScreenSaverOn != true) {
+        //updateScreenSaver();
+    } else {
+        Serial.println(event.pressed);
+        mainMenu.handlePressEvent(event);
+    }
+    
     // estrutura para teste visual
     // apagar depois
     /*
@@ -36,11 +41,17 @@ void GraphicalViewHandler::splashScreen(const unsigned char Logo[]){
     oled.clearDisplay();
 }
 
-void GraphicalViewHandler::defaultScreen(){
+void GraphicalViewHandler::showScreenSaver(){
     float temp = temperature.getTemperature();
     oled.displayText("Temperatura: ", 1, false);
     oled.displayText(temp, 1, false);
     oled.displayText(" oC", 1, false);
     oled.clearDisplay();
     //oled.eraseText();
+}
+
+void GraphicalViewHandler::updateScreenSaver() {
+    float temp = temperature.getTemperature();
+    Serial.println(temp);
+
 }

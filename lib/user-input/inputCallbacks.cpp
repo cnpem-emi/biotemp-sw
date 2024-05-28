@@ -4,6 +4,7 @@ void knobCallback( long value )
 {
     KnobEvent event;
     event.position = value;
+    handler.userRecentlyInteracted = true;
     handler.handleKnobEvent(event);
 }
 
@@ -12,5 +13,6 @@ void buttonCallback( unsigned long duration )
 {
     ButtonPressEvent event;
     event.pressed = true;
+    handler.userRecentlyInteracted = true;
     handler.handlePressEvent(event);
 }

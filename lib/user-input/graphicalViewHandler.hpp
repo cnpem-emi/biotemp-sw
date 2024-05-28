@@ -17,6 +17,8 @@
 /*********************************************************/
 class GraphicalViewHandler {
     public:
+        bool isScreenSaverOn = true;
+        bool userRecentlyInteracted = false;
         // Shows the main menu.
         void showOptionsMenu();
 
@@ -29,7 +31,9 @@ class GraphicalViewHandler {
         void splashScreen(const unsigned char Logo[]);
 
         // implementada apenas para teste visual
-        void defaultScreen();
+        void showScreenSaver();
+
+        void updateScreenSaver();
 
     private:
         DisplayController oled;

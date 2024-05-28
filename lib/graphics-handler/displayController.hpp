@@ -86,6 +86,9 @@ class DisplayController {
         // Erases the arrows drawn ion screen
         void eraseArrow();
 
+        // Erases the temperature value
+        void eraseTemperature();
+
         //
         void showLogo(const unsigned char logo[]);
 
