@@ -12,9 +12,6 @@ void setup() {
   configTimer(5);
   handler.splashScreen(cnpemLogo);
   handler.splashScreen(LNBioLogo);
-
-  
-
 }
 
 void loop() {
