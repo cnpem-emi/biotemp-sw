@@ -9,9 +9,10 @@ void setup() {
   Serial.begin(9600);
   handler.config();
   encoder.config(2);
-  configTimer(5);
   handler.splashScreen(cnpemLogo);
   handler.splashScreen(LNBioLogo);
+  //configTimer(1);
+  handler.showScreenSaver();
 }
 
 void loop() {
