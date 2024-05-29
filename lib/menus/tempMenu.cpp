@@ -10,12 +10,24 @@ void TempMenu::showMenu() {
     disp->createMenu(itemsList);
 }
 
+void TempMenu::updateMenu(int arrowPosition){
+    disp->eraseArrow();
+    disp->drawArrow(arrowPosition);
+}
+
 void TempMenu::handleKnobEvent(KnobEvent event) {
-    //!@todo Criar evento
+     if (event.isScreenSaverOn == true){
+            showMenu();
+        }
+        else {
+            updateMenu(event.position - 1);
+        }
 }
 
 void TempMenu::handlePressEvent(ButtonPressEvent event) {
     //!@todo Criar evento
+    Serial.println("Got Here");
+    showMenu();
 }
 
 void TempMenu::setMode(Modes mode) {

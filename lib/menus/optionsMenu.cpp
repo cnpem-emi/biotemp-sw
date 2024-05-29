@@ -26,12 +26,13 @@ void OptionsMenu::showMenu() {
     activeMenu = true;
 }
 
-void OptionsMenu::updateMenu(int arrowPosition){
+void OptionsMenu::updateMenu(int newArrowPosition){
     disp->eraseArrow();
-    disp->drawArrow(arrowPosition);
+    disp->drawArrow(newArrowPosition);
 }
 
 void OptionsMenu::handleKnobEvent(KnobEvent event) {
+    arrowPosition = event.position;
     if (activeMenu == true) {
         if (event.isScreenSaverOn == true){
             showMenu();
@@ -41,16 +42,17 @@ void OptionsMenu::handleKnobEvent(KnobEvent event) {
         }
     } else {
         disp->clearDisplay();
-        menuList[id]->handleKnobEvent(event);
+        menuList[0]->handleKnobEvent(event);
     }
 }
 
 void OptionsMenu::handlePressEvent(ButtonPressEvent event) {
-    if (activeMenu == true){
+    if (event.isScreenSaverOn == true){
+        activeMenu = true;
         showMenu();
     } else {
-        menuList[id]->handlePressEvent(event);
-        //menuList[id]->showMenu();
-        //activeMenu = false;
+        activeMenu = false; 
+        // @TODO change this to id of menu
+        menuList[arrowPosition]->handlePressEvent(event);
     }
 }

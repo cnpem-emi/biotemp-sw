@@ -37,6 +37,8 @@ class TempMenu : public MenuBase {
         /******************************************************/
         void showMenu() override;
 
+        void updateMenu(int arrowPosition);
+
         /******************************************************/
         /*!
             @brief Handles knob input controller events.
