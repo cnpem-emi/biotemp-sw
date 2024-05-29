@@ -19,6 +19,10 @@ class GraphicalViewHandler {
     public:
         bool isScreenSaverOn = true;
         bool userRecentlyInteracted = false;
+
+        bool screenSaverEventScheduled = false;
+        //bool inputEventScheduled = false;
+
         // Shows the main menu.
         void showOptionsMenu();
 
@@ -34,6 +38,8 @@ class GraphicalViewHandler {
         void showScreenSaver();
 
         void updateScreenSaver();
+
+        void mainLoop();
 
     private:
         DisplayController oled;

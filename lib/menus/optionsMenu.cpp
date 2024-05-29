@@ -19,17 +19,26 @@ OptionsMenu::OptionsMenu(
 }
 
 void OptionsMenu::showMenu() {
+    disp->clearDisplay();
     disp->drawArrow(arrowPosition);
     disp->showMenuTitle(menuName);
     disp->createMenu(menuNamesList);
     activeMenu = true;
 }
 
+void OptionsMenu::updateMenu(int arrowPosition){
+    disp->eraseArrow();
+    disp->drawArrow(arrowPosition);
+}
+
 void OptionsMenu::handleKnobEvent(KnobEvent event) {
     if (activeMenu == true) {
-        arrowPosition = event.position - 1;
-        disp->eraseArrow();
-        disp->drawArrow(arrowPosition);
+        if (event.isScreenSaverOn == true){
+            showMenu();
+        }
+        else {
+            updateMenu(event.position - 1);
+        }
     } else {
         disp->clearDisplay();
         menuList[id]->handleKnobEvent(event);

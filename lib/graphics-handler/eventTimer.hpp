@@ -9,16 +9,17 @@ extern GraphicalViewHandler handler;
 
 // Interrupt callback
 void IRAM_ATTR Timer0_ISR() {
+    //Serial.println(handler.userRecentlyInteracted);
     if (handler.userRecentlyInteracted == true) {
         handler.userRecentlyInteracted = false;
     } else {
-        if (handler.isScreenSaverOn == true) {
-            //handler.updateScreenSaver();
-        } else {
-            handler.showScreenSaver();
-            handler.isScreenSaverOn = true;
-        }
+        handler.screenSaverEventScheduled = true;
     }
+
+    //if (handler.isScreenSaverOn == true)
+    //{
+    //    handler.screenSaverEventScheduled = false;
+    //}
 }
 
 /******************************************************************/

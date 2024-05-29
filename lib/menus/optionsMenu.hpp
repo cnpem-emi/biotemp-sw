@@ -25,6 +25,7 @@ class OptionsMenu : public MenuBase{
         
         // Shows the main menu containing submenus.
         void showMenu() override;
+        void updateMenu(int arrowPosition); 
 
         void handleKnobEvent(KnobEvent event) override;
 

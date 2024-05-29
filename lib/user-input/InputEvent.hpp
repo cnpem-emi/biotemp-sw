@@ -3,10 +3,12 @@
 
 typedef struct {
     int position;
+    bool isScreenSaverOn;
 } KnobEvent;
 
 typedef struct {
     bool pressed;
+    bool isScreenSaverOn;
 } ButtonPressEvent;
 
 #endif // _INCLUDE_INPUTEVENT_HPP_

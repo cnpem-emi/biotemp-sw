@@ -11,12 +11,12 @@ void setup() {
   encoder.config(2);
   handler.splashScreen(cnpemLogo);
   handler.splashScreen(LNBioLogo);
-  //configTimer(1);
+  configTimer(5);
   handler.showScreenSaver();
 }
 
 void loop() {
   //handler.showScreenSaver();
   //handler.showOptionsMenu();
-
+  handler.mainLoop();
 }
