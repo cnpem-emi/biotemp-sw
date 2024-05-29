@@ -15,7 +15,12 @@ void GraphicalViewHandler::handleKnobEvent(KnobEvent event) {
 }
 
 void GraphicalViewHandler::handlePressEvent(ButtonPressEvent event) {
-    
+    event.isScreenSaverOn = isScreenSaverOn;
+
+    if (isScreenSaverOn == true) {
+        isScreenSaverOn = false;
+    }
+    mainMenu.handlePressEvent(event);
 }
 
 void GraphicalViewHandler::config() {
