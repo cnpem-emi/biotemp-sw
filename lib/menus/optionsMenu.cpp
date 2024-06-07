@@ -35,6 +35,7 @@ void OptionsMenu::updateMenu(int newArrowPosition){
 }
 
 void OptionsMenu::handleKnobEvent(KnobEvent event) {
+    //@TODO active menu not is change to false
     arrowPosition = event.position;
     if (activeMenu == true) {
         if (event.isScreenSaverOn == true){
