@@ -16,11 +16,11 @@ void GraphicalViewHandler::handleKnobEvent(KnobEvent event) {
 
 void GraphicalViewHandler::handlePressEvent(ButtonPressEvent event) {
     event.isScreenSaverOn = isScreenSaverOn;
-
     if (isScreenSaverOn == true) {
         isScreenSaverOn = false;
     }
     mainMenu.handlePressEvent(event);
+    event.pressed = false;
 }
 
 void GraphicalViewHandler::config() {
@@ -47,7 +47,8 @@ void GraphicalViewHandler::showScreenSaver(){
 void GraphicalViewHandler::updateScreenSaver() {
     float temp = temperature.getTemperature();
     oled.clearDisplay();
-    oled.displayText("Temperatura: ", 1, false);
+    oled.displayText("Temperatura: ", 1, true);
+    oled.displayText("   ",1, false);
     oled.displayText(temp, 1, false);
     oled.displayText(" oC", 1, false);
 }

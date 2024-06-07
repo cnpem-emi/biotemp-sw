@@ -2,6 +2,7 @@
 #define _OPTIONSMENU_HPP_
 
 #include "tempMenu.hpp"
+#include "infoMenu.hpp"
 #include "displayController.hpp"
 
 /********************************************************************/
@@ -17,8 +18,9 @@ class OptionsMenu : public MenuBase{
         int id; // Main menu id.
 
         OptionsMenu(
-            DisplayController display_controller,
-            TempMenu temp
+            DisplayController display_controller
+            //TempMenu temp,
+            //InfoMenu info
             );
         
         bool activeMenu = true; // True if this menu is shown on the screen, false otherwise.
@@ -35,13 +37,14 @@ class OptionsMenu : public MenuBase{
         int arrowPosition = 0; // Position of the arrow shown on screen.
         String menuName = "BioTemp";  // Title of this menu show on screen.
         std::vector<std::string> menuNamesList; // List of submenu titiles.
-        std::vector<MenuBase*> menuList; // List of the submenus objects.
+        //std::vector<MenuBase*> menuList; // List of the submenus objects.
 
         // IO controller instances
         DisplayController* disp;
 
         // Menu instances
-        TempMenu* temp_menu;
+        TempMenu temp_menu;
+        InfoMenu info_menu;
 
         /**********************************************************/
         /*! 

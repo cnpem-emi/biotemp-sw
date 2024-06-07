@@ -4,6 +4,7 @@
 #include "optionsMenu.hpp"
 #include "InputEvent.hpp"
 #include "tempMenu.hpp"
+#include "infoMenu.hpp"
 #include "splashScreen.hpp"
 #include "sensorNTC.hpp"
 //#include "eventTimer.hpp"
@@ -44,7 +45,8 @@ class GraphicalViewHandler {
     private:
         DisplayController oled;
         TempMenu temp = TempMenu(oled);
-        OptionsMenu mainMenu = OptionsMenu(oled, temp);
+        InfoMenu info = InfoMenu(oled);
+        OptionsMenu mainMenu = OptionsMenu(oled);
         SensorNTC temperature = SensorNTC(1);
     };
 

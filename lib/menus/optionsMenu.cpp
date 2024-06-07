@@ -1,21 +1,24 @@
 #include "optionsMenu.hpp"
 
-OptionsMenu::OptionsMenu(
-        DisplayController display_controller, 
-        TempMenu temp
-            ) {
+OptionsMenu::OptionsMenu (DisplayController display_controller):
+ temp_menu(display_controller), info_menu(display_controller) {
     //activeMenu = true;
 
     disp = &display_controller;
+    
+    //temp_menu = &temp;
+    //temp_menu->id = 0;
+    //menuList.emplace_back(temp_menu); // id = 0
+    menuNamesList.emplace_back(temp_menu.menuName.c_str());
 
-    temp_menu = &temp;
-    menuList.emplace_back(temp_menu); // id = 0
-    menuNamesList.emplace_back(temp_menu->menuName.c_str());
+    //info_menu = &info;
+    //info_menu->id = 1;
+    //menuList.emplace_back(info_menu); 
+    menuNamesList.emplace_back(info_menu.menuName.c_str());
 
-    TempMenu* temp2; //REMOVER
-    temp2 = &temp; //REMOVER
-    menuList.emplace_back(temp2); //REMOVER
-    menuNamesList.emplace_back(temp2->menuName.c_str()); //REMOVER
+    //temp_menu = TempMenu temp_menu(display_controller);
+    //info_menu = InfoMeny info_menu(display_controller);
+
 }
 
 void OptionsMenu::showMenu() {
@@ -42,17 +45,29 @@ void OptionsMenu::handleKnobEvent(KnobEvent event) {
         }
     } else {
         disp->clearDisplay();
-        menuList[0]->handleKnobEvent(event);
+        //menuList[0]->handleKnobEvent(event);
     }
 }
 
+
 void OptionsMenu::handlePressEvent(ButtonPressEvent event) {
-    if (event.isScreenSaverOn == true){
+    if (activeMenu == false){
         activeMenu = true;
         showMenu();
     } else {
-        activeMenu = false; 
+        //activeMenu = false; 
         // @TODO change this to id of menu
-        menuList[arrowPosition]->handlePressEvent(event);
+        //menuList[arrowPosition]->handlePressEvent(event);
+        Serial.println(arrowPosition);
+        switch (arrowPosition)
+        {
+        case 1:
+            temp_menu.handlePressEvent(event);
+            break;
+        case 2:
+            info_menu.handlePressEvent(event);
+            break;
+        }
+
     }
 }
