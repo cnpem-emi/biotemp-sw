@@ -5,6 +5,8 @@
 #include "infoMenu.hpp"
 #include "displayController.hpp"
 
+#define SUBMENUS_NUM 2
+
 /********************************************************************/
 /*!
     @brief Main menu interface class. This menu has the purpose of controlling 

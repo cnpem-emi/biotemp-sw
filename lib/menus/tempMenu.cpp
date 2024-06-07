@@ -25,8 +25,6 @@ void TempMenu::handleKnobEvent(KnobEvent event) {
 }
 
 void TempMenu::handlePressEvent(ButtonPressEvent event) {
-    //!@todo Criar evento
-    Serial.println("Got Here");
     showMenu();
 }
 

@@ -58,7 +58,7 @@ class TempMenu : public MenuBase {
     private:
         DisplayController* disp;
 
-        std::vector<std::string> itemsList = {"Item1", "Item2", "Item3"}; // List of items to be shown on screen.
+        std::vector<std::string> itemsList = {"NTC1", "NTC2", "PT100"}; // List of items to be shown on screen.
         float currentThreshold = DEFAULT_THRESHOLD; // Temperature tolerance to activate the alarm
         Modes currentMode = DEFAULT_MODE; // Device operation mode
 

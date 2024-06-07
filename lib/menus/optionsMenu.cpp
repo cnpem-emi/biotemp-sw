@@ -30,8 +30,8 @@ void OptionsMenu::showMenu() {
 }
 
 void OptionsMenu::updateMenu(int newArrowPosition){
-    disp->eraseArrow();
-    disp->drawArrow(newArrowPosition);
+        disp->eraseArrow();
+        disp->drawArrow(newArrowPosition);
 }
 
 void OptionsMenu::handleKnobEvent(KnobEvent event) {
