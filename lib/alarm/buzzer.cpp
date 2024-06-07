@@ -7,5 +7,4 @@ void alarm(){
 
 void buzzerConfig(){
     pinMode(buzzerPin, 17);
-    
 }

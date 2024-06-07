@@ -35,22 +35,23 @@ void GraphicalViewHandler::splashScreen(const unsigned char Logo[]){
 }
 
 void GraphicalViewHandler::showScreenSaver(){
-    float temp = temperature.getTemperature();
     oled.clearDisplay();
-    oled.displayText("Temperatura: ", 1, false);
+    oled.showMenuTitle("BioTemp");
+    float temp = sensor1.getTemperature();
+    oled.displayText(sensor1.getSensorID(), 1, false);
+    oled.displayText(": ", 1, false);
     oled.displayText(temp, 1, false);
-    oled.displayText(" oC", 1, false);
-    
-    //oled.eraseText();
+    oled.displayText("oC", 1, false);
 }
 
 void GraphicalViewHandler::updateScreenSaver() {
-    float temp = temperature.getTemperature();
     oled.clearDisplay();
-    oled.displayText("Temperatura: ", 1, true);
-    oled.displayText("   ",1, false);
+    oled.showMenuTitle("BioTemp");
+    float temp = sensor1.getTemperature();
+    oled.displayText(sensor1.getSensorID(), 1, false);
+    oled.displayText(": ", 1, false);
     oled.displayText(temp, 1, false);
-    oled.displayText(" oC", 1, false);
+    oled.displayText("oC", 1, false);
 }
 
 void GraphicalViewHandler::mainLoop(){

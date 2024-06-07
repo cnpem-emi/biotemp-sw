@@ -72,7 +72,7 @@ void DisplayController::showMenuTitle(String menuTitle) {
   display.setTextColor(WHITE);
   display.setCursor((getCenterX() - menuTitle.length()) / 2 , 0);
   display.println(menuTitle.c_str());
-  display.drawLine(0, EspacoLinha1, display.width(), EspacoLinha1, WHITE);
+  //display.drawLine(0, EspacoLinha1, display.width(), EspacoLinha1, WHITE);
   display.display();
 }
 

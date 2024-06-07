@@ -47,7 +47,7 @@ class GraphicalViewHandler {
         TempMenu temp = TempMenu(oled);
         InfoMenu info = InfoMenu(oled);
         OptionsMenu mainMenu = OptionsMenu(oled);
-        SensorNTC temperature = SensorNTC(1);
+        SensorNTC sensor1 = SensorNTC(1);
     };
 
     

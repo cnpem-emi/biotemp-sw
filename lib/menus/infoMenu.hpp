@@ -24,7 +24,7 @@ class InfoMenu : public MenuBase{
         int arrowPosition = 0;
         DisplayController* disp;
 
-        std::vector<std::string> itemsList = {"A0:B7:65:DD:89:3C", "Device 1", "CNPEM"};
+        std::vector<std::string> itemsList = {"A0:B7:65:DD:89:3C", "Device 1", "return"};
 
 };
 
