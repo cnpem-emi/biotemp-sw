@@ -2,22 +2,14 @@
 
 OptionsMenu::OptionsMenu (DisplayController display_controller):
  temp_menu(display_controller), info_menu(display_controller) {
-    //activeMenu = true;
+    //isCurrentlyActiveMenu = true;
+
+    activeMenu = this;
 
     disp = &display_controller;
     
-    //temp_menu = &temp;
-    //temp_menu->id = 0;
-    //menuList.emplace_back(temp_menu); // id = 0
     menuNamesList.emplace_back(temp_menu.menuName.c_str());
-
-    //info_menu = &info;
-    //info_menu->id = 1;
-    //menuList.emplace_back(info_menu); 
     menuNamesList.emplace_back(info_menu.menuName.c_str());
-
-    //temp_menu = TempMenu temp_menu(display_controller);
-    //info_menu = InfoMeny info_menu(display_controller);
 
 }
 
@@ -26,7 +18,7 @@ void OptionsMenu::showMenu() {
     disp->drawArrow(arrowPosition);
     disp->showMenuTitle(menuName);
     disp->createMenu(menuNamesList);
-    activeMenu = true;
+    changeCurrentlyActiveMenu(MAIN_MENU);
 }
 
 void OptionsMenu::updateMenu(int newArrowPosition){
@@ -35,39 +27,53 @@ void OptionsMenu::updateMenu(int newArrowPosition){
 }
 
 void OptionsMenu::handleKnobEvent(KnobEvent event) {
-    //@TODO active menu not is change to false
     arrowPosition = event.position;
-    if (activeMenu == true) {
-        if (event.isScreenSaverOn == true){
+    isScreenSaverOn = event.isScreenSaverOn;
+
+    if (event.isScreenSaverOn == true){
             showMenu();
         }
-        else {
+    else {
+         if (activeMenu == this){
             updateMenu(event.position - 1);
         }
-    } else {
-        disp->clearDisplay();
-        //menuList[0]->handleKnobEvent(event);
+        else {
+            activeMenu->handleKnobEvent(event);
+        }
     }
 }
 
+void OptionsMenu::changeCurrentlyActiveMenu(MENU_OPTIONS id) {
+    switch (id)
+    {
+        case MAIN_MENU:
+            activeMenu = this;    
+            break;
+        case TEMP_MENU:
+            activeMenu = &temp_menu;
+            break;
+        case INFO_MENU:
+            Serial.println("HERE");
+            activeMenu = &info_menu;
+            break;
+        default:
+            activeMenu = this;
+            break;
+    }
+}
 
 void OptionsMenu::handlePressEvent(ButtonPressEvent event) {
-    if (activeMenu == false){
-        activeMenu = true;
+    if (isScreenSaverOn == true){
+        isScreenSaverOn = false;
+        changeCurrentlyActiveMenu(MAIN_MENU);
         showMenu();
     } else {
-        //activeMenu = false; 
-        // @TODO change this to id of menu
-        //menuList[arrowPosition]->handlePressEvent(event);
-        Serial.println(arrowPosition);
-        switch (arrowPosition)
-        {
-        case 1:
-            temp_menu.handlePressEvent(event);
-            break;
-        case 2:
-            info_menu.handlePressEvent(event);
-            break;
+        if (activeMenu == this){
+            changeCurrentlyActiveMenu(static_cast<MENU_OPTIONS>(arrowPosition));
+            activeMenu->showMenu();
+        }
+        else {
+            activeMenu->handlePressEvent(event);
         }
 
     }

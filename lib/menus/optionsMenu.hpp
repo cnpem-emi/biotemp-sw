@@ -5,8 +5,15 @@
 #include "infoMenu.hpp"
 #include "displayController.hpp"
 
+#include<memory>
+
 #define SUBMENUS_NUM 2
 
+enum MENU_OPTIONS {
+    MAIN_MENU,
+    TEMP_MENU,
+    INFO_MENU,
+};
 /********************************************************************/
 /*!
     @brief Main menu interface class. This menu has the purpose of controlling 
@@ -19,13 +26,9 @@ class OptionsMenu : public MenuBase{
     public:
         int id; // Main menu id.
 
-        OptionsMenu(
-            DisplayController display_controller
-            //TempMenu temp,
-            //InfoMenu info
-            );
+        OptionsMenu(DisplayController display_controller);
         
-        bool activeMenu = true; // True if this menu is shown on the screen, false otherwise.
+        bool isScreenSaverOn = true; // True if this menu is shown on the screen, false otherwise.
         
         // Shows the main menu containing submenus.
         void showMenu() override;
@@ -38,35 +41,19 @@ class OptionsMenu : public MenuBase{
     private:
         int arrowPosition = 0; // Position of the arrow shown on screen.
         String menuName = "BioTemp";  // Title of this menu show on screen.
-        std::vector<std::string> menuNamesList; // List of submenu titiles.
-        //std::vector<MenuBase*> menuList; // List of the submenus objects.
-
-        // IO controller instances
-        DisplayController* disp;
 
         // Menu instances
         TempMenu temp_menu;
         InfoMenu info_menu;
 
-        /**********************************************************/
-        /*! 
-            @todo NOT FINISHED
-            @brief calls a submenu by its id.
-            @param id The id of the menu to be called.
-            @param event The event instance get from the encoder callback function.
-        */
-        /**********************************************************/
-        void callMenu(int id, KnobEvent event);
+        void changeCurrentlyActiveMenu(MENU_OPTIONS id);
+        MenuBase* activeMenu;
 
-        /**********************************************************/
-        /*! 
-            @todo NOT FINISHED
-            @brief calls a submenu by its id.
-            @param id The id of the menu to be called.
-            @param event The event instance get from the encoder callback function.
-        */
-        /**********************************************************/
-        void callMenu(int id, ButtonPressEvent event);
+        std::vector<std::string> menuNamesList; // List of submenu titles.
+        //std::vector<MenuBase*> menuList; // List of the submenus objects.
+
+        // IO controller instances
+        DisplayController* disp;
+
 };
-
 #endif  // _OPTIONSMENU_HPP_
