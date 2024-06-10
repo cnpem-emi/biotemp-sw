@@ -56,8 +56,9 @@ void GraphicalViewHandler::updateScreenSaver() {
 
 void GraphicalViewHandler::mainLoop(){
     // Checks if Screen saver needs to be shown
-    if (screenSaverEventScheduled == true) 
+    if (screenSaverEventScheduled == true || mainMenu.requestScreenSaver == true) 
     {
+      mainMenu.requestScreenSaver = false;
       if (isScreenSaverOn == true) {
         updateScreenSaver();
         screenSaverEventScheduled = false;

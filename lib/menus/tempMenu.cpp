@@ -7,7 +7,7 @@ TempMenu::TempMenu(DisplayController display_controller){
 void TempMenu::showMenu() {
     disp->clearDisplay();
     disp->showMenuTitle(menuName);
-    disp->createMenu(itemsList);
+    disp->createMenu(itemsList[0], itemsList[1]);
 }
 
 void TempMenu::updateMenu(int arrowPosition){

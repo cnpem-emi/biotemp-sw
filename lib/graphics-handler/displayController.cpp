@@ -129,10 +129,10 @@ void DisplayController::selectButton() {
 
 }
 
-void DisplayController::createMenu(std::vector<std::string> menuList) {
-  for(int i=0; i < menuList.size(); i++) {
-    displayText(menuList[i], i+1, true);
-  }
+void DisplayController::createMenu(std::string item1, std::string item2) {
+    displayText(item1, 1, true);
+    displayText(item2, 2, true);
+    displayText("Return ", 3, true);
 }
 
 void DisplayController::showLogo(const unsigned char logo[]){

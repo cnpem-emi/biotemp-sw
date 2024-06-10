@@ -81,7 +81,7 @@ class DisplayController {
             @param menuList A vector with the strings of the menus.
         */
         /***************************************************************/
-        void createMenu(std::vector<std::string> menuList);
+        void createMenu(std::string item1, std::string item2);
 
         // Erases the arrows drawn ion screen
         void eraseArrow();

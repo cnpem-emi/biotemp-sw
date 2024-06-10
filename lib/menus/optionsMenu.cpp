@@ -17,7 +17,7 @@ void OptionsMenu::showMenu() {
     disp->clearDisplay();
     disp->drawArrow(arrowPosition);
     disp->showMenuTitle(menuName);
-    disp->createMenu(menuNamesList);
+    disp->createMenu(menuNamesList[0], menuNamesList[1]);
     changeCurrentlyActiveMenu(MAIN_MENU);
 }
 
@@ -53,7 +53,6 @@ void OptionsMenu::changeCurrentlyActiveMenu(MENU_OPTIONS id) {
             activeMenu = &temp_menu;
             break;
         case INFO_MENU:
-            Serial.println("HERE");
             activeMenu = &info_menu;
             break;
         default:
@@ -67,14 +66,19 @@ void OptionsMenu::handlePressEvent(ButtonPressEvent event) {
         isScreenSaverOn = false;
         changeCurrentlyActiveMenu(MAIN_MENU);
         showMenu();
-    } else {
-        if (activeMenu == this){
-            changeCurrentlyActiveMenu(static_cast<MENU_OPTIONS>(arrowPosition));
-            activeMenu->showMenu();
-        }
-        else {
-            activeMenu->handlePressEvent(event);
-        }
 
+        return; 
+    }
+
+    if(arrowPosition == RETURN_POS)
+    {
+        requestScreenSaver = true;
+    }
+    else if (activeMenu == this){
+        changeCurrentlyActiveMenu(static_cast<MENU_OPTIONS>(arrowPosition));
+        activeMenu->showMenu();
+    }
+    else {
+        activeMenu->handlePressEvent(event);
     }
 }
