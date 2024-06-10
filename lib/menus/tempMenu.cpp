@@ -8,6 +8,9 @@ void TempMenu::showMenu() {
     disp->clearDisplay();
     disp->showMenuTitle(menuName);
     disp->createMenu(itemsList[0], itemsList[1]);
+    // Draw arrow at the beginning
+    disp->eraseArrow();
+    disp->drawArrow(FIRST_ITEM_POS-1);
 }
 
 void TempMenu::updateMenu(int arrowPosition){
@@ -25,7 +28,9 @@ void TempMenu::handleKnobEvent(KnobEvent event) {
 }
 
 void TempMenu::handlePressEvent(ButtonPressEvent event) {
-    showMenu();
+    if(event.position == RETURN_POS) {
+        returnMenu->showMenu();
+    }
 }
 
 void TempMenu::setMode(Modes mode) {

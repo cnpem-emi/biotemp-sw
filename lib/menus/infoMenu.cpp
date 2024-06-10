@@ -8,6 +8,7 @@ void InfoMenu::showMenu() {
     disp->clearDisplay();
     disp->showMenuTitle(menuName);
     disp->createMenu(itemsList[0], itemsList[1]);
+    disp->drawArrow(RETURN_POS - 1);
 }
 
 void InfoMenu::updateMenu(int arrowPosition){
@@ -19,12 +20,8 @@ void InfoMenu::handleKnobEvent(KnobEvent event) {
      if (event.isScreenSaverOn == true){
             showMenu();
         }
-        else {
-            updateMenu(event.position - 1);
-        }
 }
 
 void InfoMenu::handlePressEvent(ButtonPressEvent event) {
-    //!@todo Criar evento
-    showMenu();
+    returnMenu->showMenu();
 }

@@ -5,6 +5,7 @@ OptionsMenu::OptionsMenu (DisplayController display_controller):
     //isCurrentlyActiveMenu = true;
 
     activeMenu = this;
+    returnMenu = this;
 
     disp = &display_controller;
     
@@ -18,6 +19,11 @@ void OptionsMenu::showMenu() {
     disp->drawArrow(arrowPosition);
     disp->showMenuTitle(menuName);
     disp->createMenu(menuNamesList[0], menuNamesList[1]);
+    // Draw arrow at the beginning
+    disp->eraseArrow();
+    disp->drawArrow(FIRST_ITEM_POS-1);
+    arrowPosition = FIRST_ITEM_POS;
+
     changeCurrentlyActiveMenu(MAIN_MENU);
 }
 
@@ -59,6 +65,8 @@ void OptionsMenu::changeCurrentlyActiveMenu(MENU_OPTIONS id) {
             activeMenu = this;
             break;
     }
+
+    activeMenu->returnMenu = this;
 }
 
 void OptionsMenu::handlePressEvent(ButtonPressEvent event) {
@@ -69,16 +77,18 @@ void OptionsMenu::handlePressEvent(ButtonPressEvent event) {
 
         return; 
     }
+   
+    if (activeMenu == this){
+        if(arrowPosition == RETURN_POS) {
+            requestScreenSaver = true;
+            return;
+        }
 
-    if(arrowPosition == RETURN_POS)
-    {
-        requestScreenSaver = true;
-    }
-    else if (activeMenu == this){
         changeCurrentlyActiveMenu(static_cast<MENU_OPTIONS>(arrowPosition));
         activeMenu->showMenu();
     }
     else {
+        event.position = arrowPosition;
         activeMenu->handlePressEvent(event);
     }
 }

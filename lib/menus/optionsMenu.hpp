@@ -8,7 +8,6 @@
 #include<memory>
 
 #define SUBMENUS_NUM 2
-#define RETURN_POS 3
 
 enum MENU_OPTIONS {
     MAIN_MENU,
