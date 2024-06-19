@@ -32,7 +32,8 @@ class BioTempMQTTClient {
     private:
         const char *topic = "test"; // MQTT topic to publish messages
 
-        MQTTClient mqtt = MQTTClient(USERNAME, PASSWORD, root_ca, BROKER_URL, PORT);
+        MQTTClient mqtt = MQTTClient(BROKER_URL, PORT);
+        //MQTTClient mqtt = MQTTClient(USERNAME, PASSWORD, root_ca, BROKER_URL, PORT);
 };
 
 #endif  // _INCLUDE_BIOTEMPMQTTCLIENT_HPP_

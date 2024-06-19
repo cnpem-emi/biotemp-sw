@@ -6,20 +6,20 @@
 
 InputController encoder;
 extern GraphicalViewHandler handler;
+BioTempMQTTClient mqtt;
 
 void setup() {
-  //TempHandler temp_handler; 
-  Serial.begin(9600);
+  Serial.begin(115200);
   handler.config(); // config display before using it
   handler.splashScreen(cnpemLogo); 
   handler.splashScreen(LNBioLogo);
   encoder.config(MAX_ENCODER_POSITION);
   configTimer(INTERRUPT_TIME_S);
   handler.showScreenSaver();
+  mqtt.mqttConfig();
 }
 
 void loop() {
-  //handler.showScreenSaver();
-  //handler.showOptionsMenu();
   handler.mainLoop();
+  mqtt.publish("test", "Hi");
 }
