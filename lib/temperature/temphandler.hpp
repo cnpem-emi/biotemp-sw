@@ -9,8 +9,10 @@
 
 //Change this if want to add more sensors
 #define PT100_ID "PT100"
-#define NTC_PIN 1
-#define NTC_ID "NTC1"
+#define NTC_PIN_1 1
+#define NTC_PIN_2 2
+#define NTC_ID_1 "NTC1"
+#define NTC_ID_2 "NTC2"
 
 class TempHandler {
     public:

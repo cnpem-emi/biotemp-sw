@@ -9,7 +9,7 @@ extern GraphicalViewHandler handler;
 BioTempMQTTClient mqtt;
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(9600);
   handler.config(); // config display before using it
   handler.splashScreen(cnpemLogo); 
   handler.splashScreen(LNBioLogo);
@@ -17,9 +17,11 @@ void setup() {
   configTimer(INTERRUPT_TIME_S);
   handler.showScreenSaver();
   mqtt.mqttConfig();
+  mqtt.publishConfig();
 }
 
 void loop() {
   handler.mainLoop();
-  mqtt.publish("test", "Hi");
+  //mqtt.publish("test", "Hi");
+  mqtt.publishTemp();
 }

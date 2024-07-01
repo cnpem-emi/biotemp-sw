@@ -3,6 +3,7 @@
 
 #include <mqttClient.hpp>
 #include <secrets.h>
+#include "biotempJSON.hpp"
 
 /**************************************************************/
 /*!
@@ -19,6 +20,9 @@ class BioTempMQTTClient {
     */
     /**************************************************************/
         void publish(const char* topic, String message);
+        
+        void publishConfig();
+        void publishTemp();
 
         // Configures the MQTT module in the BioTemp context.
         void mqttConfig();
@@ -30,7 +34,8 @@ class BioTempMQTTClient {
         String getMAC();
 
     private:
-        const char *topic = "test"; // MQTT topic to publish messages
+        //const char *topic = "test";
+        String topic = "biotemp_"; // MQTT topic to publish messages
 
         MQTTClient mqtt = MQTTClient(BROKER_URL, PORT);
         //MQTTClient mqtt = MQTTClient(USERNAME, PASSWORD, root_ca, BROKER_URL, PORT);
