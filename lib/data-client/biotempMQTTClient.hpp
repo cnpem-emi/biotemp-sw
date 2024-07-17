@@ -35,7 +35,9 @@ class BioTempMQTTClient {
 
     private:
         //const char *topic = "test";
-        String topic = "biotemp_"; // MQTT topic to publish messages
+        String topic = "biotemp/biotemp_"; // MQTT topic to publish messages
+
+        String stateTopic;
 
         MQTTClient mqtt = MQTTClient(BROKER_URL, PORT);
         //MQTTClient mqtt = MQTTClient(USERNAME, PASSWORD, root_ca, BROKER_URL, PORT);

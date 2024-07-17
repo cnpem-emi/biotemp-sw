@@ -10,23 +10,26 @@ void BioTempMQTTClient::publish(const char* topic, String message) {
     mqtt.publishMessage(topic, message, false);
 }
 
+//na aplicação final, geralmente as inscrições e publicações devem usar o nome completo do tópico,
+//tipo biotemp/biotemp_8065994B310A/state ou biotemp/biotemp_8065994B310A/config
 void BioTempMQTTClient::publishConfig() {
+    String configTopic;
     topic += getMAC();
-    mqtt.publishMessage(topic.c_str(), json.configPublisher(), false);
+    configTopic = topic + "/config";
+    stateTopic = topic + "/state";
+    mqtt.publishMessage(configTopic.c_str(), json.configPublisher(), false);
 }
 
 void BioTempMQTTClient::publishTemp () {
-    //topic += getMAC();
-    mqtt.publishMessage(topic.c_str(), json.mqttPusblisher(), false);
+    mqtt.publishMessage(stateTopic.c_str(), json.mqttPusblisher(), false);
 }
-
 
 String BioTempMQTTClient::getIP() {
     return mqtt.getIP();
 }
 
 String BioTempMQTTClient::getMAC() {
-    // ENCONTRAR AGLUMA FUNÇÃO QUE RETIRE OS PONTOS DO ENREÇO MAC
-    // "A0:B7:65:DD:89:3C" -> "A0B765DD893C"
-    return mqtt.getMAC();
+    String mac = mqtt.getMAC();
+    mac.replace(":", "");
+    return mac;
 }

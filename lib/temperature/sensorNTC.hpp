@@ -4,8 +4,8 @@
 #include "temperatureSensorBase.hpp"
 #include <Arduino.h>
 
-#define ADC1_PIN 35 // Default ESP32 S2 pin: GPIO3
-#define ADC2_PIN 34 // Default ESP32 S2 pin: GPIO2
+#define ADC1_PIN 3 // Default ESP32 WROOM pin: 35
+#define ADC2_PIN 2 // Default ESP32 WROOM pin: 34
 #define BETA_COEFF 3935 // NTC beta coefficient at 25/50
 #define T_0 298.15 // NTC reference temperature: 25°C 
 #define R_0 10000 // NTC reference resistance: R(T_0)
