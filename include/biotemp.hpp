@@ -5,5 +5,7 @@
 #include "InputController.hpp"
 #include "splashScreen.hpp"
 #include "biotempMQTTClient.hpp"
+#include "buzzer.hpp"
+#include "LED.hpp"
 
 #endif
