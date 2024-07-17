@@ -14,14 +14,38 @@
 #define NTC_ID_1 "NTC1"
 #define NTC_ID_2 "NTC2"
 
+enum OperationModes {Freezer, UltraFreezer,  Refrigerator, Ambient}; 
+
+typedef std::map<std::string, std::shared_ptr<TemperatureSensorBase>> SensorMap;
+
 class TempHandler {
     public:
-        TempHandler();
+        void addPT100Sensor(const std::string& sensor_id);
+        void addNTCSensor(const std::string& sensor_id, const int sensor_pin); 
         
         // @TODO do this with enums or something
-        std::map<std::string, std::unique_ptr<TemperatureSensorBase>> available_sensors;
+        SensorMap available_sensors;
 
         float getTemperature(const std::string& sensor_id);
+
+        bool isThresholdTrespassed = false;
+
+        void setOperationMode(OperationModes mode) {operation_mode = mode; threshold= mode2Threshold[mode];};
+
+        std::map<OperationModes, float> mode2Threshold = {{ Freezer,    -20.0},
+                                                          { UltraFreezer, -80},
+                                                          { Ambient,       25},
+                                                          { Refrigerator, 5.0}}; 
+
+        float threshold = mode2Threshold[operation_mode];  
+
+        void checkThreshold();
+
+      
+
+    private: 
+        bool isAnySensorConfig = false;
+        OperationModes operation_mode = Ambient;
 };
 
 #endif  //TEMPHANDLER_HPP_

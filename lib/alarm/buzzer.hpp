@@ -3,6 +3,7 @@
 
 #include "sensorNTC.hpp"
 #include "LED.hpp"
+#include "temphandler.hpp"
 
 #define buzzerPin 15
 #define pwmChannel 0
@@ -12,14 +13,15 @@
 class Buzzer
 {
     public:
+        Buzzer(TempHandler& temp_handler) : temperature_handler{temp_handler} {}
+
         void alarm();
         void buzzerConfig();
         void buzzerON();
     
     private:
-        SensorNTC sensor1 = SensorNTC(1);
+        TempHandler temperature_handler;
         LED led;
-         
 
 };
 

@@ -1,7 +1,5 @@
 #include <biotempMQTTClient.hpp>
 
-BiotempJson json;
-
 void BioTempMQTTClient::mqttConfig() {
     mqtt.config(WIFI_SSID, WIFI_PASSWORD);
 }
@@ -17,11 +15,11 @@ void BioTempMQTTClient::publishConfig() {
     topic += getMAC();
     configTopic = topic + "/config";
     stateTopic = topic + "/state";
-    mqtt.publishMessage(configTopic.c_str(), json.configPublisher(), false);
+    mqtt.publishMessage(configTopic.c_str(), jsonHandler.configPublisher(), false);
 }
 
 void BioTempMQTTClient::publishTemp () {
-    mqtt.publishMessage(stateTopic.c_str(), json.mqttPusblisher(), false);
+    mqtt.publishMessage(stateTopic.c_str(), jsonHandler.mqttGeneratePacket(), false);
 }
 
 String BioTempMQTTClient::getIP() {

@@ -7,6 +7,7 @@
 #include "infoMenu.hpp"
 #include "splashScreen.hpp"
 #include "sensorNTC.hpp"
+#include "temphandler.hpp"
 //#include "eventTimer.hpp"
 #include <esp32-hal-timer.h>
 
@@ -31,7 +32,7 @@ class GraphicalViewHandler {
         void handlePressEvent(ButtonPressEvent event);
 
         // Dipslay configuration abstraction.
-        void config();
+        void config(TempHandler& tempHandler);
 
         void splashScreen(const unsigned char Logo[]);
 
@@ -42,12 +43,14 @@ class GraphicalViewHandler {
 
         void mainLoop();
 
+        void addTempHandler(TempHandler& temperatureHandler){ tempHandler = temperatureHandler;};
+
     private:
         DisplayController oled;
         TempMenu temp = TempMenu(oled);
         InfoMenu info = InfoMenu(oled);
         OptionsMenu mainMenu = OptionsMenu(oled);
-        SensorNTC sensor1 = SensorNTC(1);
+        TempHandler tempHandler;
     };
 
     

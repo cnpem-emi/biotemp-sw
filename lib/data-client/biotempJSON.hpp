@@ -15,11 +15,14 @@ class BiotempJson {
     public:
         // Gets the temperature from the sensor
         String configPublisher();
-        String mqttPusblisher();
+        String mqttGeneratePacket();
+
+        BiotempJson(TempHandler& temp_handler): temperature_handler{temp_handler}{}
 
     private:
         JsonDocument configDoc;
         JsonDocument mqttDoc;
+        TempHandler temperature_handler;
 };
 
 

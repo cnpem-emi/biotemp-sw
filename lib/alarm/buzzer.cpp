@@ -2,23 +2,10 @@
 #include <Arduino.h>
 
 void Buzzer::alarm(){
-    if(mode == geladeira && sensor1.getTemperature() > 10) {
+    if(temperature_handler.isThresholdTrespassed){
         buzzerON();
         led.ledON();
     }
-    if(mode == freezer && sensor1.getTemperature() > -10) {
-        buzzerON();
-        led.ledON();
-    }
-    if(mode == ultraFreezer && sensor1.getTemperature() > -60) {
-        buzzerON();
-        led.ledON();
-    }
-    if(mode == ambiente && sensor1.getTemperature() > 28) {
-        buzzerON();
-        led.ledON();
-    }
-
 }
 
 void Buzzer::buzzerON(){

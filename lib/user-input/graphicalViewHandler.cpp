@@ -23,9 +23,9 @@ void GraphicalViewHandler::handlePressEvent(ButtonPressEvent event) {
     event.pressed = false;
 }
 
-void GraphicalViewHandler::config() {
+void GraphicalViewHandler::config(TempHandler& tempHandler) {
     oled.displayConfig();
-
+    addTempHandler(tempHandler);
 }
 
 void GraphicalViewHandler::splashScreen(const unsigned char Logo[]){
@@ -36,22 +36,23 @@ void GraphicalViewHandler::splashScreen(const unsigned char Logo[]){
 
 void GraphicalViewHandler::showScreenSaver(){
     oled.clearDisplay();
-    oled.showMenuTitle("BioTemp");
-    float temp = sensor1.getTemperature();
-    oled.displayText(sensor1.getSensorID(), 1, false);
-    oled.displayText(": ", 1, false);
-    oled.displayText(temp, 1, false);
-    oled.displayText("oC", 1, false);
+    updateScreenSaver(); 
 }
 
 void GraphicalViewHandler::updateScreenSaver() {
-    oled.clearDisplay();
     oled.showMenuTitle("BioTemp");
-    float temp = sensor1.getTemperature();
-    oled.displayText(sensor1.getSensorID(), 1, false);
-    oled.displayText(": ", 1, false);
-    oled.displayText(temp, 1, false);
-    oled.displayText("oC", 1, false);
+    SensorMap::iterator it = tempHandler.available_sensors.begin();
+
+    while (it != tempHandler.available_sensors.end()){
+        auto sensor = it->second; 
+        float temp = sensor->getTemperature();
+        std::string id = sensor->getSensorID(); 
+
+        oled.displayText(id,   1, false);
+        oled.displayText(": ", 1, false);
+        oled.displayText(temp, 1, false);
+        oled.displayText("oC", 1, false);
+    }
 }
 
 void GraphicalViewHandler::mainLoop(){

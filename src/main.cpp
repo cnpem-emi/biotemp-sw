@@ -6,11 +6,15 @@
 
 InputController encoder;
 extern GraphicalViewHandler handler;
-BioTempMQTTClient mqtt;
+TempHandler temperature_handler;
+BioTempMQTTClient mqtt{temperature_handler};
 
 void setup() {
   Serial.begin(9600);
-  handler.config(); // config display before using it
+  handler.config(temperature_handler); // config display before using it
+
+  temperature_handler.addNTCSensor(NTC_ID_1, NTC_PIN_1);
+
   handler.splashScreen(cnpemLogo); 
   handler.splashScreen(LNBioLogo);
   encoder.config(MAX_ENCODER_POSITION);
@@ -22,7 +26,7 @@ void setup() {
 
 void loop() {
   handler.mainLoop();
-  //mqtt.publish("test", "Hi");
+  temperature_handler.checkThreshold();
   mqtt.publishTemp();
 }
 

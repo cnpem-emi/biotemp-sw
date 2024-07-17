@@ -2,16 +2,26 @@
 #include "sensorPT100.hpp"
 #include "sensorNTC.hpp"
 
-using TempSensorPtr = std::unique_ptr<TemperatureSensorBase>;
+using TempSensorPtr = std::shared_ptr<TemperatureSensorBase>;
 
-TempHandler::TempHandler(){
-    // Don't do Dynamic allocation like this in small microcontrollers
-    available_sensors[PT100_ID] = TempSensorPtr(new SensorPT100(PT100_ID));
-    available_sensors[NTC_ID_1] =  TempSensorPtr(new SensorNTC(NTC_PIN_1));
-    available_sensors[NTC_ID_2] =  TempSensorPtr(new SensorNTC(NTC_PIN_2));
+
+void TempHandler::addPT100Sensor(const std::string& sensor_id) {
+    available_sensors[sensor_id] = TempSensorPtr(new SensorPT100(sensor_id));
 }
 
+void TempHandler::addNTCSensor(const std::string& sensor_id, const int sensor_pin){
+    available_sensors[sensor_id] =  TempSensorPtr(new SensorNTC(sensor_pin));
+}
 
 float TempHandler::getTemperature(const std::string& sensor_id){
     return available_sensors[sensor_id]->getTemperature();
+}
+
+void TempHandler::checkThreshold(){
+    SensorMap::iterator it = available_sensors.begin();
+    while (it != available_sensors.end()){
+        if((it->second)->getTemperature() > threshold){
+            isThresholdTrespassed = true;
+        }
+    }
 }
