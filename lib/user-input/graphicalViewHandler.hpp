@@ -43,14 +43,14 @@ class GraphicalViewHandler {
 
         void mainLoop();
 
-        void addTempHandler(TempHandler& temperatureHandler){ tempHandler = temperatureHandler;};
+        void addTempHandler(TempHandler& temperatureHandler){ tempHandler = &temperatureHandler;};
 
     private:
         DisplayController oled;
         TempMenu temp = TempMenu(oled);
         InfoMenu info = InfoMenu(oled);
         OptionsMenu mainMenu = OptionsMenu(oled);
-        TempHandler tempHandler;
+        TempHandler* tempHandler;
     };
 
     

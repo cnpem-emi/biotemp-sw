@@ -20,12 +20,12 @@ void setup() {
   encoder.config(MAX_ENCODER_POSITION);
   configTimer(INTERRUPT_TIME_S);
   handler.showScreenSaver();
-  mqtt.mqttConfig();
-  mqtt.publishConfig();
+  //mqtt.mqttConfig();
+  //mqtt.publishConfig();
 }
 
 void loop() {
   handler.mainLoop();
-  temperature_handler.checkThreshold();
-  mqtt.publishTemp();
+  //temperature_handler.checkThreshold();
+  //mqtt.publishTemp();
 }

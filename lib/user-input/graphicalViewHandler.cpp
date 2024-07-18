@@ -40,19 +40,24 @@ void GraphicalViewHandler::showScreenSaver(){
 }
 
 void GraphicalViewHandler::updateScreenSaver() {
+    oled.clearDisplay();
     oled.showMenuTitle("BioTemp");
-    SensorMap::iterator it = tempHandler.available_sensors.begin();
 
-    while (it != tempHandler.available_sensors.end()){
-        auto sensor = it->second; 
-        float temp = sensor->getTemperature();
-        std::string id = sensor->getSensorID(); 
-
-        oled.displayText(id,   1, false);
-        oled.displayText(": ", 1, false);
-        oled.displayText(temp, 1, false);
-        oled.displayText("oC", 1, false);
+    if(tempHandler->available_sensors.empty()) {
+        oled.displayText("Please Configure", 1, true);
+        oled.displayText("  Temperature Sensor", 2, false);
+        return;
     }
+
+    for ( auto it = tempHandler->available_sensors.begin();
+          it != tempHandler->available_sensors.end(); ++it) {
+
+        oled.displayText((it->first), 1, false);
+        oled.displayText(": ", 1, false);
+        oled.displayText((it->second)->getTemperature(), 2, false);
+        oled.displayText("oC", 1, false); 
+    }
+
 }
 
 void GraphicalViewHandler::mainLoop(){

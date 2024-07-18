@@ -41,10 +41,9 @@ class TempHandler {
 
         void checkThreshold();
 
-      
+        bool isAnySensorConfig = false;
 
     private: 
-        bool isAnySensorConfig = false;
         OperationModes operation_mode = Ambient;
 };
 

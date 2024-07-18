@@ -114,7 +114,7 @@ class DisplayController {
             @param size_y the final y coordenate.
         */
         /***************************************************************/
-        void eraseText(int x, int y, int size_x, int size_y); 
+        void eraseText(int x, int y, int size_x, int size_y);   
 };
 
 #endif  // _INCLUDE_DISPLAYCONTROLLER_HPP_
