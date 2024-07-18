@@ -7,6 +7,7 @@
 #include "InputEvent.hpp"
 
 #define FIRST_ITEM_POS 1
+#define SECOND_ITEM_POS 2
 #define RETURN_POS 3
 
 class MenuBase {

@@ -6,6 +6,7 @@
 #include <memory>
 
 #include "temperatureSensorBase.hpp"
+#include "modes-and-layouts.hpp"
 
 //Change this if want to add more sensors
 #define PT100_ID "PT100"
@@ -13,8 +14,6 @@
 #define NTC_PIN_2 2
 #define NTC_ID_1 "NTC1"
 #define NTC_ID_2 "NTC2"
-
-enum OperationModes {Freezer, UltraFreezer,  Refrigerator, Ambient}; 
 
 typedef std::map<std::string, std::shared_ptr<TemperatureSensorBase>> SensorMap;
 
@@ -32,10 +31,10 @@ class TempHandler {
 
         void setOperationMode(OperationModes mode) {operation_mode = mode; threshold= mode2Threshold[mode];};
 
-        std::map<OperationModes, float> mode2Threshold = {{ Freezer,    -20.0},
-                                                          { UltraFreezer, -80},
-                                                          { Ambient,       25},
-                                                          { Refrigerator, 5.0}}; 
+        std::map<OperationModes, float> mode2Threshold = {{ FREEZER_MODE,    -20.0},
+                                                          { ULTRAFREEZER_MODE, -80},
+                                                          { AMBIENT_MODE,       25},
+                                                          { REFRIGERATOR_MODE, 5.0}}; 
 
         float threshold = mode2Threshold[operation_mode];  
 
@@ -44,7 +43,7 @@ class TempHandler {
         bool isAnySensorConfig = false;
 
     private: 
-        OperationModes operation_mode = Ambient;
+        OperationModes operation_mode = AMBIENT_MODE;
 };
 
 #endif  //TEMPHANDLER_HPP_

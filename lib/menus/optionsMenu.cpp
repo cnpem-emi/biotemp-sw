@@ -1,7 +1,8 @@
 #include "optionsMenu.hpp"
 
-OptionsMenu::OptionsMenu (DisplayController display_controller):
- temp_menu(display_controller), info_menu(display_controller) {
+OptionsMenu::OptionsMenu(DisplayController display_controller, TempMenu& tempMenu,
+                          InfoMenu& infoMenu):
+ temp_menu{tempMenu}, info_menu{infoMenu} {
     //isCurrentlyActiveMenu = true;
 
     activeMenu = this;

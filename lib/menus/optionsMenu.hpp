@@ -27,7 +27,7 @@ class OptionsMenu : public MenuBase{
         int id; // Main menu id.
         bool requestScreenSaver = false;
 
-        OptionsMenu(DisplayController display_controller);
+        OptionsMenu(DisplayController display_controller, TempMenu& tempMenu, InfoMenu& infoMenu);
         
         bool isScreenSaverOn = true; // True if this menu is shown on the screen, false otherwise.
         
@@ -44,8 +44,8 @@ class OptionsMenu : public MenuBase{
         String menuName = "BioTemp";  // Title of this menu show on screen.
 
         // Menu instances
-        TempMenu temp_menu;
-        InfoMenu info_menu;
+        TempMenu& temp_menu;
+        InfoMenu& info_menu;
 
         void changeCurrentlyActiveMenu(MENU_OPTIONS id);
         MenuBase* activeMenu;

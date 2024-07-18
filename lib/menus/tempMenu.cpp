@@ -1,13 +1,22 @@
 #include "tempMenu.hpp"
 
-TempMenu::TempMenu(DisplayController display_controller){
+TempMenu::TempMenu(DisplayController display_controller, TempHandler *temperatureHandler){
     disp = &display_controller;
+    tempHandler = temperatureHandler;
 }
 
 void TempMenu::showMenu() {
     disp->clearDisplay();
     disp->showMenuTitle(menuName);
-    disp->createMenu(itemsList[0], itemsList[1]);
+
+    std::string modeDisplay = "Mode: ";
+    modeDisplay = modeDisplay + MODES_DISPLAY_STR[currentMode];
+
+    std::string sensorLayoutDisplay = "Layout: ";
+    sensorLayoutDisplay = sensorLayoutDisplay + SENSOR_LAYOUTS_STR[currentLayout];
+
+    disp->createMenu(modeDisplay, sensorLayoutDisplay);
+
     // Draw arrow at the beginning
     disp->eraseArrow();
     disp->drawArrow(FIRST_ITEM_POS-1);
@@ -28,15 +37,30 @@ void TempMenu::handleKnobEvent(KnobEvent event) {
 }
 
 void TempMenu::handlePressEvent(ButtonPressEvent event) {
-    if(event.position == RETURN_POS) {
-        returnMenu->showMenu();
+
+    switch (event.position)
+    {
+        case  RETURN_POS:
+            returnMenu->showMenu();
+            break;
+        case FIRST_ITEM_POS:
+            setMode((OperationModes) (((int) currentMode+1) % MODES_NUM));
+            showMenu();
+            break;
+        case SECOND_ITEM_POS:
+            setSensorLayout((SensorLayouts) (((int) currentLayout + 1) % SENSOR_LAYOUTS_NUM));
+            showMenu();
+            disp->eraseArrow();
+            disp->drawArrow(SECOND_ITEM_POS-1);
+            break;
     }
 }
+void TempMenu::setSensorLayout(SensorLayouts sensorLayout){
+    currentLayout = sensorLayout;
+}
 
-void TempMenu::setMode(Modes mode) {
+void TempMenu::setMode(OperationModes mode) {
     currentMode = mode;
+    //tempHandler->setOperationMode(mode);
 }
 
-void TempMenu::setThreshold(float new_threshold) {
-    currentThreshold = new_threshold;
-}
