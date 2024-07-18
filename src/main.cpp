@@ -29,6 +29,3 @@ void loop() {
   temperature_handler.checkThreshold();
   mqtt.publishTemp();
 }
-
-
-
