@@ -47,7 +47,7 @@ class GraphicalViewHandler {
 
     private:
         DisplayController oled;
-        InfoMenu info = InfoMenu(oled);
+        InfoMenu info = InfoMenu(oled, tempHandler);
         TempMenu temp = TempMenu(oled, tempHandler);
         OptionsMenu mainMenu = OptionsMenu(oled, temp, info);
         TempHandler* tempHandler;

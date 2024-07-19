@@ -47,13 +47,13 @@ class TempHandler {
         void checkThreshold();
 
         bool isAnySensorConfig = false;
+        Buzzer buzzer; 
 
     private: 
         void clearSensorMap();
         OperationModes operation_mode = AMBIENT_MODE;
         SensorLayouts currentLayout = NONE; 
 
-        Buzzer buzzer; 
         LED led;
 
 };

@@ -7,6 +7,8 @@ void Buzzer:: buzzerConfig(){
 }
 
 void Buzzer:: buzzerON() {
+  if(!isEnabled) {return;};
+
   if (buzzerState == HIGH)
   {
     if ((millis() - rememberTime) >= ON_BUZZER_DURATION) {
@@ -29,4 +31,11 @@ void Buzzer:: buzzerON() {
 void Buzzer::buzzerOFF(){
   digitalWrite(BUZZER_PIN, LOW);
   ledcWrite(BUZZER_PWM_CHANNEL, 0);
+}
+
+void Buzzer::toggle( bool enable){
+  isEnabled = enable;
+  if(!enable){
+    buzzerOFF();
+  }
 }

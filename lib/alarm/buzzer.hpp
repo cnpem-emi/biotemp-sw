@@ -17,6 +17,8 @@ class Buzzer
         void buzzerConfig();
         void buzzerON();
         void buzzerOFF();
+        void toggle(bool enable);
+        bool isEnabled = true;
     
     private:
         int buzzerState = HIGH;
