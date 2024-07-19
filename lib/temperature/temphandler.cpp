@@ -20,10 +20,20 @@ float TempHandler::getTemperature(const std::string& sensor_id){
 }
 
 void TempHandler::checkThreshold(){
-    SensorMap::iterator it = available_sensors.begin();
-    while (it != available_sensors.end()){
+    uint8_t triggered_count = 0;
+    for ( auto it = available_sensors.begin(); it != available_sensors.end(); ++it) {
         if((it->second)->getTemperature() > threshold){
             isThresholdTrespassed = true;
+            
+            triggered_count++;
+
+            buzzer.buzzerON();
+            led.ledON();
         }
+    }
+
+    if(triggered_count == 0) {
+        buzzer.buzzerOFF();
+        isThresholdTrespassed = false;
     }
 }

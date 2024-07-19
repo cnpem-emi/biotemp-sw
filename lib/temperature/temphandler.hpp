@@ -7,6 +7,8 @@
 
 #include "temperatureSensorBase.hpp"
 #include "modes-and-layouts.hpp"
+#include "buzzer.hpp"
+#include "LED.hpp"
 
 //Change this if want to add more sensors
 #define PT100_ID "PT100"
@@ -19,6 +21,9 @@ typedef std::map<std::string, std::shared_ptr<TemperatureSensorBase>> SensorMap;
 
 class TempHandler {
     public:
+
+        TempHandler(){buzzer.buzzerConfig(); led.ledConfig();};
+
         void addPT100Sensor(const std::string& sensor_id);
         void addNTCSensor(const std::string& sensor_id, const int sensor_pin); 
         
@@ -32,11 +37,11 @@ class TempHandler {
         void setOperationMode(OperationModes mode) {operation_mode = mode; threshold= mode2Threshold[mode];};
 
         std::map<OperationModes, float> mode2Threshold = {{ FREEZER_MODE,    -20.0},
-                                                          { ULTRAFREEZER_MODE, -80},
-                                                          { AMBIENT_MODE,       25},
+                                                          { ULTRAFREEZER_MODE, -80.0},
+                                                          { AMBIENT_MODE,       25.0},
                                                           { REFRIGERATOR_MODE, 5.0}}; 
 
-        float threshold = mode2Threshold[operation_mode];  
+        float threshold = mode2Threshold[AMBIENT_MODE];  
 
         void checkThreshold();
 
@@ -44,6 +49,10 @@ class TempHandler {
 
     private: 
         OperationModes operation_mode = AMBIENT_MODE;
+
+        Buzzer buzzer; 
+        LED led;
+
 };
 
 #endif  //TEMPHANDLER_HPP_

@@ -54,10 +54,16 @@ void GraphicalViewHandler::updateScreenSaver() {
 
         oled.displayText((it->first), 1, false);
         oled.displayText(": ", 1, false);
-        oled.displayText((it->second)->getTemperature(), 2, false);
-        oled.displayText("oC", 1, false); 
+        oled.displayText((it->second)->getTemperature(), 1, false);
+        oled.displayText("oC", 1, true); 
     }
 
+    if(!tempHandler->isThresholdTrespassed){
+        oled.displayText("Temperature OK", 3, false);     
+    }
+    else {
+        oled.displayText("Sensors Triggered", 3, false);     
+    }
 }
 
 void GraphicalViewHandler::mainLoop(){

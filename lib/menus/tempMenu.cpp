@@ -1,8 +1,8 @@
 #include "tempMenu.hpp"
 
-TempMenu::TempMenu(DisplayController display_controller, TempHandler *temperatureHandler){
+TempMenu::TempMenu(DisplayController display_controller, TempHandler* &temperatureHandler) 
+    : tempHandler{temperatureHandler}{
     disp = &display_controller;
-    tempHandler = temperatureHandler;
 }
 
 void TempMenu::showMenu() {
@@ -61,6 +61,6 @@ void TempMenu::setSensorLayout(SensorLayouts sensorLayout){
 
 void TempMenu::setMode(OperationModes mode) {
     currentMode = mode;
-    //tempHandler->setOperationMode(mode);
+    tempHandler->setOperationMode(mode);
 }
 

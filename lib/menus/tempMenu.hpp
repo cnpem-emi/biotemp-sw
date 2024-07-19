@@ -32,7 +32,7 @@ class TempMenu : public MenuBase {
         int id = 0;
         String menuName = "TempMenu"; // Menu title shown on screen. 
 
-        TempMenu(DisplayController display_controller, TempHandler* tempHandler);
+        TempMenu(DisplayController display_controller, TempHandler* &tempHandler);
 
         /******************************************************/
         /*!
@@ -75,7 +75,7 @@ class TempMenu : public MenuBase {
         /*****************************************************/
         void setMode(OperationModes mode);
         void setSensorLayout(SensorLayouts sensorLayout);
-        TempHandler* tempHandler;
+        TempHandler* &tempHandler;
 
 };
 

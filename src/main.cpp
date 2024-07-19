@@ -26,6 +26,6 @@ void setup() {
 
 void loop() {
   handler.mainLoop();
-  //temperature_handler.checkThreshold();
+  temperature_handler.checkThreshold();
   //mqtt.publishTemp();
 }

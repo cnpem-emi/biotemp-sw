@@ -1,36 +1,32 @@
 #include "buzzer.hpp"
 #include <Arduino.h>
 
-
-
-void Buzzer::alarm(){
-    if(temperature_handler.isThresholdTrespassed){
-        buzzerON();
-        led.ledON();
-    }
-}
-
 void Buzzer:: buzzerConfig(){ 
-    ledcSetup(pwmChannel, frequency, resolution);
-    ledcAttachPin(buzzerPin, pwmChannel);
+    ledcSetup(BUZZER_PWM_CHANNEL, BUZZER_FREQUENCY, BUZZER_PWM_RESOLUTION);
+    ledcAttachPin(BUZZER_PIN, BUZZER_PWM_CHANNEL);
 }
 
 void Buzzer:: buzzerON() {
   if (buzzerState == HIGH)
   {
-    if ((millis() - rememberTime) >= onBuzzerDuration) {
+    if ((millis() - rememberTime) >= ON_BUZZER_DURATION) {
       buzzerState = LOW; // Altera o estado do buzzer
       rememberTime = millis(); // Atualiza o tempo atual
-      ledcWrite(pwmChannel, 128); // Valor entre 0 e 255 (metade da resolução)
+      ledcWrite(BUZZER_PWM_CHANNEL, 128); // Valor entre 0 e 255 (metade da resolução)
     }
   } 
   else 
   {
-    if ((millis() - rememberTime) >= offBuzzerDuration) {
+    if ((millis() - rememberTime) >= OFF_BUZZER_DURATION) {
       buzzerState = HIGH; // Altera o estado do buzzer
       rememberTime = millis(); // Atualiza o tempo atual
-      ledcWrite(pwmChannel, 0);
+      ledcWrite(BUZZER_PWM_CHANNEL, 0);
     }
   }
-  digitalWrite(buzzerPin, buzzerState);
+  digitalWrite(BUZZER_PIN, buzzerState);
+}
+
+void Buzzer::buzzerOFF(){
+  digitalWrite(BUZZER_PIN, LOW);
+  ledcWrite(BUZZER_PWM_CHANNEL, 0);
 }
