@@ -13,6 +13,7 @@ class LED
 public:
     void ledConfig();
     void ledON();
+    void ledOFF();
 private:
     int ledState = HIGH;
     long rememberTime = 0;

@@ -7,12 +7,35 @@ using TempSensorPtr = std::shared_ptr<TemperatureSensorBase>;
 
 void TempHandler::addPT100Sensor(const std::string& sensor_id) {
     available_sensors[sensor_id] = TempSensorPtr(new SensorPT100(sensor_id));
+    available_sensors[sensor_id]->enableSensor();
     isAnySensorConfig = true;
 }
 
 void TempHandler::addNTCSensor(const std::string& sensor_id, const int sensor_pin){
     available_sensors[sensor_id] =  TempSensorPtr(new SensorNTC(sensor_pin));
+    available_sensors[sensor_id]->enableSensor();
     isAnySensorConfig = true;
+}
+
+void TempHandler::clearSensorMap(){
+    available_sensors.clear();
+}
+
+void TempHandler::setSensorLayout(SensorLayouts sensorLayout) {
+    currentLayout = sensorLayout;
+    clearSensorMap();
+    switch(currentLayout) {
+        case NTC1:
+            addNTCSensor(NTC_ID_1, NTC_PIN_1);
+            break; 
+        case NTC2:
+            addNTCSensor(NTC_ID_1, NTC_PIN_1);
+            addNTCSensor(NTC_ID_2, NTC_PIN_2);
+            break;
+        case PT100:
+            addPT100Sensor(PT100_ID);
+            break;
+    }
 }
 
 float TempHandler::getTemperature(const std::string& sensor_id){
@@ -34,6 +57,7 @@ void TempHandler::checkThreshold(){
 
     if(triggered_count == 0) {
         buzzer.buzzerOFF();
+        led.ledOFF();
         isThresholdTrespassed = false;
     }
 }

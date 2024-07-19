@@ -35,6 +35,7 @@ class TempHandler {
         bool isThresholdTrespassed = false;
 
         void setOperationMode(OperationModes mode) {operation_mode = mode; threshold= mode2Threshold[mode];};
+        void setSensorLayout(SensorLayouts SensorLayout);
 
         std::map<OperationModes, float> mode2Threshold = {{ FREEZER_MODE,    -20.0},
                                                           { ULTRAFREEZER_MODE, -80.0},
@@ -48,7 +49,9 @@ class TempHandler {
         bool isAnySensorConfig = false;
 
     private: 
+        void clearSensorMap();
         OperationModes operation_mode = AMBIENT_MODE;
+        SensorLayouts currentLayout = NONE; 
 
         Buzzer buzzer; 
         LED led;

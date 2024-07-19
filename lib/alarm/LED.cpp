@@ -22,3 +22,7 @@ void LED::ledON() {
     }
     digitalWrite(ledPin, ledState);// turn the LED ON or OFF
 }
+
+void LED::ledOFF() {
+    digitalWrite(ledPin, LOW);
+}
