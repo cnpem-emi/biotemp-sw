@@ -18,6 +18,7 @@
 #define NTC_ID_2 "NTC2"
 
 typedef std::map<std::string, std::shared_ptr<TemperatureSensorBase>> SensorMap;
+typedef std::map<std::string, float> TempResults; 
 
 class TempHandler {
     public:
@@ -31,6 +32,7 @@ class TempHandler {
         SensorMap available_sensors;
 
         float getTemperature(const std::string& sensor_id);
+        TempResults getAllTemperatures();
 
         bool isThresholdTrespassed = false;
 

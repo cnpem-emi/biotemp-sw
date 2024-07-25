@@ -6,7 +6,7 @@
 #define WIFI_SSID "Devices" // Network SSID
 #define WIFI_PASSWORD NULL // Network password
 
-#define BROKER_URL "10.0.38.41"
+#define BROKER_URL "biotemp-lnbio.cnpem.br"
 #define PORT 1883
 
 #define USERNAME NULL

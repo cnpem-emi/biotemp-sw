@@ -42,6 +42,15 @@ float TempHandler::getTemperature(const std::string& sensor_id){
     return available_sensors[sensor_id]->getTemperature();
 }
 
+TempResults TempHandler::getAllTemperatures(){
+    TempResults tempResults;
+    for ( auto it = available_sensors.begin(); it != available_sensors.end(); ++it) {
+        tempResults[it->first] = (it->second)->getTemperature();
+    }
+    return tempResults;
+}
+
+
 void TempHandler::checkThreshold(){
     uint8_t triggered_count = 0;
     for ( auto it = available_sensors.begin(); it != available_sensors.end(); ++it) {

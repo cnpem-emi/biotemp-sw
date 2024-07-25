@@ -10,13 +10,11 @@ String BiotempJson::configPublisher() {
 
 String BiotempJson::mqttGeneratePacket() {
     //@TODO add correct sensor mode before temperature module integration 
-    mqttDoc["sensor_1_mode"] = "1";
-    mqttDoc["sensor_2_mode"] = "2";
-    mqttDoc["sensor_3_mode"] = "3";
+    TempResults tempResults = temperature_handler.getAllTemperatures();
     
-    mqttDoc["temp_1"] = temperature_handler.getTemperature(NTC_ID_1);
-    mqttDoc["temp_2"] = temperature_handler.getTemperature(NTC_ID_2);
-    mqttDoc["temp_3"] = temperature_handler.getTemperature(PT100_ID);
+    for ( auto it = tempResults.begin(); it != tempResults.end(); ++it) {
+        mqttDoc[it->first] = String((it->second));
+    }
 
    return mqttDoc.as<String>();
 }

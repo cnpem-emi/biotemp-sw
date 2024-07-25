@@ -22,7 +22,7 @@ class BiotempJson {
     private:
         JsonDocument configDoc;
         JsonDocument mqttDoc;
-        TempHandler temperature_handler;
+        TempHandler& temperature_handler;
 };
 
 
