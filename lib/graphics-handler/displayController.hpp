@@ -6,6 +6,8 @@
 #include <Adafruit_SSD1306.h>
 #include <vector>
 
+#include "debug-config.hpp"
+
 #define SCREEN_WIDTH 128 // OLED display width, in pixels
 #define SCREEN_HEIGHT 64 // OLED display height, in pixels
 #define OLED_RESET    -1 // Reset pin # (or -1 if sharing Arduino reset pin)
@@ -91,11 +93,6 @@ class DisplayController {
 
         //
         void showLogo(const unsigned char logo[]);
-
-        // TEST FUNCTIONS (PUSH BUTTONS)
-        void upButton();
-        void downButton();
-        void selectButton();
 
     private:
         int pixelLine = 0; // Number of pixels between lines

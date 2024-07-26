@@ -9,6 +9,7 @@
 #include "LED.hpp"
 #include "graphicalViewHandler.hpp"
 #include "eventTimer.hpp"
+#include "debug-config.hpp"
 
 #define MAX_ENCODER_POSITION 3
 #define INTERRUPT_TIME_S 5

@@ -5,6 +5,7 @@
 #include <PubSubClient.h>
 //#include <WiFiClientSecure.h>
 #include <WiFiClient.h>
+#include "debug-config.hpp"
 
 /**
  * @class WiFiConnection
