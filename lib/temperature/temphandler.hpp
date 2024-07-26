@@ -28,7 +28,6 @@ class TempHandler {
         void addPT100Sensor(const std::string& sensor_id);
         void addNTCSensor(const std::string& sensor_id, const int sensor_pin); 
         
-        // @TODO do this with enums or something
         SensorMap available_sensors;
 
         float getTemperature(const std::string& sensor_id);
@@ -51,11 +50,11 @@ class TempHandler {
         bool isAnySensorConfig = false;
         Buzzer buzzer; 
 
-    private: 
-        void clearSensorMap();
         OperationModes operation_mode = AMBIENT_MODE;
         SensorLayouts currentLayout = NONE; 
 
+    private: 
+        void clearSensorMap();
         LED led;
 
 };

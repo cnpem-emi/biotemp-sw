@@ -3,7 +3,7 @@
 
 #include "mqttClient.hpp"
 #include "secrets.h"
-#include "biotempJSON.hpp"
+#include "biotempDataJSON.hpp"
 
 /**************************************************************/
 /** 
@@ -12,7 +12,7 @@
 /**************************************************************/
 class BioTempMQTTClient {
     public:
-        BioTempMQTTClient(TempHandler& temp_handler): jsonHandler{BiotempJson(temp_handler)}{};
+        BioTempMQTTClient(TempHandler& temp_handler): jsonHandler{BiotempDataJson(temp_handler)}{};
     /**************************************************************/
     /** 
     *   @brief Publish a message to the specified topic.
@@ -41,7 +41,7 @@ class BioTempMQTTClient {
         String stateTopic;
 
         MQTTClient mqtt = MQTTClient(BROKER_URL, PORT);
-        BiotempJson jsonHandler; 
+        BiotempDataJson jsonHandler; 
 
         //MQTTClient mqtt = MQTTClient(USERNAME, PASSWORD, root_ca, BROKER_URL, PORT);
 };
