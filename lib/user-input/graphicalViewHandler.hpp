@@ -10,6 +10,7 @@
 #include "temphandler.hpp"
 //#include "eventTimer.hpp"
 #include <esp32-hal-timer.h>
+#include "biotempMQTTClient.hpp"
 
 /*********************************************************/
 /*!
@@ -32,7 +33,7 @@ class GraphicalViewHandler {
         void handlePressEvent(ButtonPressEvent event);
 
         // Dipslay configuration abstraction.
-        void config(TempHandler& tempHandler);
+        void config(TempHandler& tempHandler, BioTempMQTTClient& mqttClient);
 
         void splashScreen(const unsigned char Logo[]);
 
@@ -45,12 +46,15 @@ class GraphicalViewHandler {
 
         void addTempHandler(TempHandler& temperatureHandler){ tempHandler = &temperatureHandler;};
 
+        void addMQTTClient(BioTempMQTTClient& mqtt_client){mqttClient = &mqtt_client;};
+
     private:
         DisplayController oled;
-        InfoMenu info = InfoMenu(oled, tempHandler);
+        InfoMenu info = InfoMenu(oled, tempHandler, mqttClient);
         TempMenu temp = TempMenu(oled, tempHandler);
         OptionsMenu mainMenu = OptionsMenu(oled, temp, info);
         TempHandler* tempHandler;
+        BioTempMQTTClient* mqttClient;
     };
 
     

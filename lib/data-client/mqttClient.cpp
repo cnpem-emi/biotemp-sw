@@ -16,17 +16,6 @@ void MQTTClient::config(const char* wifi_ssid, const char* wifi_password) {
     
 }
 
-/*
-void MQTTClient::configMQTT(const char* certificate, const char* broker, const int port) {
-    espClient.setCACert(certificate);
-    MQTT.setServer(broker, port);
-    MQTT.setCallback(callback);
-    if(!MQTT.connected()) {
-        connect(username, password);
-    }
-}
-*/
-
 void MQTTClient::configMQTT(const char* broker, const int port) {
     MQTT.setServer(broker, port);
     MQTT.setCallback(callback);
@@ -66,24 +55,6 @@ void MQTTClient::publishMessage(const char* topic, String payload , boolean reta
         Serial.println("Message published ["+String(topic)+"]: "+payload);
 }
 
-/*
-void MQTTClient::connect(const char* user, const char* password) {
-    while(!MQTT.connected()) {
-    String client_id = "esp32-client-";
-    client_id += String(WiFi.macAddress());
-    Serial.printf("The client %s connects to MQTT broker\n", client_id.c_str());
-    if (MQTT.connect(client_id.c_str(), user, password)) {
-        Serial.println("Broker connected");
-        //MQTT.subscribe(topic); //Verificar necessidade
-    } else {
-        Serial.print("failed with state ");
-        Serial.print(MQTT.state());
-        delay(2000);
-        }
-    }
-}
-*/
-
 void MQTTClient::connect() {
     while(!MQTT.connected()) {
     String client_id = "esp32-client-";
@@ -100,24 +71,7 @@ void MQTTClient::connect() {
     }
 }
 
-/*
-MQTTClient::MQTTClient(const char* mqttUser, 
-        const char* mqttPass, 
-        const char* mqttCertificate, 
-        const char* mqttBroker, 
-        const int mqttPort) {
-
-    username = mqttUser;
-    password = mqttPass;
-    certificate = mqttCertificate;
-    broker = mqttBroker;
-    port = mqttPort;
-    espClient.setInsecure();
-}
-*/
-
 MQTTClient::MQTTClient(const char* mqttBroker, const int mqttPort) {
-
     broker = mqttBroker;
     port = mqttPort;
 }

@@ -4,7 +4,6 @@
 #include "mqttClient.hpp"
 #include "secrets.h"
 #include "biotempJSON.hpp"
-#include "global_instances.hpp"
 
 /**************************************************************/
 /*!

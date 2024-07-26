@@ -5,7 +5,6 @@
 #define PRESCALER 1000 // Scales down the APB clock (0 -> 65536)[16 bits]
 
 extern GraphicalViewHandler handler;
-extern BioTempMQTTClient mqtt;
 
 // Interrupt callback
 void IRAM_ATTR Timer0_ISR() {
@@ -14,8 +13,6 @@ void IRAM_ATTR Timer0_ISR() {
     } else {
         handler.screenSaverEventScheduled = true;
     }
-
-    mqtt.publishTemp();
 }
 
 /******************************************************************/
