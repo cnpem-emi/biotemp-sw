@@ -14,10 +14,30 @@
 class Buzzer
 {
     public:
+        /** 
+         *  Sets up the buzzer PWM channel and attaches it to a specific pin.
+         */
         void buzzerConfig();
+
+        /** 
+         * Controls the state of a buzzer based on specified durations and updates the
+         * buzzer state and LED brightness accordingly.
+         */
         void buzzerON();
+
+        /** 
+         *  Turns off a buzzer by setting the digital output pin to LOW and the PWM channel to 0.
+         */
         void buzzerOFF();
+
+        /** 
+         * Sets an enable flag based on the input parameter
+         * and turns off the buzzer if the input is false.
+         * 
+         * @param enable Disables or Enables toggling 
+         */ 
         void toggle(bool enable);
+
         bool isEnabled = true;
     
     private:
