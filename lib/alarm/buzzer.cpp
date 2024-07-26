@@ -2,7 +2,7 @@
 #include <Arduino.h>
 
 /** 
- * The `buzzerConfig` function sets up the buzzer PWM channel and attaches it to a specific pin.
+ *  Sets up the buzzer PWM channel and attaches it to a specific pin.
  */
 void Buzzer:: buzzerConfig(){ 
     ledcSetup(BUZZER_PWM_CHANNEL, BUZZER_FREQUENCY, BUZZER_PWM_RESOLUTION);
@@ -10,7 +10,7 @@ void Buzzer:: buzzerConfig(){
 }
 
 /** 
- * The function `buzzerON` controls the state of a buzzer based on specified durations and updates the
+ * Controls the state of a buzzer based on specified durations and updates the
  * buzzer state and LED brightness accordingly.
  *  
  */
@@ -37,7 +37,7 @@ void Buzzer:: buzzerON() {
 }
 
 /** 
- * The function turns off a buzzer by setting the digital output pin to LOW and the PWM channel to 0.
+ *  Turns off a buzzer by setting the digital output pin to LOW and the PWM channel to 0.
  */
 void Buzzer::buzzerOFF(){
   digitalWrite(BUZZER_PIN, LOW);
@@ -45,7 +45,7 @@ void Buzzer::buzzerOFF(){
 }
 
 /** 
- * The function `toggle` in the `Buzzer` class sets the `isEnabled` flag based on the input parameter
+ * Sets an enable flag based on the input parameter
  * and turns off the buzzer if the input is false.
  * 
  * @param enable Disables or Enables toggling 

@@ -8,8 +8,12 @@ String BiotempJson::configPublisher() {
     return configDoc.as<String>();
 }
 
+/**
+ * Generates a JSON packet containing temperature data for MQTT communication.
+ * 
+ * @return Returns a JSON string representation of the temperature data.
+ */
 String BiotempJson::mqttGeneratePacket() {
-    //@TODO add correct sensor mode before temperature module integration 
     TempResults tempResults = temperature_handler.getAllTemperatures();
     
     for ( auto it = tempResults.begin(); it != tempResults.end(); ++it) {
