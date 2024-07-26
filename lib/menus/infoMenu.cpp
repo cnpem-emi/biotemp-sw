@@ -46,7 +46,10 @@ void InfoMenu::handlePressEvent(ButtonPressEvent event) {
 
         case SECOND_ITEM_POS:
             optionValue = handleOptionValue(currentOption);
-            option2Value[currentOption] = optionValue;
+            
+            option2Value[currentOption] = 
+            (optionValue != "" )? option2Value[currentOption] : optionValue;
+
             showMenu();
             updateMenu(SECOND_ITEM_POS-1);
             break;
@@ -77,8 +80,12 @@ std::string InfoMenu::handleOptionValue(SettingsOptions option) {
             return !isBuzzerEnabled? "Buzzer On" : "Buzzer Off";
             break;
 
+        case MQTT_CONNECTION_HEALTH:
+            return mqttClient->isConnected()? "Connected" : "Not Connected";   
+            break;
+
         default:
-            return "Placeholder";
+            return "";
             break;
     }
 }

@@ -1,19 +1,35 @@
 #include <mqttClient.hpp>
 
-void MQTTClient::config(const char* wifi_ssid, const char* wifi_password) {
-    WiFi.mode(WIFI_STA);
-    WiFi.begin(wifi_ssid, wifi_password);
-
-    DEBUG(Serial.print("Conectando ao WiFi...");)
-
-    while(WiFi.status() != WL_CONNECTED) {
-        Serial.print(".");
-        delay(500);
-    }
-
-    //configMQTT(certificate, broker, port);
+void MQTTClient::config(const char* wifi_ssid, const char* wifi_password){
+    setWifiParams(wifi_ssid, wifi_password);
+    connectWifi();
     configMQTT(broker, port);
-    
+}
+
+void MQTTClient::setWifiParams(const char* wifi_ssid, const char* wifi_password) {
+    wifiSSID = wifi_ssid;
+    wifiPassword = wifi_password; 
+}
+
+void MQTTClient::connectWifi(){
+
+    if(wifiSSID != nullptr && wifiPassword != nullptr){
+        WiFi.mode(WIFI_STA);
+        WiFi.begin(wifiSSID, wifiPassword);
+
+        DEBUG(Serial.print("Conectando ao WiFi...");)
+        delay(CONNECTION_WAIT_TIME);
+
+        if(WiFi.status() != WL_CONNECTED) {
+            DEBUG(Serial.print("Was not able to connect to WIFI");)
+        }
+        else{
+            isConnected = true;
+        }
+    }
+    else{
+        DEBUG(Serial.print("Password and SSID incorrectly setted (or not setted)");) 
+    }
 }
 
 void MQTTClient::configMQTT(const char* broker, const int port) {
@@ -26,7 +42,7 @@ void MQTTClient::configMQTT(const char* broker, const int port) {
 
 
 void MQTTClient::mqttLoop() {
-    MQTT.loop();
+    if(isConnected){MQTT.loop();} else {connectWifi();}
 }
 
 String MQTTClient::getIP() {

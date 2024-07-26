@@ -7,6 +7,8 @@
 #include <WiFiClient.h>
 #include "debug-config.hpp"
 
+#define CONNECTION_WAIT_TIME 500
+
 /**
  * @class WiFiConnection
  * @brief Class for managing WiFi connections.
@@ -53,12 +55,13 @@ class MQTTClient {
         *   @param mqttPort MQTT connection port
         */
         /*************************************************************/
-        /*MQTTClient(const char* mqttUser, 
-            const char* mqttPass, 
-            const char* mqttCertificate, 
-            const char* mqttBroker, 
-            const int mqttPort);*/
         MQTTClient(const char* mqttBroker, const int mqttPort);
+        
+
+        void connectWifi();
+        void setWifiParams(const char* wifi_ssid, const char* wifi_password);
+
+        bool isConnected = false;
 
     private:
         String ip; // Device IP
@@ -69,6 +72,10 @@ class MQTTClient {
         const char* certificate;
         const char* broker;
         int port;
+
+        const char* wifiSSID;
+        const char* wifiPassword;
+
 
         //WiFiClientSecure espClient; // Instace of secure client, needs certificate
         WiFiClient espClient;

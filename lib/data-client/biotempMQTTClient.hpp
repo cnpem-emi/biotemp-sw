@@ -34,6 +34,8 @@ class BioTempMQTTClient {
         //Returns the device MAC address.
         String getMAC();
 
+        bool isConnected();
+
     private:
         //const char *topic = "test";
         String topic = "biotemp/biotemp_"; // MQTT topic to publish messages
