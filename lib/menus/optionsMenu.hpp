@@ -51,7 +51,6 @@ class OptionsMenu : public MenuBase{
         MenuBase* activeMenu;
 
         std::vector<std::string> menuNamesList; // List of submenu titles.
-        //std::vector<MenuBase*> menuList; // List of the submenus objects.
 
         // IO controller instances
         DisplayController* disp;
