@@ -6,7 +6,10 @@
 
 extern GraphicalViewHandler handler;
 
-// Interrupt callback
+/**! 
+ * @brief This interrupt callback does the screensaver refresh scheduling
+ *  for the graphical handler to actually refresh the screen.
+ */
 void IRAM_ATTR Timer0_ISR() {
     if (handler.userRecentlyInteracted == true) {
         handler.userRecentlyInteracted = false;
@@ -33,4 +36,4 @@ void configTimer(int t_out) {
     timerAlarmEnable(Timer0_Cfg);
 }
 
-#endif // _EVENTTIMER_HPP_
+#endif 

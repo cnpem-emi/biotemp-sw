@@ -29,4 +29,4 @@ class InputController{
         RotaryEncoder rotaryEncoder = RotaryEncoder(CLK_PIN, DT_PIN, SW_PIN);
 };
 
-#endif // _INCLUDE_INPUTCONTROLLER_HPP_
+#endif 

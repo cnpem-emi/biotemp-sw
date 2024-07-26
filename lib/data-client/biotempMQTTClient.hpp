@@ -6,7 +6,7 @@
 #include "biotempJSON.hpp"
 
 /**************************************************************/
-/*!
+/** 
 *   @brief BioTemp MQTT interface class.
 */
 /**************************************************************/
@@ -14,7 +14,7 @@ class BioTempMQTTClient {
     public:
         BioTempMQTTClient(TempHandler& temp_handler): jsonHandler{BiotempJson(temp_handler)}{};
     /**************************************************************/
-    /*!
+    /** 
     *   @brief Publish a message to the specified topic.
     *   @param topic The topic to publish a message.
     *   @param message The message to be published.

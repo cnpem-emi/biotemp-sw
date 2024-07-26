@@ -15,7 +15,7 @@
 #define SELECT_BUTTON_PIN 3 // Push button test select pin
 
 /***************************************************************/
-/*!
+/** 
     @brief SSD1306 display interface class. This module is a
     higher-level abstraction to the Adafruit_SSD1306.h library
     made to easily create interactive menus.

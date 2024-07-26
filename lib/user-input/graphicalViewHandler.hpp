@@ -8,9 +8,11 @@
 #include "splashScreen.hpp"
 #include "sensorNTC.hpp"
 #include "temphandler.hpp"
-//#include "eventTimer.hpp"
-#include <esp32-hal-timer.h>
 #include "biotempMQTTClient.hpp"
+
+#include <esp32-hal-timer.h>
+
+#define SPLASH_SCREEN_TIME 1000 // in milliseconds
 
 /*********************************************************/
 /*!
@@ -24,20 +26,16 @@ class GraphicalViewHandler {
         bool userRecentlyInteracted = false;
 
         bool screenSaverEventScheduled = false;
-        //bool inputEventScheduled = false;
 
-        // Shows the main menu.
         void showOptionsMenu();
 
         void handleKnobEvent(KnobEvent event);
         void handlePressEvent(ButtonPressEvent event);
 
-        // Dipslay configuration abstraction.
         void config(TempHandler& tempHandler, BioTempMQTTClient& mqttClient);
 
         void splashScreen(const unsigned char Logo[]);
 
-        // implementada apenas para teste visual
         void showScreenSaver();
 
         void updateScreenSaver();
@@ -57,6 +55,4 @@ class GraphicalViewHandler {
         BioTempMQTTClient* mqttClient;
     };
 
-    
-
-#endif // _INCLUDE_GRAPHICALVIEWHANDLER_HPP_
+#endif 
