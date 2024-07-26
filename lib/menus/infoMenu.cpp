@@ -84,6 +84,10 @@ std::string InfoMenu::handleOptionValue(SettingsOptions option) {
             return mqttClient->isConnected()? "Connected" : "Not Connected";   
             break;
 
+        case SENSOR_HEALTH:
+            return tempHandler->getSensorsHealth()? "Healthy" : "Not Healthy";
+            break;
+
         default:
             return "";
             break;
