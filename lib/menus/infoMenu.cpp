@@ -18,6 +18,13 @@ InfoMenu::InfoMenu(DisplayController display_controller,
 void InfoMenu::showMenu() {
     disp->clearDisplay();
     disp->showMenuTitle(menuName);
+
+    // Automatically checks sensor health or mqtt connection health without need
+    // to click in it
+    if(currentOption == SENSOR_HEALTH || currentOption == MQTT_CONNECTION_HEALTH){
+        optionValue = handleOptionValue(currentOption);
+    }
+
     disp->createMenu(option2str[currentOption], optionValue);
 
     // Draw arrow at the beginning
@@ -47,13 +54,6 @@ void InfoMenu::handlePressEvent(ButtonPressEvent event) {
         case FIRST_ITEM_POS:
             currentOption = SettingsOptions (((int) currentOption + 1) % OPTIONS_NUM);
 
-            // Automatically checks sensor health or mqtt connection health without need
-            // to click in it
-            if(currentOption == SENSOR_HEALTH || currentOption == MQTT_CONNECTION_HEALTH){
-                optionValue = handleOptionValue(currentOption);
-                showMenu();
-                break;
-            }
 
             optionValue = option2Value[currentOption];
 
