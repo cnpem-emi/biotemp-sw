@@ -1,7 +1,17 @@
 #include "infoMenu.hpp"
 
-InfoMenu::InfoMenu(DisplayController display_controller, TempHandler* &temperatureHandler)
-          : tempHandler{temperatureHandler} {
+/*InfoMenu::InfoMenu(DisplayController display_controller, 
+                   TempHandler* &temperatureHandler, 
+                   BioTempMQTTClient* &mqttClient)
+                   : tempHandler{temperatureHandler}, mqttClient{mqttClient} {
+    disp = &display_controller;
+    // converts arduino strings to cpp string
+    macAddress = mqttClient->getMAC().c_str();
+}*/
+
+InfoMenu::InfoMenu(DisplayController display_controller, 
+                   TempHandler* &temperatureHandler) 
+                   : tempHandler{temperatureHandler} {
     disp = &display_controller;
 }
 
@@ -36,13 +46,26 @@ void InfoMenu::handlePressEvent(ButtonPressEvent event) {
     switch(event.position){   
         case FIRST_ITEM_POS:
             currentOption = SettingsOptions (((int) currentOption + 1) % OPTIONS_NUM);
+
+            // Automatically checks sensor health or mqtt connection health without need
+            // to click in it
+            if(currentOption == SENSOR_HEALTH || currentOption == MQTT_CONNECTION_HEALTH){
+                optionValue = handleOptionValue(currentOption);
+                showMenu();
+                break;
+            }
+
             optionValue = option2Value[currentOption];
+
             showMenu();
             break;
 
         case SECOND_ITEM_POS:
             optionValue = handleOptionValue(currentOption);
-            option2Value[currentOption] = optionValue;
+            
+            option2Value[currentOption] = 
+            (optionValue != "" )? option2Value[currentOption] : optionValue;
+
             showMenu();
             updateMenu(SECOND_ITEM_POS-1);
             break;
@@ -73,8 +96,17 @@ std::string InfoMenu::handleOptionValue(SettingsOptions option) {
             return !isBuzzerEnabled? "Buzzer On" : "Buzzer Off";
             break;
 
+        case MQTT_CONNECTION_HEALTH:
+            //return mqttClient->isConnected()? "Connected" : "Not Connected";   
+            return "Not Connected";
+            break;
+
+        case SENSOR_HEALTH:
+            return tempHandler->getSensorsHealth()? "Healthy" : "Not Healthy";
+            break;
+
         default:
-            return "Placeholder";
+            return "";
             break;
     }
 }

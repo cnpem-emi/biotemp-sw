@@ -56,6 +56,6 @@ std::string SensorNTC::getSensorID() {
 }
 
 bool SensorNTC::checkSensorHealth() {
-    return !(analogRead(sensor_pin) == ESP_ADC_MAX_VALUE);
+    return !(analogRead(sensor_pin) <=  NOT_HEALTHY_THRESHOLD);
 }
 

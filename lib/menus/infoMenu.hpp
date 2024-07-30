@@ -6,6 +6,7 @@
 #include "menuBase.hpp"
 #include "displayController.hpp"
 #include "temphandler.hpp"
+//#include "biotempMQTTClient.hpp"
 
 #define OPTIONS_NUM 4 // number of options
 typedef enum {
@@ -23,7 +24,13 @@ class InfoMenu : public MenuBase{
         int id;
         String menuName = "Settings";
 
-        InfoMenu(DisplayController display_controller, TempHandler* &temperatureHandler);
+        /*InfoMenu(DisplayController display_controller, 
+                 TempHandler* &temperatureHandler,
+                 BioTempMQTTClient* &mqttClient);
+        */
+
+        InfoMenu(DisplayController display_controller, 
+                 TempHandler* &temperatureHandler);
 
         void showMenu() override;
         void updateMenu(int arrowPosition);
@@ -35,9 +42,11 @@ class InfoMenu : public MenuBase{
     private:
         uint8_t arrowPosition = 1;
         DisplayController* disp;
+        //BioTempMQTTClient* mqttClient;
+
         SettingsOptions currentOption = MAC_ADRESS;
 
-        std::string macAddress = "00-B0-D0-63-C2-26";
+        std::string macAddress = "No MAC";
 
         std::string optionValue = macAddress;
 

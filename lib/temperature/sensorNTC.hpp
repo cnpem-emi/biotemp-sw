@@ -9,7 +9,7 @@
 #define T_0 298.15 // NTC reference temperature: 25°C 
 #define R_0 10000 // NTC reference resistance: R(T_0)
 
-#define ESP_ADC_MAX_VALUE 4095
+#define NOT_HEALTHY_THRESHOLD 1500 // based on ESP32 ADC
 
 #define NTCID1 "NTC1"
 #define NTCID2 "NTC2"
