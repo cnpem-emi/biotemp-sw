@@ -7,6 +7,12 @@
 
 SensorNTC::SensorNTC(int ntc_id) {
     sensor_id = "NTC " + std::to_string(ntc_id);
+
+    int sensor_pin = ADC1_PIN; // Defaults to ADC1
+
+    if (sensor_id == NTCID2){
+        sensor_pin = ADC2_PIN;
+    }
 }
 
 void SensorNTC::enableSensor() {
@@ -35,11 +41,6 @@ float SensorNTC::getTemperature() {
 
 float SensorNTC::readADCPin() {
     float adc_value;
-    int sensor_pin = ADC1_PIN; // Defaults to ADC1
-
-    if (sensor_id == NTCID2){
-        sensor_pin = ADC1_PIN; // Defaults to ADC1
-    }
 
     adc_value = analogReadMilliVolts(sensor_pin);
 
@@ -52,5 +53,9 @@ bool SensorNTC::isSensorEnabled() {
 
 std::string SensorNTC::getSensorID() {
     return sensor_id;
+}
+
+bool SensorNTC::checkSensorHealth() {
+    return !(analogRead(sensor_pin) == ESP_ADC_MAX_VALUE);
 }
 

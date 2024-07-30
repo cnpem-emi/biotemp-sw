@@ -26,6 +26,7 @@ public:
     void enableSensor() override;
     void disableSensor() override;
     float getTemperature() override;
+    bool checkSensorHealth() override;
 
 private:
     Adafruit_MAX31865 max_module = Adafruit_MAX31865(CS_PIN);

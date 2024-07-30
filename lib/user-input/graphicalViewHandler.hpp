@@ -8,8 +8,11 @@
 #include "splashScreen.hpp"
 #include "sensorNTC.hpp"
 #include "temphandler.hpp"
-//#include "eventTimer.hpp"
+//#include "biotempMQTTClient.hpp"
+
 #include <esp32-hal-timer.h>
+
+#define SPLASH_SCREEN_TIME 1000 // in milliseconds
 
 /*********************************************************/
 /*!
@@ -23,27 +26,73 @@ class GraphicalViewHandler {
         bool userRecentlyInteracted = false;
 
         bool screenSaverEventScheduled = false;
-        //bool inputEventScheduled = false;
 
-        // Shows the main menu.
+        /** 
+         * Turns off the screen saver and displays the main menu.
+         */
         void showOptionsMenu();
 
+        /** 
+         * Updates the screen saver flag and then passes the event to the `mainMenu` object.
+         * 
+         * @param event The `event` parameter is an object of type `KnobEvent`, 
+         *  contains information about the positivion update of the knob. 
+         */
         void handleKnobEvent(KnobEvent event);
+
+
+        /** 
+         * Updates the screen saver status, handles the button press event in the main menu,
+         * and resets the pressed state of the event.
+         * 
+         * @param event The `event` parameter is of type `ButtonPressEvent`, which contains information
+         * about a button press event, such as the button that was pressed and any other underlying related information.
+         */
         void handlePressEvent(ButtonPressEvent event);
 
-        // Dipslay configuration abstraction.
+        /** 
+         * Displays configuration on an OLED screen and adds a temperature handler and MQTT client to itself.
+         * 
+         * @param tempHandler The `tempHandler` parameter is an object of the `TempHandler` class, which is
+         * used to handle temperature-related operations or data.
+         * @param mqttClient The `mqttClient` parameter is an instance of the `BioTempMQTTClient` class, which
+         * is used for handling MQTT communication related to temperature data in the context of the Biotemp Product.
+         */
+        //void config(TempHandler& tempHandler, BioTempMQTTClient& mqttClient);
         void config(TempHandler& tempHandler);
 
+        /** 
+         *  Displays a logo on the screen for a specified number of seconds 
+         *  before clearing the display.
+         * 
+         * @param Logo The `Logo` parameter is an array of unsigned characters representing the image data of a
+         * logo to be displayed on the OLED screen.
+         */
         void splashScreen(const unsigned char Logo[]);
 
-        // implementada apenas para teste visual
+        /** 
+         * Clears the display and updates the screen saver.
+         */
         void showScreenSaver();
 
+        /** 
+         * Clears the display, shows the menu title, and displays a message if temperature sensors are not available.
+         * 
+         * @return early if there are no available sensors. It displays a message on the OLED screen saying
+         * "Please Configure Temperature Sensor" and then returns without executing any further code in the
+         * function.
+         */
         void updateScreenSaver();
 
+        /** 
+         * The mainLoop function in the GraphicalViewHandler class checks if a screen saver needs to be shown
+         * and performs related actions as the main core of the Biotemp Product. 
+         */
         void mainLoop();
 
         void addTempHandler(TempHandler& temperatureHandler){ tempHandler = &temperatureHandler;};
+
+        //void addMQTTClient(BioTempMQTTClient& mqtt_client){mqttClient = &mqtt_client;};
 
     private:
         DisplayController oled;
@@ -51,8 +100,7 @@ class GraphicalViewHandler {
         TempMenu temp = TempMenu(oled, tempHandler);
         OptionsMenu mainMenu = OptionsMenu(oled, temp, info);
         TempHandler* tempHandler;
+        //BioTempMQTTClient* mqttClient;
     };
 
-    
-
-#endif // _INCLUDE_GRAPHICALVIEWHANDLER_HPP_
+#endif 

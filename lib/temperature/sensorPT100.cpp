@@ -31,3 +31,8 @@ bool SensorPT100::isSensorEnabled() {
 std::string SensorPT100::getSensorID() {
     return sensor_id;
 }
+
+bool SensorPT100::checkSensorHealth() {
+    // @TODO implement this check
+    return true;
+}

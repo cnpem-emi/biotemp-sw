@@ -1,31 +1,22 @@
+/*! @mainpage Biotemp Temperature Monitoring System
+ *
+ * @section intro_sec Introduction
+ *
+ *  The Biotemp Instrumentation System is a user-friendly IoT device designed for collecting room temperature data.
+ *  It is made to be effortless to set up and use, in a plug-and-play manner. Equipped with menus displayed on an LCD screen,
+ *  it offers a straightforward interface for users to access and manage temperature information effectively.  
+ */
+
 #include "biotemp.hpp"
-#include "eventTimer.hpp"
 
-#define MAX_ENCODER_POSITION 3
-#define INTERRUPT_TIME_S 5
-
-InputController encoder;
-extern GraphicalViewHandler handler;
-TempHandler temperature_handler;
-BioTempMQTTClient mqtt{temperature_handler};
+Biotemp biotemp;
 
 void setup() {
-  Serial.begin(9600);
-  handler.config(temperature_handler); // config display before using it
-
-  //temperature_handler.addNTCSensor(NTC_ID_1, NTC_PIN_1);
-
-  handler.splashScreen(cnpemLogo); 
-  handler.splashScreen(LNBioLogo);
-  encoder.config(MAX_ENCODER_POSITION);
-  configTimer(INTERRUPT_TIME_S);
-  handler.showScreenSaver();
-  //mqtt.mqttConfig();
-  //mqtt.publishConfig();
+   Serial.begin(9600);
+   biotemp.setup();
+   biotemp.biotempBoot();
 }
 
 void loop() {
-  handler.mainLoop();
-  temperature_handler.checkThreshold();
-  //mqtt.publishTemp();
+  biotemp.mainLoop();
 }

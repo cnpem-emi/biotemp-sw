@@ -23,6 +23,12 @@ void GraphicalViewHandler::handlePressEvent(ButtonPressEvent event) {
     event.pressed = false;
 }
 
+/*void GraphicalViewHandler::config(TempHandler& tempHandler, BioTempMQTTClient& mqttClient) {
+    oled.displayConfig();
+    addTempHandler(tempHandler);
+    addMQTTClient(mqttClient);
+}*/
+
 void GraphicalViewHandler::config(TempHandler& tempHandler) {
     oled.displayConfig();
     addTempHandler(tempHandler);
@@ -30,7 +36,7 @@ void GraphicalViewHandler::config(TempHandler& tempHandler) {
 
 void GraphicalViewHandler::splashScreen(const unsigned char Logo[]){
     oled.showLogo(Logo);
-    delay(1000);
+    delay(SPLASH_SCREEN_TIME);
     oled.clearDisplay();
 }
 
@@ -66,10 +72,15 @@ void GraphicalViewHandler::updateScreenSaver() {
     }
 }
 
+
 void GraphicalViewHandler::mainLoop(){
     // Checks if Screen saver needs to be shown
     if (screenSaverEventScheduled == true || mainMenu.requestScreenSaver == true) 
-    {
+    { 
+    
+      //if(mqttClient != nullptr)
+      //  mqttClient->publishTemp();
+
       mainMenu.requestScreenSaver = false;
       if (isScreenSaverOn == true) {
         updateScreenSaver();
@@ -81,6 +92,11 @@ void GraphicalViewHandler::mainLoop(){
       }
     }
 
+    if(tempHandler != nullptr)
+        tempHandler->checkThreshold();
+
 }
+
+
 
 
