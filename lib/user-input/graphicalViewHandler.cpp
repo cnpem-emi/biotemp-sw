@@ -55,20 +55,25 @@ void GraphicalViewHandler::updateScreenSaver() {
         return;
     }
 
+    // index for spacing the lines
+    int i = 1;
+
     for ( auto it = tempHandler->available_sensors.begin();
           it != tempHandler->available_sensors.end(); ++it) {
-
-        oled.displayText((it->first), 1, false);
-        oled.displayText(": ", 1, false);
-        oled.displayText((it->second)->getTemperature(), 1, false);
-        oled.displayText("oC", 1, true); 
+        oled.displayText("  ", i, false);
+        oled.displayText((it->first), i, false);
+        oled.displayText(": ", i, false);
+        oled.displayText((it->second)->getTemperature(), i, false);
+        oled.displayText(" oC", i, false); 
+        oled.displayText(" ", i, true);
+        i++;
     }
 
     if(!tempHandler->isThresholdTrespassed){
-        oled.displayText("Temperature OK", 3, false);     
+        oled.displayText("Temperature OK", i, true);     
     }
     else {
-        oled.displayText("Sensors Triggered", 3, false);     
+        oled.displayText("Sensors Triggered", i, true);     
     }
 }
 
