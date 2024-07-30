@@ -6,9 +6,9 @@
 */
 
 SensorNTC::SensorNTC(int ntc_id) {
-    sensor_id = "NTC " + std::to_string(ntc_id);
+    sensor_id = "NTC" + std::to_string(ntc_id);
 
-    int sensor_pin = ADC1_PIN; // Defaults to ADC1
+    sensor_pin = ADC1_PIN; // Defaults to ADC1
 
     if (sensor_id == NTCID2){
         sensor_pin = ADC2_PIN;

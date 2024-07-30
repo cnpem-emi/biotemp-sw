@@ -2,6 +2,7 @@
 #define SENSOR_NTC_HPP
 
 #include "temperatureSensorBase.hpp"
+#include "debug-config.hpp"
 #include <Arduino.h>
 
 #define BETA_COEFF 3935 // NTC beta coefficient at 25/50
@@ -13,8 +14,8 @@
 #define NTCID1 "NTC1"
 #define NTCID2 "NTC2"
 
-enum ADCPins {ADC1_PIN=35, // Default ESP32 WROOM pin: 35 
-              ADC2_PIN=34 // Default ESP32 WROOM pin: 34
+enum ADCPins {ADC1_PIN=3, // Default ESP32 WROOM pin: 35 
+              ADC2_PIN=2  // Default ESP32 WROOM pin: 34
               };
 
 /*****************************************************/

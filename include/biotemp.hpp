@@ -39,7 +39,6 @@ class Biotemp {
         void mainLoop(){
             // most of the heavy-lifting is done by the handler
             handler.mainLoop(); 
-            temperature_handler.checkThreshold();
         }
 
     private:
