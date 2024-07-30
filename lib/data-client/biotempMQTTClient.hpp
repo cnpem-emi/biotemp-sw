@@ -3,19 +3,18 @@
 
 #include "mqttClient.hpp"
 #include "secrets.h"
-#include "biotempJSON.hpp"
-#include "global_instances.hpp"
+#include "biotempDataJSON.hpp"
 
 /**************************************************************/
-/*!
+/** 
 *   @brief BioTemp MQTT interface class.
 */
 /**************************************************************/
 class BioTempMQTTClient {
     public:
-        BioTempMQTTClient(TempHandler& temp_handler): jsonHandler{BiotempJson(temp_handler)}{};
+        BioTempMQTTClient(TempHandler& temp_handler): jsonHandler{BiotempDataJson(temp_handler)}{};
     /**************************************************************/
-    /*!
+    /** 
     *   @brief Publish a message to the specified topic.
     *   @param topic The topic to publish a message.
     *   @param message The message to be published.
@@ -35,6 +34,8 @@ class BioTempMQTTClient {
         //Returns the device MAC address.
         String getMAC();
 
+        bool isConnected();
+
     private:
         //const char *topic = "test";
         String topic = "biotemp/biotemp_"; // MQTT topic to publish messages
@@ -42,7 +43,7 @@ class BioTempMQTTClient {
         String stateTopic;
 
         MQTTClient mqtt = MQTTClient(BROKER_URL, PORT);
-        BiotempJson jsonHandler; 
+        BiotempDataJson jsonHandler; 
 
         //MQTTClient mqtt = MQTTClient(USERNAME, PASSWORD, root_ca, BROKER_URL, PORT);
 };

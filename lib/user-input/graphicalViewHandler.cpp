@@ -29,6 +29,12 @@ void GraphicalViewHandler::handlePressEvent(ButtonPressEvent event) {
     addMQTTClient(mqttClient);
 }*/
 
+/*void GraphicalViewHandler::config(TempHandler& tempHandler, BioTempMQTTClient& mqttClient) {
+    oled.displayConfig();
+    addTempHandler(tempHandler);
+    addMQTTClient(mqttClient);
+}*/
+
 void GraphicalViewHandler::config(TempHandler& tempHandler) {
     oled.displayConfig();
     addTempHandler(tempHandler);
@@ -36,6 +42,7 @@ void GraphicalViewHandler::config(TempHandler& tempHandler) {
 
 void GraphicalViewHandler::splashScreen(const unsigned char Logo[]){
     oled.showLogo(Logo);
+    delay(SPLASH_SCREEN_TIME);
     delay(SPLASH_SCREEN_TIME);
     oled.clearDisplay();
 }
@@ -82,6 +89,7 @@ void GraphicalViewHandler::updateScreenSaver() {
         oled.displayText("Sensors Triggered", i, true);     
     }
 }
+
 
 
 void GraphicalViewHandler::mainLoop(){

@@ -14,6 +14,8 @@
 
 #define SPLASH_SCREEN_TIME 1000 // in milliseconds
 
+#define SPLASH_SCREEN_TIME 1000 // in milliseconds
+
 /*********************************************************/
 /*!
     @brief Display Handler interface class. This class handles 
@@ -50,15 +52,7 @@ class GraphicalViewHandler {
          */
         void handlePressEvent(ButtonPressEvent event);
 
-        /** 
-         * Displays configuration on an OLED screen and adds a temperature handler and MQTT client to itself.
-         * 
-         * @param tempHandler The `tempHandler` parameter is an object of the `TempHandler` class, which is
-         * used to handle temperature-related operations or data.
-         * @param mqttClient The `mqttClient` parameter is an instance of the `BioTempMQTTClient` class, which
-         * is used for handling MQTT communication related to temperature data in the context of the Biotemp Product.
-         */
-        //void config(TempHandler& tempHandler, BioTempMQTTClient& mqttClient);
+        // Dipslay configuration abstraction.
         void config(TempHandler& tempHandler);
 
         /** 
@@ -92,15 +86,12 @@ class GraphicalViewHandler {
 
         void addTempHandler(TempHandler& temperatureHandler){ tempHandler = &temperatureHandler;};
 
-        //void addMQTTClient(BioTempMQTTClient& mqtt_client){mqttClient = &mqtt_client;};
-
     private:
         DisplayController oled;
         InfoMenu info = InfoMenu(oled, tempHandler);
         TempMenu temp = TempMenu(oled, tempHandler);
         OptionsMenu mainMenu = OptionsMenu(oled, temp, info);
         TempHandler* tempHandler;
-        //BioTempMQTTClient* mqttClient;
     };
 
 #endif 

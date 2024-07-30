@@ -13,6 +13,8 @@ InfoMenu::InfoMenu(DisplayController display_controller,
                    TempHandler* &temperatureHandler) 
                    : tempHandler{temperatureHandler} {
     disp = &display_controller;
+    // converts arduino strings to cpp string
+    //macAddress = mqttClient->getMAC().c_str();
 }
 
 void InfoMenu::showMenu() {
@@ -62,6 +64,10 @@ void InfoMenu::handlePressEvent(ButtonPressEvent event) {
 
         case SECOND_ITEM_POS:
             optionValue = handleOptionValue(currentOption);
+            
+            option2Value[currentOption] = 
+            (optionValue != "" )? option2Value[currentOption] : optionValue;
+
             
             option2Value[currentOption] = 
             (optionValue != "" )? option2Value[currentOption] : optionValue;

@@ -26,6 +26,10 @@ String BioTempMQTTClient::getIP() {
     return mqtt.getIP();
 }
 
+bool BioTempMQTTClient::isConnected(){
+    return mqtt.isConnected;
+}
+
 String BioTempMQTTClient::getMAC() {
     String mac = mqtt.getMAC();
     mac.replace(":", "");

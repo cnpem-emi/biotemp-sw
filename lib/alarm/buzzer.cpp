@@ -1,6 +1,7 @@
 #include "buzzer.hpp"
 #include <Arduino.h>
 
+
 void Buzzer:: buzzerConfig(){ 
     ledcSetup(BUZZER_PWM_CHANNEL, BUZZER_FREQUENCY, BUZZER_PWM_RESOLUTION);
     ledcAttachPin(BUZZER_PIN, BUZZER_PWM_CHANNEL);
