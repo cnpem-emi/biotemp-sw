@@ -8,11 +8,9 @@
 #include "splashScreen.hpp"
 #include "sensorNTC.hpp"
 #include "temphandler.hpp"
-//#include "biotempMQTTClient.hpp"
+#include "biotempMQTTClient.hpp"
 
 #include <esp32-hal-timer.h>
-
-#define SPLASH_SCREEN_TIME 1000 // in milliseconds
 
 #define SPLASH_SCREEN_TIME 1000 // in milliseconds
 

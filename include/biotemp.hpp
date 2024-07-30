@@ -22,14 +22,13 @@ class Biotemp {
             //handler.config(temperature_handler, mqttClient); 
             handler.config(temperature_handler); 
             encoder.config(MAX_ENCODER_POSITION);
+
+            // Network IOC stuff
+            mqttClient.mqttConfig();
             configTimer(INTERRUPT_TIME_S);
         } 
 
         void biotempBoot(){
-            // Network IOC stuff
-            //mqttClient.mqttConfig();
-            //mqttClient.publishConfig();
-
             // Initial Screens
             handler.splashScreen(cnpemLogo); 
             handler.splashScreen(LNBioLogo);
@@ -39,9 +38,19 @@ class Biotemp {
         void mainLoop(){
             // most of the heavy-lifting is done by the handler
             handler.mainLoop(); 
+
+            // IMPORTANT: this need to be refreshed frequently
+            mqttClient.mqttLoop();
+
+            if(!alreadySendConfig && mqttClient.isConnected()){
+                Serial.println("Trying to Publish Config");
+                mqttClient.publishConfig();
+                alreadySendConfig = true;
+            }
         }
 
     private:
+        bool alreadySendConfig = false;
         InputController encoder;
         TempHandler temperature_handler;
         BioTempMQTTClient mqttClient{temperature_handler};

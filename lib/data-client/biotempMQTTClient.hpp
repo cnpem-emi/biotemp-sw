@@ -27,6 +27,7 @@ class BioTempMQTTClient {
 
         // Configures the MQTT module in the BioTemp context.
         void mqttConfig();
+        void mqttLoop();
 
         // Returns the device IP.
         String getIP();
@@ -35,6 +36,7 @@ class BioTempMQTTClient {
         String getMAC();
 
         bool isConnected();
+        bool isConfigured();
 
     private:
         //const char *topic = "test";

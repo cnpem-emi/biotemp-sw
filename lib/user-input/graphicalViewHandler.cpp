@@ -29,12 +29,6 @@ void GraphicalViewHandler::handlePressEvent(ButtonPressEvent event) {
     addMQTTClient(mqttClient);
 }*/
 
-/*void GraphicalViewHandler::config(TempHandler& tempHandler, BioTempMQTTClient& mqttClient) {
-    oled.displayConfig();
-    addTempHandler(tempHandler);
-    addMQTTClient(mqttClient);
-}*/
-
 void GraphicalViewHandler::config(TempHandler& tempHandler) {
     oled.displayConfig();
     addTempHandler(tempHandler);
@@ -90,13 +84,12 @@ void GraphicalViewHandler::updateScreenSaver() {
     }
 }
 
-
-
 void GraphicalViewHandler::mainLoop(){
+
     // Checks if Screen saver needs to be shown
     if (screenSaverEventScheduled == true || mainMenu.requestScreenSaver == true) 
     { 
-    
+
       //if(mqttClient != nullptr)
       //  mqttClient->publishTemp();
 

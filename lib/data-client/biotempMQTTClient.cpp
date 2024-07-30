@@ -22,12 +22,20 @@ void BioTempMQTTClient::publishTemp () {
     mqtt.publishMessage(stateTopic.c_str(), jsonHandler.mqttGeneratePacket(), false);
 }
 
+bool BioTempMQTTClient::isConfigured(){
+    return mqtt.isConfigured;
+}
+
 String BioTempMQTTClient::getIP() {
     return mqtt.getIP();
 }
 
 bool BioTempMQTTClient::isConnected(){
     return mqtt.isConnected;
+}
+
+void BioTempMQTTClient::mqttLoop(){
+    mqtt.mqttLoop();
 }
 
 String BioTempMQTTClient::getMAC() {

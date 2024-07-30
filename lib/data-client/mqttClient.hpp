@@ -62,6 +62,7 @@ class MQTTClient {
         void setWifiParams(const char* wifi_ssid, const char* wifi_password);
 
         bool isConnected = false;
+        bool isConfigured = false;
 
     private:
         String ip; // Device IP
