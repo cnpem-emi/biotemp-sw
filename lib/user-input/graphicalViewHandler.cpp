@@ -63,9 +63,15 @@ void GraphicalViewHandler::updateScreenSaver() {
         oled.displayText("  ", i, false);
         oled.displayText((it->first), i, false);
         oled.displayText(": ", i, false);
-        oled.displayText((it->second)->getTemperature(), i, false);
-        oled.displayText(" oC", i, false); 
-        oled.displayText(" ", i, true);
+
+        // Displays temperature
+        if((it->second)->checkSensorHealth()){
+            oled.displayText((it->second)->getTemperature(), i, false);
+            oled.displayText(" oC", i, false);
+        }
+        else{ oled.displayText("No Temp.", i, false);} 
+
+        oled.displayText(" ", i, true);  
         i++;
     }
 

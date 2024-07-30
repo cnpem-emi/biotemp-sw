@@ -33,6 +33,6 @@ std::string SensorPT100::getSensorID() {
 }
 
 bool SensorPT100::checkSensorHealth() {
-    // @TODO implement this check
-    return true;
+    return !(analogRead(SENSOR_PIN) <=  NOT_HEALTHY_THRESHOLD);
 }
+
