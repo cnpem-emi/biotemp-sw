@@ -51,7 +51,7 @@ class GraphicalViewHandler {
         void handlePressEvent(ButtonPressEvent event);
 
         // Dipslay configuration abstraction.
-        void config(TempHandler& tempHandler);
+        void config(TempHandler& tempHandler, BioTempMQTTClient& mqttClient);
 
         /** 
          *  Displays a logo on the screen for a specified number of seconds 
@@ -83,6 +83,7 @@ class GraphicalViewHandler {
         void mainLoop();
 
         void addTempHandler(TempHandler& temperatureHandler){ tempHandler = &temperatureHandler;};
+        void addMQTTClient(BioTempMQTTClient& mqtt_client){ mqttClient = &mqtt_client;};
 
     private:
         DisplayController oled;
@@ -90,6 +91,7 @@ class GraphicalViewHandler {
         TempMenu temp = TempMenu(oled, tempHandler);
         OptionsMenu mainMenu = OptionsMenu(oled, temp, info);
         TempHandler* tempHandler;
+        BioTempMQTTClient* mqttClient;
     };
 
 #endif 

@@ -29,9 +29,10 @@ void GraphicalViewHandler::handlePressEvent(ButtonPressEvent event) {
     addMQTTClient(mqttClient);
 }*/
 
-void GraphicalViewHandler::config(TempHandler& tempHandler) {
+void GraphicalViewHandler::config(TempHandler& tempHandler, BioTempMQTTClient& mqttClient) {
     oled.displayConfig();
     addTempHandler(tempHandler);
+    addMQTTClient(mqttClient);
 }
 
 void GraphicalViewHandler::splashScreen(const unsigned char Logo[]){
@@ -90,8 +91,8 @@ void GraphicalViewHandler::mainLoop(){
     if (screenSaverEventScheduled == true || mainMenu.requestScreenSaver == true) 
     { 
 
-      //if(mqttClient != nullptr)
-      //  mqttClient->publishTemp();
+      if(mqttClient != nullptr && mqttClient->isConfigured())
+        mqttClient->publishTemp();
 
       mainMenu.requestScreenSaver = false;
       if (isScreenSaverOn == true) {

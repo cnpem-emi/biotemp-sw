@@ -20,7 +20,7 @@ class Biotemp {
         void setup() {
             // It is important to config things before using them
             //handler.config(temperature_handler, mqttClient); 
-            handler.config(temperature_handler); 
+            handler.config(temperature_handler, mqttClient); 
             encoder.config(MAX_ENCODER_POSITION);
 
             // Network IOC stuff

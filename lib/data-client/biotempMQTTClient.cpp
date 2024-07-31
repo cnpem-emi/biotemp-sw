@@ -14,11 +14,11 @@ void BioTempMQTTClient::publishConfig() {
     String configTopic;
     topic += getMAC();
     configTopic = topic + "/config";
-    stateTopic = topic + "/state";
     mqtt.publishMessage(configTopic.c_str(), jsonHandler.configPublisher(), false);
 }
 
 void BioTempMQTTClient::publishTemp () {
+    stateTopic = topic + "/state";
     mqtt.publishMessage(stateTopic.c_str(), jsonHandler.mqttGeneratePacket(), false);
 }
 
