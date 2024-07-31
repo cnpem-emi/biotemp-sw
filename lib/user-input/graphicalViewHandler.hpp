@@ -92,6 +92,12 @@ class GraphicalViewHandler {
         OptionsMenu mainMenu = OptionsMenu(oled, temp, info);
         TempHandler* tempHandler;
         BioTempMQTTClient* mqttClient;
+
+        bool isPressEventScheduled = false;
+        ButtonPressEvent scheduledPressEvent;
+
+        bool isKnobEventScheduled = false;
+        KnobEvent scheduledKnobEvent;
     };
 
 #endif 
