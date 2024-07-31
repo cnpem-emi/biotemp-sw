@@ -6,7 +6,7 @@
 #include "menuBase.hpp"
 #include "displayController.hpp"
 #include "temphandler.hpp"
-//#include "biotempMQTTClient.hpp"
+#include "biotempMQTTClient.hpp"
 
 #define OPTIONS_NUM 4 // number of options
 typedef enum {
@@ -30,7 +30,8 @@ class InfoMenu : public MenuBase{
         */
 
         InfoMenu(DisplayController display_controller, 
-                 TempHandler* &temperatureHandler);
+                 TempHandler* &temperatureHandler,
+                 BioTempMQTTClient* &mqtt_client);
 
         void showMenu() override;
         void updateMenu(int arrowPosition);
@@ -62,6 +63,7 @@ class InfoMenu : public MenuBase{
 
         std::string handleOptionValue(SettingsOptions option);
         TempHandler* &tempHandler;
+        BioTempMQTTClient* &mqttClient;
 
 };
 

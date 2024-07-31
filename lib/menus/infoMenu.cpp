@@ -10,8 +10,9 @@
 }*/
 
 InfoMenu::InfoMenu(DisplayController display_controller, 
-                   TempHandler* &temperatureHandler) 
-                   : tempHandler{temperatureHandler} {
+                   TempHandler* &temperatureHandler,
+                   BioTempMQTTClient* &mqtt_client) 
+                   : tempHandler{temperatureHandler}, mqttClient{mqtt_client} {
     disp = &display_controller;
     // converts arduino strings to cpp string
     //macAddress = mqttClient->getMAC().c_str();
@@ -93,7 +94,7 @@ std::string InfoMenu::handleOptionValue(SettingsOptions option) {
     bool isBuzzerEnabled = false;
     switch (option){
         case MAC_ADRESS:
-            return macAddress; 
+            return mqttClient->isConnected()? mqttClient->getMAC().c_str(): "Not Connected"; 
             break;
     
         case SILENCE_BUZZER:
@@ -103,8 +104,7 @@ std::string InfoMenu::handleOptionValue(SettingsOptions option) {
             break;
 
         case MQTT_CONNECTION_HEALTH:
-            //return mqttClient->isConnected()? "Connected" : "Not Connected";   
-            return "Not Connected";
+            return mqttClient->isConnected()? "Connected" : "Not Connected";   
             break;
 
         case SENSOR_HEALTH:
