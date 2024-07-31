@@ -20,7 +20,8 @@ String BiotempDataJson::mqttGeneratePacket() {
     TempResults tempResults = temperature_handler.getAllTemperatures();
     
     for ( auto it = tempResults.begin(); it != tempResults.end(); ++it) {
-        mqttDoc[it->first] = String((it->second));
+        mqttDoc[it->first + "_mode"] = temperature_handler.operation_mode;
+        mqttDoc[std::string{"temp_"} + it->first] = String((it->second));
     }
 
    return mqttDoc.as<String>();

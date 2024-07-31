@@ -1,21 +1,10 @@
 #include "infoMenu.hpp"
 
-/*InfoMenu::InfoMenu(DisplayController display_controller, 
-                   TempHandler* &temperatureHandler, 
-                   BioTempMQTTClient* &mqttClient)
-                   : tempHandler{temperatureHandler}, mqttClient{mqttClient} {
-    disp = &display_controller;
-    // converts arduino strings to cpp string
-    macAddress = mqttClient->getMAC().c_str();
-}*/
-
 InfoMenu::InfoMenu(DisplayController display_controller, 
                    TempHandler* &temperatureHandler,
                    BioTempMQTTClient* &mqtt_client) 
                    : tempHandler{temperatureHandler}, mqttClient{mqtt_client} {
     disp = &display_controller;
-    // converts arduino strings to cpp string
-    //macAddress = mqttClient->getMAC().c_str();
 }
 
 void InfoMenu::showMenu() {
