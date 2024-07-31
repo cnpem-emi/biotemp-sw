@@ -88,10 +88,10 @@ class GraphicalViewHandler {
     private:
         DisplayController oled;
         TempMenu temp = TempMenu(oled, tempHandler);
+        InfoMenu info = InfoMenu(oled, tempHandler, mqttClient);
         OptionsMenu mainMenu = OptionsMenu(oled, temp, info);
         TempHandler* tempHandler;
         BioTempMQTTClient* mqttClient;
-        InfoMenu info = InfoMenu(oled, tempHandler, mqttClient);
     };
 
 #endif 

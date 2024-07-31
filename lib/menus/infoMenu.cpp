@@ -24,7 +24,7 @@ void InfoMenu::showMenu() {
 
     // Automatically checks sensor health or mqtt connection health without need
     // to click in it
-    if(currentOption == SENSOR_HEALTH || currentOption == MQTT_CONNECTION_HEALTH){
+    if(currentOption != SILENCE_BUZZER){
         optionValue = handleOptionValue(currentOption);
     }
 
@@ -94,7 +94,7 @@ std::string InfoMenu::handleOptionValue(SettingsOptions option) {
     bool isBuzzerEnabled = false;
     switch (option){
         case MAC_ADRESS:
-            return mqttClient->isConnected()? mqttClient->getMAC().c_str(): "Not Connected"; 
+            return mqttClient->isConnected()? mqttClient->getMAC().c_str(): "No MAC"; 
             break;
     
         case SILENCE_BUZZER:
