@@ -46,8 +46,6 @@ class BioTempMQTTClient {
 
         MQTTClient mqtt = MQTTClient(BROKER_URL, PORT);
         BiotempDataJson jsonHandler; 
-
-        //MQTTClient mqtt = MQTTClient(USERNAME, PASSWORD, root_ca, BROKER_URL, PORT);
 };
 
 #endif  // _INCLUDE_BIOTEMPMQTTCLIENT_HPP_

@@ -47,7 +47,10 @@ void MQTTClient::configMQTT(const char* broker, const int port) {
 
 
 void MQTTClient::mqttLoop() {
-    if(isConnected){MQTT.loop();} else {connectWifi(); configMQTT(broker, port);}
+    
+    if(isConnected){MQTT.loop();} else{connectWifi();}
+
+    if(!isConfigured){configMQTT(broker, port);}
 }
 
 String MQTTClient::getIP() {
@@ -73,6 +76,9 @@ void callback(char *topic, byte *payload, unsigned int length) {
 }
 
 void MQTTClient::publishMessage(const char* topic, String payload , boolean retained){
+    Serial.print("Sending:");
+    Serial.println(payload.c_str());
+
     bool messageWasPublished = MQTT.publish(topic, payload.c_str(), true);
     if (messageWasPublished){
         DEBUG(Serial.println("Message published ["+String(topic)+"]: "+payload);)

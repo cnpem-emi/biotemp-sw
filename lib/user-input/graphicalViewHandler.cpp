@@ -91,8 +91,11 @@ void GraphicalViewHandler::mainLoop(){
     if (screenSaverEventScheduled == true || mainMenu.requestScreenSaver == true) 
     { 
 
-      if(mqttClient != nullptr && mqttClient->isConfigured())
+      Serial.println(mqttClient->isConfigured());
+      if(mqttClient != nullptr && mqttClient->isConfigured()) {  
+        DEBUG(Serial.println("Publishing Temperature...");)
         mqttClient->publishTemp();
+        }
 
       mainMenu.requestScreenSaver = false;
       if (isScreenSaverOn == true) {
