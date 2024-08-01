@@ -13,8 +13,10 @@ void GraphicalViewHandler::handleKnobEvent(KnobEvent event) {
     }
 
     // This is done to avoid multiple processing threads
-    isKnobEventScheduled = true;
-    scheduledKnobEvent = event;
+    if(!isKnobEventScheduled){
+        isKnobEventScheduled = true;
+        scheduledKnobEvent = event;
+    }
 
 }
 
@@ -25,8 +27,10 @@ void GraphicalViewHandler::handlePressEvent(ButtonPressEvent event) {
     }
 
     // This is done to avoid multiple processing threads
-    isPressEventScheduled = true;
-    scheduledPressEvent = event;
+    if(!isPressEventScheduled){
+        isPressEventScheduled = true;
+        scheduledPressEvent = event;
+    }
     //event.pressed = false;
 }
 
@@ -87,24 +91,33 @@ void GraphicalViewHandler::updateScreenSaver() {
     }
 }
 
+
 void GraphicalViewHandler::mainLoop(){
 
     if(tempHandler != nullptr)
         tempHandler->checkThreshold();
     
     if( isKnobEventScheduled) { 
-        if(isScreenSaverOn){mainMenu.showMenu(); isScreenSaverOn = false;}
-        mainMenu.handleKnobEvent(scheduledKnobEvent);
-        isKnobEventScheduled = false;
+        if(isScreenSaverOn){
+            mainMenu.showMenu(); 
+            isScreenSaverOn = false;
+        } else {
+            mainMenu.handleKnobEvent(scheduledKnobEvent);
+        }
 
+        isKnobEventScheduled = false;
         return;
     }
 
     if( isPressEventScheduled) { 
-        if(isScreenSaverOn){mainMenu.showMenu(); isScreenSaverOn = false;}
-        mainMenu.handlePressEvent(scheduledPressEvent);
+        if(isScreenSaverOn){
+            mainMenu.showMenu();
+            isScreenSaverOn = false;
+        } else {
+            mainMenu.handlePressEvent(scheduledPressEvent);
+        };
+        
         isPressEventScheduled = false;
-
         return;
     }
  
