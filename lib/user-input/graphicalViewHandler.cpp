@@ -23,18 +23,13 @@ void GraphicalViewHandler::handlePressEvent(ButtonPressEvent event) {
     if (isScreenSaverOn == true) {
         isScreenSaverOn = false;
     }
-    //event.pressed = false;
 
     // This is done to avoid multiple processing threads
     isPressEventScheduled = true;
     scheduledPressEvent = event;
+    //event.pressed = false;
 }
 
-/*void GraphicalViewHandler::config(TempHandler& tempHandler, BioTempMQTTClient& mqttClient) {
-    oled.displayConfig();
-    addTempHandler(tempHandler);
-    addMQTTClient(mqttClient);
-}*/
 
 void GraphicalViewHandler::config(TempHandler& tempHandler, BioTempMQTTClient& mqttClient) {
     oled.displayConfig();
@@ -98,15 +93,19 @@ void GraphicalViewHandler::mainLoop(){
         tempHandler->checkThreshold();
     
     if( isKnobEventScheduled) { 
-        if(isScreenSaverOn){mainMenu.showMenu();}
+        if(isScreenSaverOn){mainMenu.showMenu(); isScreenSaverOn = false;}
         mainMenu.handleKnobEvent(scheduledKnobEvent);
         isKnobEventScheduled = false;
+
+        return;
     }
 
     if( isPressEventScheduled) { 
-        if(isScreenSaverOn){mainMenu.showMenu();}
+        if(isScreenSaverOn){mainMenu.showMenu(); isScreenSaverOn = false;}
         mainMenu.handlePressEvent(scheduledPressEvent);
         isPressEventScheduled = false;
+
+        return;
     }
  
     // Checks if Screen saver needs to be shown
