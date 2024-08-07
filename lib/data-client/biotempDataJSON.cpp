@@ -8,8 +8,8 @@
 String BiotempDataJson::configPublisher() {
     JsonDocument configDoc;
     configDoc.clear();
-    configDoc["biotemp_mode"] = MODES_DISPLAY_STR[temperature_handler.operation_mode];
-    configDoc["sensor_layout"] = SENSOR_LAYOUTS_STR[temperature_handler.currentLayout];
+    //configDoc["biotemp_mode"] = MODES_DISPLAY_STR[temperature_handler.operation_mode];
+    //configDoc["sensor_layout"] = SENSOR_LAYOUTS_STR[temperature_handler.currentLayout];
     
     //@TODO change this to be able to sub and read config by the network
     configDoc["sensor_1_mode"] = -1;
@@ -33,18 +33,18 @@ String BiotempDataJson::mqttGeneratePacket() {
     for(int i = 1; i <= 3; ++i){
         std::string sensor_base = std::string{"sensor_"} + std::to_string(i);
         mqttDoc[sensor_base + "_mode"] = -1;
-        mqttDoc[sensor_base + "_temp"] = 0;
+        mqttDoc[std::string{"temp_"} + std::to_string(i)] = 0;
     }
     
     // Please generalize this
-    std::map<std::string, std::string> SensorName2Id = {{"NTC1", "sensor_1"},
-                                                        {"NTC2", "sensor_2"},
-                                                        {"PT100", "sensor_3"}};
+    std::map<std::string, std::string> SensorName2Id = {{"NTC1", "1"},
+                                                        {"NTC2", "2"},
+                                                        {"PT100", "3"}};
 
     for ( auto it = tempResults.begin(); it != tempResults.end(); ++it) {
-        std::string sensor_base = SensorName2Id[it->first];
-        mqttDoc[sensor_base + "_mode"] = temperature_handler.operation_mode;
-        mqttDoc[sensor_base + "_temp"] = String((it->second));
+        std::string sensorId = SensorName2Id[it->first];
+        mqttDoc[std::string{"sensor_"} + sensorId + "_mode"] = temperature_handler.operation_mode;
+        mqttDoc[std::string{"temp_"} + sensorId ] = String((it->second));
     }
 
    return mqttDoc.as<String>();
