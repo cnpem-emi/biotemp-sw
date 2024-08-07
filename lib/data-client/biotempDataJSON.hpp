@@ -4,6 +4,7 @@
 #include <Arduino.h>
 #include <vector>
 #include <ArduinoJson.h>
+#include <string>
 
 #include "temphandler.hpp"
 #include "modes-and-layouts.hpp"
@@ -32,8 +33,7 @@ class BiotempDataJson {
                                                                    {NTC2, "NTC2"},
                                                                    {PT100, "PT100"}};
 
-        JsonDocument configDoc;
-        JsonDocument mqttDoc;
+        
         TempHandler& temperature_handler;
 };
 
