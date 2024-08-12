@@ -9,10 +9,10 @@
 
 #include "temperatureSensorBase.hpp"
 
-#define CS_PIN 7 // PT100 SPI chip selector pin
-#define DI_PIN 5
-#define DO_PIN 6
-#define CLK_PIN 4
+#define CS_PIN 10 // PT100 SPI chip selector pin
+#define DI_PIN 11
+#define DO_PIN 9
+#define CLK_PIN 7
 
 #define RREF 430.0 // PT100 reference 25°C resistance
 #define RNOMINAL 100.0
