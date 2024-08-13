@@ -75,11 +75,11 @@ void callback(char *topic, byte *payload, unsigned int length) {
           Serial.println("-----------------------");)
 }
 
-void MQTTClient::publishMessage(const char* topic, String payload , boolean retained){
+void MQTTClient::publishMessage(const char* topic, String payload , boolean retained=true){
     Serial.print("Sending:");
     Serial.println(payload.c_str());
 
-    bool messageWasPublished = MQTT.publish(topic, payload.c_str(), true);
+    bool messageWasPublished = MQTT.publish(topic, payload.c_str(), retained);
     if (messageWasPublished){
         DEBUG(Serial.println("Message published ["+String(topic)+"]: "+payload);)
     }
@@ -95,7 +95,7 @@ void MQTTClient::connect() {
 
     DEBUG(Serial.printf("The client %s connects to MQTT broker\n", client_id.c_str());)
     
-    if (MQTT.connect(client_id.c_str())) {
+    if (MQTT.connect(client_id.c_str(), willTopic, willQOS, willRetain, willMessage)) {
         DEBUG(Serial.println("Broker connected");)
         //MQTT.subscribe(topic); //Verificar necessidade
     } else {

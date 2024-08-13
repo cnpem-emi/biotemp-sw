@@ -9,6 +9,7 @@
 
 #define CONNECTION_WAIT_TIME 500
 
+
 /**
  * @class WiFiConnection
  * @brief Class for managing WiFi connections.
@@ -76,6 +77,12 @@ class MQTTClient {
 
         const char* wifiSSID;
         const char* wifiPassword;
+
+        // About will when disconnected
+        const char* willTopic = "connection";
+        const char* willMessage = "{\"diconnected\": 1}";
+        uint8_t willQOS = 2;
+        boolean willRetain = true;
 
 
         //WiFiClientSecure espClient; // Instace of secure client, needs certificate
