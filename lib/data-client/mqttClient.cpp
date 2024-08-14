@@ -95,13 +95,14 @@ void MQTTClient::connect() {
     client_id += macAddr;
 
     // Formats topic for last will
-    mac_address.replace(":", "");
-    willTopic = (std::string{"biotemp/biotemp_"} + macAddr.c_str() + willTopic).c_str();
+    macAddr.replace(":", "");
 
-    DEBUG(Serial.print(" Last Will Topic: "); Serial.println(willTopic);)
+    std::string topicBase = std::string{"biotemp/biotemp_"} + macAddr.c_str(); 
+
+    DEBUG(Serial.println(" Last Will Topic: "); Serial.println((topicBase + willTopic).c_str());)
     DEBUG(Serial.printf("The client %s connects to MQTT broker\n", client_id.c_str());)
     
-    if (MQTT.connect(client_id.c_str(), willTopic, willQOS, willRetain, willMessage)) {
+    if (MQTT.connect(client_id.c_str(), (topicBase + willTopic).c_str(), willQOS, willRetain, willMessage)) {
         DEBUG(Serial.println("Broker connected");)
         //MQTT.subscribe(topic); //Verificar necessidade
     } else {
