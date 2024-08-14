@@ -79,7 +79,7 @@ class MQTTClient {
         const char* wifiPassword;
 
         // About will when disconnected
-        const char* willTopic = "/connection";
+        const char* willTopic = "/discon";
         const char* willMessage = "{\"diconnected\": 1}";
         uint8_t willQOS = 2;
         const boolean willRetain = true;
