@@ -82,7 +82,7 @@ class MQTTClient {
         const char* willTopic = "/discon";
         const char* willMessage = "{\"diconnected\": 1}";
         uint8_t willQOS = 2;
-        const boolean willRetain = true;
+        const boolean willRetain = false;
 
 
         //WiFiClientSecure espClient; // Instace of secure client, needs certificate
