@@ -91,8 +91,14 @@ void MQTTClient::publishMessage(const char* topic, String payload , boolean reta
 void MQTTClient::connect() {
     while(!MQTT.connected()) {
     String client_id = "esp32-client-";
-    client_id += String(WiFi.macAddress());
+    String macAddr = getMAC();
+    client_id += macAddr;
 
+    // Formats topic for last will
+    mac_address.replace(":", "");
+    willTopic = (std::string{"biotemp/biotemp_"} + macAddr.c_str() + willTopic).c_str();
+
+    DEBUG(Serial.print(" Last Will Topic: "); Serial.println(willTopic);)
     DEBUG(Serial.printf("The client %s connects to MQTT broker\n", client_id.c_str());)
     
     if (MQTT.connect(client_id.c_str(), willTopic, willQOS, willRetain, willMessage)) {
