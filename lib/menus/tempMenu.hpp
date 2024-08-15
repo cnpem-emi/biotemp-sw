@@ -3,17 +3,12 @@
 
 #include "menuBase.hpp"
 #include "displayController.hpp"
+#include "modes-and-layouts.hpp"
+#include "temphandler.hpp"
 
-#define DEFAULT_THRESHOLD 3.0 // Default temperature threshold to set the alarm
+#include<map>
+#include<string>
 
-// Operation modes
-typedef enum {
-    DEFAULT_MODE,
-    ULTRAFREEZER_MODE,
-    FREEZER_MODE,
-    REFRIGERATOR_MODE,
-    AMBIENT_MODE
-} Modes;
 
 /*********************************************************/
 /*!
@@ -24,10 +19,20 @@ typedef enum {
 class TempMenu : public MenuBase {
     public:
         
+        std::map<OperationModes, std::string> MODES_DISPLAY_STR = {{ULTRAFREEZER_MODE, "UltraFreezer"},
+                                                                   {FREEZER_MODE, "Freezer"},
+                                                                   {REFRIGERATOR_MODE, "Refrig."},
+                                                                   {AMBIENT_MODE, "Ambient"}};
+
+        std::map<SensorLayouts, std::string> SENSOR_LAYOUTS_STR = {{NONE, "None"},
+                                                                   {NTC1, "NTC1"},
+                                                                   {NTC2, "NTC2"},
+                                                                   {PT100, "PT100"}}; // List of items to be shown on screen.
+
         int id = 0;
         String menuName = "TempMenu"; // Menu title shown on screen. 
 
-        TempMenu(DisplayController display_controller);
+        TempMenu(DisplayController display_controller, TempHandler* &tempHandler);
 
         /******************************************************/
         /*!
@@ -36,6 +41,8 @@ class TempMenu : public MenuBase {
         */
         /******************************************************/
         void showMenu() override;
+
+        void updateMenu(int arrowPosition);
 
         /******************************************************/
         /*!
@@ -56,9 +63,9 @@ class TempMenu : public MenuBase {
     private:
         DisplayController* disp;
 
-        std::vector<std::string> itemsList = {"Item1", "Item2", "Item3"}; // List of items to be shown on screen.
-        float currentThreshold = DEFAULT_THRESHOLD; // Temperature tolerance to activate the alarm
-        Modes currentMode = DEFAULT_MODE; // Device operation mode
+        
+        OperationModes currentMode = AMBIENT_MODE; // Device operation mode
+        SensorLayouts currentLayout = NONE;
 
         /*****************************************************/
         /*!
@@ -66,15 +73,10 @@ class TempMenu : public MenuBase {
             @param mode The mode to be set.
         */
         /*****************************************************/
-        void setMode(Modes mode);
+        void setMode(OperationModes mode);
+        void setSensorLayout(SensorLayouts sensorLayout);
+        TempHandler* &tempHandler;
 
-        /*****************************************************/
-        /*!
-            @brief Sets the threshold for the temperature measurement.
-            @param new_threshold The new threshold to be set.
-        */
-        /*****************************************************/
-        void setThreshold(float new_threshold);
 };
 
 #endif  // _TEMPMENU_HPP_

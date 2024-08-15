@@ -2,12 +2,13 @@
 #include "temphandler.hpp"
 #include <Arduino.h>
 
+TempHandler temperature_handler;
+
 // Test temperature to be within 
 // Reasonable ambient range
 #define EXPECTED_TEMP 25
 #define DELTA_TEMP 10.0
 
-TempHandler temperature_handler;
 
 void test_ntc_sensor_created() {
     TEST_ASSERT_NOT_EQUAL(nullptr, temperature_handler.available_sensors[NTC_ID])

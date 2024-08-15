@@ -6,10 +6,10 @@
 */
 SensorPT100::SensorPT100(const std::string& id){
     sensor_id = id;
+    max_module.begin(MAX31865_3WIRE);
 }
 
 void SensorPT100::enableSensor() {
-    max_module.begin(MAX31865_3WIRE);
     is_enabled = true;
 }
 
@@ -19,7 +19,7 @@ void SensorPT100::disableSensor() {
 
 float SensorPT100::getTemperature() {
     float tempRTD;
-    tempRTD = max_module.temperature(100, RREF);
+    tempRTD = max_module.temperature(RNOMINAL, RREF);
 
     return tempRTD;
 }
@@ -31,3 +31,8 @@ bool SensorPT100::isSensorEnabled() {
 std::string SensorPT100::getSensorID() {
     return sensor_id;
 }
+
+bool SensorPT100::checkSensorHealth() {
+    return !(analogRead(SENSOR_PIN) <=  NOT_HEALTHY_THRESHOLD);
+}
+

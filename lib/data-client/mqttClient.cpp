@@ -1,30 +1,56 @@
 #include <mqttClient.hpp>
 
-void MQTTClient::config(const char* wifi_ssid, const char* wifi_password) {
-    WiFi.mode(WIFI_STA);
-    WiFi.begin(wifi_ssid, wifi_password);
-
-    Serial.print("Conectando ao WiFi...");
-
-    while(WiFi.status() != WL_CONNECTED) {
-        Serial.print(".");
-        delay(500);
-    }
-
-    configMQTT(certificate, broker, port);
+void MQTTClient::config(const char* wifi_ssid, const char* wifi_password){
+    setWifiParams(wifi_ssid, wifi_password);
+    connectWifi();
+    configMQTT(broker, port);
 }
 
-void MQTTClient::configMQTT(const char* certificate, const char* broker, const int port) {
-    espClient.setCACert(certificate);
-    MQTT.setServer(broker, port);
-    MQTT.setCallback(callback);
-    if(!MQTT.connected()) {
-        connect(username, password);
+void MQTTClient::setWifiParams(const char* wifi_ssid, const char* wifi_password) {
+    wifiSSID = wifi_ssid;
+    wifiPassword = wifi_password; 
+}
+
+void MQTTClient::connectWifi(){
+    if(wifiSSID != nullptr){
+        WiFi.mode(WIFI_STA);
+        WiFi.begin(wifiSSID, wifiPassword);
+
+        DEBUG(Serial.println("Conectando ao WiFi...");)
+        delay(CONNECTION_WAIT_TIME);
+
+        if(WiFi.status() != WL_CONNECTED) {
+            DEBUG(Serial.println("Was not able to connect to WIFI");)
+            isConnected = false;
+        }
+        else{
+            isConnected = true;
+        }
+    }
+    else{
+        //DEBUG(Serial.println("Password and SSID incorrectly setted (or not setted)");) 
     }
 }
+
+void MQTTClient::configMQTT(const char* broker, const int port) {
+    if (isConnected == true) {
+        MQTT.setServer(broker, port);
+        MQTT.setCallback(callback);
+        if(!MQTT.connected()) {
+            connect();
+            isConfigured = false;
+        } else {
+            isConfigured = true;
+        }
+    }
+}
+
 
 void MQTTClient::mqttLoop() {
-    MQTT.loop();
+    
+    if(isConnected){MQTT.loop();} else{connectWifi();}
+
+    if(!isConfigured){configMQTT(broker, port);}
 }
 
 String MQTTClient::getIP() {
@@ -38,46 +64,56 @@ String MQTTClient::getMAC() {
 }
 
 void callback(char *topic, byte *payload, unsigned int length) {
-    Serial.print("Message arrived in topic: ");
-    Serial.println(topic);
-    Serial.print("Message:");
+    DEBUG(Serial.print("Message arrived in topic: ");
+          Serial.println(topic);
+          Serial.print("Message:");) 
+
     for (int i = 0; i < length; i++) {
         Serial.print((char) payload[i]);
     }
-    Serial.println();
-    Serial.println("-----------------------");
+    DEBUG(Serial.println();
+          Serial.println("-----------------------");)
 }
 
-void MQTTClient::publishMessage(const char* topic, String payload , boolean retained){
-    if (MQTT.publish(topic, payload.c_str(), true))
-        Serial.println("Message published ["+String(topic)+"]: "+payload);
+void MQTTClient::publishMessage(const char* topic, String payload , boolean retained=true){
+    Serial.print("Sending:");
+    Serial.println(payload.c_str());
+
+    bool messageWasPublished = MQTT.publish(topic, payload.c_str(), retained);
+    if (messageWasPublished){
+        DEBUG(Serial.println("Message published ["+String(topic)+"]: "+payload);)
+    }
+    else {
+        DEBUG(Serial.println("Error Sending Message["+String(topic)+"]: "+payload);)
+    }
 }
 
-void MQTTClient::connect(const char* user, const char* password) {
+void MQTTClient::connect() {
     while(!MQTT.connected()) {
     String client_id = "esp32-client-";
-    client_id += String(WiFi.macAddress());
-    Serial.printf("The client %s connects to MQTT broker\n", client_id.c_str());
-    if (MQTT.connect(client_id.c_str(), user, password)) {
-        Serial.println("Broker connected");
+    String macAddr = getMAC();
+    client_id += macAddr;
+
+    // Formats topic for last will
+    macAddr.replace(":", "");
+
+    std::string topicBase = std::string{"biotemp/biotemp_"} + macAddr.c_str(); 
+
+    DEBUG(Serial.println(" Last Will Topic: "); Serial.println((topicBase + willTopic).c_str());)
+    DEBUG(Serial.printf("The client %s connects to MQTT broker\n", client_id.c_str());)
+    
+    if (MQTT.connect(client_id.c_str(), (topicBase + willTopic).c_str(), willQOS, willRetain, willMessage)) {
+        DEBUG(Serial.println("Broker connected");)
         //MQTT.subscribe(topic); //Verificar necessidade
     } else {
-        Serial.print("failed with state ");
-        Serial.print(MQTT.state());
+        DEBUG(Serial.print("failed with state ");
+              Serial.print(MQTT.state());)
         delay(2000);
         }
     }
 }
 
-MQTTClient::MQTTClient(const char* mqttUser, 
-        const char* mqttPass, 
-        const char* mqttCertificate, 
-        const char* mqttBroker, 
-        const int mqttPort) {
-
-    username = mqttUser;
-    password = mqttPass;
-    certificate = mqttCertificate;
+MQTTClient::MQTTClient(const char* mqttBroker, const int mqttPort) {
     broker = mqttBroker;
     port = mqttPort;
 }

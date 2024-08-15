@@ -6,11 +6,8 @@
 #define WIFI_SSID "Devices" // Network SSID
 #define WIFI_PASSWORD NULL // Network password
 
-#define USERNAME "esp32" // MQTT user to connect to the broker
-#define PASSWORD "BioTemp0" // MQTT password to connect to the broker
-
-#define BROKER_URL "f473eee517ca46888788ad8040276af7.s1.eu.hivemq.cloud" // MQTT broker URL 
-#define PORT 8883 // MQTT standard port
+#define BROKER_URL "biotemp-lnbio.cnpem.br"
+#define PORT 1883
 
 // Certificate for secure connection
 static const char *root_ca PROGMEM = R"EOF(

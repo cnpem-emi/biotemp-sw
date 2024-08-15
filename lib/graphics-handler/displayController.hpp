@@ -6,6 +6,8 @@
 #include <Adafruit_SSD1306.h>
 #include <vector>
 
+#include "debug-config.hpp"
+
 #define SCREEN_WIDTH 128 // OLED display width, in pixels
 #define SCREEN_HEIGHT 64 // OLED display height, in pixels
 #define OLED_RESET    -1 // Reset pin # (or -1 if sharing Arduino reset pin)
@@ -14,8 +16,14 @@
 #define DOWN_BUTTON_PIN 19 // Push button test down pin
 #define SELECT_BUTTON_PIN 3 // Push button test select pin
 
+#define I2C_DEFAULT_ADDR 0x3C
+#define STARTUP_CONFIG_DELAY 2000 
+
+#define TEXT_BUFFER_LEN 10 
+#define NORMAL_TEXT_SIZE 1
+#define TITLE_TEXT_SIZE 2
 /***************************************************************/
-/*!
+/** 
     @brief SSD1306 display interface class. This module is a
     higher-level abstraction to the Adafruit_SSD1306.h library
     made to easily create interactive menus.
@@ -25,7 +33,10 @@ class DisplayController {
     public:
         int arrowPos = 0; // Position  of the menu arrow
 
-        // Display initial configuration. Needs to be called inside the setup function.
+        /**
+         * Initializes an SSD1306 display and clears its contents.
+         * Display initial configuration. Needs to be called inside the setup function.
+         */
         void displayConfig();
         
         /***************************************************************/
@@ -81,15 +92,15 @@ class DisplayController {
             @param menuList A vector with the strings of the menus.
         */
         /***************************************************************/
-        void createMenu(std::vector<std::string> menuList);
+        void createMenu(std::string item1, std::string item2);
 
         // Erases the arrows drawn ion screen
         void eraseArrow();
 
-        // TEST FUNCTIONS (PUSH BUTTONS)
-        void upButton();
-        void downButton();
-        void selectButton();
+        // Erases the temperature value
+        void eraseTemperature();
+
+        void showLogo(const unsigned char logo[]);
 
     private:
         int pixelLine = 0; // Number of pixels between lines
@@ -108,7 +119,7 @@ class DisplayController {
             @param size_y the final y coordenate.
         */
         /***************************************************************/
-        void eraseText(int x, int y, int size_x, int size_y); 
+        void eraseText(int x, int y, int size_x, int size_y);   
 };
 
 #endif  // _INCLUDE_DISPLAYCONTROLLER_HPP_

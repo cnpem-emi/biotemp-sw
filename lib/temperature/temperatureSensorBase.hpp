@@ -5,12 +5,6 @@
 
 class TemperatureSensorBase {
 public:
-    // Constructor
-    //TemperatureSensorBase() {}
-
-    // Virtual destructor
-    //virtual ~SensorBase() {}
-
     std::string sensor_id;
     bool is_enabled = false;
 
@@ -21,6 +15,7 @@ public:
     virtual void enableSensor() = 0;
     virtual void disableSensor() = 0;
     virtual float getTemperature() = 0;
+    virtual bool checkSensorHealth() = 0;
 };
 
 #endif // SENSOR_BASE_HPP

@@ -3,7 +3,12 @@
 
 #include <WiFi.h>
 #include <PubSubClient.h>
-#include <WiFiClientSecure.h>
+//#include <WiFiClientSecure.h>
+#include <WiFiClient.h>
+#include "debug-config.hpp"
+
+#define CONNECTION_WAIT_TIME 500
+
 
 /**
  * @class WiFiConnection
@@ -23,7 +28,8 @@ class MQTTClient {
         *   @param port broker port.
         */
         /*************************************************************/
-        void configMQTT(const char* certificate, const char* broker, const int port);
+        //void configMQTT(const char* certificate, const char* broker, const int port);
+        void configMQTT(const char* broker, const int port);
         void mqttLoop(); // MQTT main loop, needs to be called at "void loop()"
 
         /*************************************************************/
@@ -50,27 +56,42 @@ class MQTTClient {
         *   @param mqttPort MQTT connection port
         */
         /*************************************************************/
-        MQTTClient(const char* mqttUser, 
-            const char* mqttPass, 
-            const char* mqttCertificate, 
-            const char* mqttBroker, 
-            const int mqttPort);
+        MQTTClient(const char* mqttBroker, const int mqttPort);
+        
+
+        void connectWifi();
+        void setWifiParams(const char* wifi_ssid, const char* wifi_password);
+
+        bool isConnected = false;
+        bool isConfigured = false;
 
     private:
         String ip; // Device IP
         String mac_address; // Device MAC address
 
-        const char* username;
-        const char* password;
+        const char* username = NULL;
+        const char* password = NULL;
         const char* certificate;
         const char* broker;
         int port;
 
-        WiFiClientSecure espClient; // Instace of secure client, needs certificate
+        const char* wifiSSID;
+        const char* wifiPassword;
+
+        // About will when disconnected
+        const char* willTopic = "/discon";
+        const char* willMessage = "{\"diconnected\": 1}";
+        uint8_t willQOS = 2;
+        const boolean willRetain = false;
+
+
+        //WiFiClientSecure espClient; // Instace of secure client, needs certificate
+        WiFiClient espClient;
         PubSubClient MQTT = PubSubClient(espClient);
 
         // Create the connection between the device and MQTT broker
-        void connect(const char* user, const char* password);
+        //void connect(const char* user, const char* password);
+        void connect();
 };
 
 /****************************************************************/

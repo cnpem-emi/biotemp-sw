@@ -27,3 +27,4 @@ void InputController::config(int upperBound) {
   // This is where the inputs are configured and the interrupts get attached
   rotaryEncoder.begin();
 }
+
