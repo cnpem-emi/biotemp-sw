@@ -8,6 +8,9 @@
 #define BETA_COEFF 3935 // NTC beta coefficient at 25/50
 #define T_0 298.15 // NTC reference temperature: 25°C 
 #define R_0 10000 // NTC reference resistance: R(T_0)
+#define R_DIV 56000 // Voltage divider resistor
+
+
 
 #define NOT_HEALTHY_THRESHOLD 1500 // based on ESP32 ADC
 
