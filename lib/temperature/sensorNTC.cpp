@@ -30,7 +30,7 @@ float SensorNTC::getTemperature() {
 
     voltage_adc = readADCPin(); 
     voltage_adc = voltage_adc/1000;
-    resistence_ntc = R_0/((3.3/voltage_adc)-1); 
+    resistence_ntc = R_DIV/((3.3/voltage_adc)-1);
     
     // Gets the temperature in Kelvin
     temperature = (BETA_COEFF*T_0)/(std::log(resistence_ntc/R_0)*T_0 + BETA_COEFF); 
