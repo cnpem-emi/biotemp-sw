@@ -14,47 +14,27 @@ void DisplayController::displayConfig() {
 }
 
 void DisplayController::displayText(int value, int line, bool newline) {
-    pixelLine = line * 18;
     char buffer[TEXT_BUFFER_LEN];
     itoa(value, buffer, TEXT_BUFFER_LEN);
-    display.setTextSize(NORMAL_TEXT_SIZE);
-    display.setTextColor(WHITE);
-
-     if (newline == true) {
-      display.setCursor(14, pixelLine);
-      display.println(buffer);
-    } else {
-      display.print(buffer);
-    }
-    
-    display.display();
+    displayText(buffer, line, newline);
 }
 
-void DisplayController::displayText (float value, int line, bool newline) {
+void DisplayController::displayText (float value, int line, bool newline,
+                                     const uint8_t textSize, const uint16_t spacex) {
     char buffer[TEXT_BUFFER_LEN];
-
-    pixelLine = line * 16;
-    dtostrf(value, 3, 2, buffer);
-    display.setTextSize(NORMAL_TEXT_SIZE);
-    display.setTextColor(WHITE);
-
-    if (newline == true) {
-      display.setCursor(14, pixelLine);
-      display.println(buffer);
-    } else {
-      display.print(buffer);
-    }
-
-    display.display();
+    dtostrf(value, 3, 2, buffer);   
+    displayText(buffer, line, newline, textSize, spacex);
 }
 
-void DisplayController::displayText (std::string text, int line, bool newline ) {
+void DisplayController::displayText(std::string text, int line, bool newline, 
+                                     const uint8_t textSize, const uint16_t spacex) {
     pixelLine = line * 16;
-    display.setTextSize(NORMAL_TEXT_SIZE);
+    display.setTextSize(textSize);
+
     display.setTextColor(WHITE);
 
     if (newline == true) {
-      display.setCursor(14, pixelLine);
+      display.setCursor(spacex, pixelLine);
       display.println(text.c_str());
     } else {
       display.print(text.c_str());
@@ -62,6 +42,43 @@ void DisplayController::displayText (std::string text, int line, bool newline ) 
 
     display.display();
 }
+
+//-------------------------------------------------------------------------------//
+
+void DisplayController::displayTextNew (float value, int line, bool newline) {
+    char buffer[TEXT_BUFFER_LEN];
+
+    pixelLine = line * 16;
+    dtostrf(value, 3, 2, buffer);
+    display.setTextSize(TITLE_TEXT_SIZE);
+    display.setTextColor(WHITE);
+
+    if (newline == true) {
+      display.setCursor(0, line);
+      display.println(buffer);
+    } else {
+      display.print(buffer);
+    }
+
+    display.display();
+}
+
+void DisplayController::displayTextNew (std::string text, int line, bool newline ) {
+    pixelLine = line * 16;
+    display.setTextSize(NORMAL_TEXT_SIZE);
+
+    display.setTextColor(WHITE);
+
+    if (newline == true) {
+      display.setCursor(0, line);
+      display.println(text.c_str());
+    } else {
+      display.print(text.c_str());
+    }
+
+    display.display();
+}
+//===============================================================================//
 
 int DisplayController::getCenterX() {
   int displayWidth = display.width(); 

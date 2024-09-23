@@ -55,9 +55,10 @@ void GraphicalViewHandler::showScreenSaver(){
 
 void GraphicalViewHandler::updateScreenSaver() {
     oled.clearDisplay();
-    oled.showMenuTitle("BioTemp");
+    //oled.showMenuTitle("BioTemp");
 
     if(tempHandler->available_sensors.empty()) {
+        oled.showMenuTitle("BioTemp");
         oled.displayText("Please Configure", 1, true);
         oled.displayText("  Temperature Sensor", 2, false);
         return;
@@ -74,12 +75,17 @@ void GraphicalViewHandler::updateScreenSaver() {
 
         // Displays temperature
         if((it->second)->checkSensorHealth()){
-            oled.displayText((it->second)->getTemperature(), i, false);
+            //oled.displayText((it->second)->getTemperature(), i, false);
+            //oled.displayText(" oC", i, false);
+            oled.displayText((it->second)->getTemperature(), i, false, TITLE_TEXT_SIZE);
+            //oled.displayTextNew(" oC", i, false);
             oled.displayText(" oC", i, false);
+
         }
         else{ oled.displayText("No Temp.", i, false);} 
 
-        oled.displayText(" ", i, true);  
+        oled.displayText(" ", i, true);
+        //oled.displayTextNew(" ", i, true); 
         i++;
     }
 
