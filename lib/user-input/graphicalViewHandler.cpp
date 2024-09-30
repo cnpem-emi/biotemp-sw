@@ -69,23 +69,18 @@ void GraphicalViewHandler::updateScreenSaver() {
 
     for ( auto it = tempHandler->available_sensors.begin();
           it != tempHandler->available_sensors.end(); ++it) {
-        oled.displayText("  ", i, false);
         oled.displayText((it->first), i, false);
         oled.displayText(": ", i, false);
 
         // Displays temperature
         if((it->second)->checkSensorHealth()){
-            //oled.displayText((it->second)->getTemperature(), i, false);
-            //oled.displayText(" oC", i, false);
             oled.displayText((it->second)->getTemperature(), i, false, TITLE_TEXT_SIZE);
-            //oled.displayTextNew(" oC", i, false);
             oled.displayText(" oC", i, false);
 
         }
         else{ oled.displayText("No Temp.", i, false);} 
 
         oled.displayText(" ", i, true);
-        //oled.displayTextNew(" ", i, true); 
         i++;
     }
 

@@ -12,7 +12,8 @@
 
 
 
-#define NOT_HEALTHY_THRESHOLD 1500 // based on ESP32 ADC
+// #define NOT_HEALTHY_THRESHOLD 1500 // based on ESP32 ADC
+#define NOT_HEALTHY_THRESHOLD 1 // based on ESP32 ADC
 
 #define NTCID1 "NTC1"
 #define NTCID2 "NTC2"

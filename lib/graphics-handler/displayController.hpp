@@ -48,7 +48,6 @@ class DisplayController {
         */
         /***************************************************************/
         void displayText(int value, int line, bool newline);
-        void displayTextNew(int value, int line, bool newline);
         /***************************************************************/
         /*!
             @brief Displays the text input from the user.
@@ -60,7 +59,6 @@ class DisplayController {
         void displayText(float value, int line, bool newline,
                         const uint8_t textSize = NORMAL_TEXT_SIZE, 
                         const uint16_t spacex=14);
-        void displayTextNew(float value, int line, bool newline);
 
         /***************************************************************/
         /*!
@@ -70,7 +68,6 @@ class DisplayController {
             @param newLine End the line if true.
         */
         /***************************************************************/
-        void displayTextNew(std::string text, int line, bool newline);
         void displayText(std::string text, int line, bool newline,  
                            const uint8_t textSize = NORMAL_TEXT_SIZE, const uint16_t spacex=14);
         // Clears the display.

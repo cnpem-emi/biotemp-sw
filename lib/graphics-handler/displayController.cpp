@@ -43,43 +43,6 @@ void DisplayController::displayText(std::string text, int line, bool newline,
     display.display();
 }
 
-//-------------------------------------------------------------------------------//
-
-void DisplayController::displayTextNew (float value, int line, bool newline) {
-    char buffer[TEXT_BUFFER_LEN];
-
-    pixelLine = line * 16;
-    dtostrf(value, 3, 2, buffer);
-    display.setTextSize(TITLE_TEXT_SIZE);
-    display.setTextColor(WHITE);
-
-    if (newline == true) {
-      display.setCursor(0, line);
-      display.println(buffer);
-    } else {
-      display.print(buffer);
-    }
-
-    display.display();
-}
-
-void DisplayController::displayTextNew (std::string text, int line, bool newline ) {
-    pixelLine = line * 16;
-    display.setTextSize(NORMAL_TEXT_SIZE);
-
-    display.setTextColor(WHITE);
-
-    if (newline == true) {
-      display.setCursor(0, line);
-      display.println(text.c_str());
-    } else {
-      display.print(text.c_str());
-    }
-
-    display.display();
-}
-//===============================================================================//
-
 int DisplayController::getCenterX() {
   int displayWidth = display.width(); 
   return displayWidth / 2; 

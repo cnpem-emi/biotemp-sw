@@ -72,7 +72,7 @@ void callback(char *topic, byte *payload, unsigned int length) {
         Serial.print((char) payload[i]);
     }
     DEBUG(Serial.println();
-          Serial.println("-----------------------");)
+          Serial.println("---------------------------");)
 }
 
 void MQTTClient::publishMessage(const char* topic, String payload , boolean retained=true){
@@ -104,7 +104,9 @@ void MQTTClient::connect() {
     
     if (MQTT.connect(client_id.c_str(), (topicBase + willTopic).c_str(), willQOS, willRetain, willMessage)) {
         DEBUG(Serial.println("Broker connected");)
-        //MQTT.subscribe(topic); //Verificar necessidade
+        //to subscribe topic:
+        std::string configTopic = topicBase + "/config";
+        MQTT.subscribe(configTopic.c_str()); 
     } else {
         DEBUG(Serial.print("failed with state ");
               Serial.print(MQTT.state());)
