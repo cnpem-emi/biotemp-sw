@@ -48,7 +48,7 @@ class Biotemp {
                 alreadySendConfig = true;
             }
         }
-
+        
     private:
         bool alreadySendConfig = false;
         InputController encoder;

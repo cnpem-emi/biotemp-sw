@@ -1,4 +1,10 @@
 #include "inputCallbacks.hpp"
+#include "eventTimer.hpp"
+#include "buzzer.hpp"
+
+TempHandler temperature_handler;
+Buzzer buzzer;
+
 
 /**
  * The function `knobCallback` creates a KnobEvent with the position set
@@ -10,10 +16,13 @@
  */
 void knobCallback( long value )
 {
+    
     KnobEvent event;
     event.position = value;
     handler.userRecentlyInteracted = true;
     handler.handleKnobEvent(event);
+    
+    
 }
 
 /**

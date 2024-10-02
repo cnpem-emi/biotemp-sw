@@ -10,11 +10,6 @@
 #define R_0 10000 // NTC reference resistance: R(T_0)
 #define R_DIV 56000 // Voltage divider resistor
 
-
-
-// #define NOT_HEALTHY_THRESHOLD 1500 // based on ESP32 ADC
-#define NOT_HEALTHY_THRESHOLD 1 // based on ESP32 ADC
-
 #define NTCID1 "NTC1"
 #define NTCID2 "NTC2"
 

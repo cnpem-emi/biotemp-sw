@@ -8,6 +8,7 @@ void Buzzer:: buzzerConfig(){
 }
 
 void Buzzer:: buzzerON() {
+  isBuzzerTriggered = true;
   if(!isEnabled) {return;};
 
   if (buzzerState == HIGH)
@@ -32,14 +33,25 @@ void Buzzer:: buzzerON() {
 }
 
 void Buzzer::buzzerOFF(){
+  isBuzzerTriggered = false;
   digitalWrite(BUZZER_PIN, LOW);
   //ledcWrite(BUZZER_PWM_CHANNEL, 0);
   ledcWriteTone(BUZZER_PWM_CHANNEL, 0);
 }
 
-void Buzzer::toggle( bool enable){
+void Buzzer::toggle(bool enable){
   isEnabled = enable;
   if(!enable){
     buzzerOFF();
+  }
+}
+
+void Buzzer::handleDisable(){
+  if (isEnabled == false) {
+    buzzerCounter++;
+    if (buzzerCounter == (BUZZER_COUNTER_MAX -1)){
+      isEnabled = true;
+      buzzerCounter = 0;
+    }
   }
 }

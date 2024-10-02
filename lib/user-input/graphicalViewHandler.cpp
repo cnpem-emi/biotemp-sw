@@ -18,6 +18,12 @@ void GraphicalViewHandler::handleKnobEvent(KnobEvent event) {
         scheduledKnobEvent = event;
     }
 
+    if (tempHandler!=nullptr) {
+        if (tempHandler->buzzer.isBuzzerTriggered == true) {
+            tempHandler->buzzer.toggle(false);
+        }
+    }
+
 }
 
 void GraphicalViewHandler::handlePressEvent(ButtonPressEvent event) {
@@ -34,6 +40,12 @@ void GraphicalViewHandler::handlePressEvent(ButtonPressEvent event) {
     //event.pressed = false;
 }
 
+void GraphicalViewHandler::handleBuzzerDisable() {
+    if(tempHandler!=nullptr) {
+        tempHandler->buzzer.handleDisable();
+
+    }
+}
 
 void GraphicalViewHandler::config(TempHandler& tempHandler, BioTempMQTTClient& mqttClient) {
     oled.displayConfig();

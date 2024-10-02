@@ -18,7 +18,6 @@
 #define RNOMINAL 100.0
 
 #define SENSOR_PIN 3
-#define NOT_HEALTHY_THRESHOLD 1500 // based on ESP32 ADC
 
 /*****************************************************/
 /*!

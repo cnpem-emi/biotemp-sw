@@ -85,6 +85,8 @@ class GraphicalViewHandler {
         void addTempHandler(TempHandler& temperatureHandler){ tempHandler = &temperatureHandler;};
         void addMQTTClient(BioTempMQTTClient& mqtt_client){ mqttClient = &mqtt_client;};
 
+        void handleBuzzerDisable();
+
     private:
         DisplayController oled;
         TempMenu temp = TempMenu(oled, tempHandler);
