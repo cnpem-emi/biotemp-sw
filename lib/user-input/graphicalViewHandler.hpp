@@ -12,7 +12,7 @@
 
 #include <esp32-hal-timer.h>
 
-#define SPLASH_SCREEN_TIME 1000 // in milliseconds
+#define SPLASH_SCREEN_TIME 2000 // in milliseconds
 
 /*********************************************************/
 /*!

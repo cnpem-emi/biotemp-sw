@@ -16,12 +16,10 @@ Buzzer buzzer;
  */
 void knobCallback( long value )
 {
-    
     KnobEvent event;
     event.position = value;
     handler.userRecentlyInteracted = true;
     handler.handleKnobEvent(event);
-    
     
 }
 

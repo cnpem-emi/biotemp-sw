@@ -1,6 +1,8 @@
 #ifndef SENSOR_BASE_HPP
 #define SENSOR_BASE_HPP
 
+#define NOT_HEALTHY_THRESHOLD 1
+
 #include<string>
 
 class TemperatureSensorBase {

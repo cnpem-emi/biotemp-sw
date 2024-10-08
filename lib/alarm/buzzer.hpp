@@ -4,7 +4,7 @@
 #include "sensorNTC.hpp"
 #include "LED.hpp"
 
-#define BUZZER_COUNTER_MAX 2
+#define BUZZER_COUNTER_MAX 10 // Equivale a aproximadamente 41 segundos
 #define BUZZER_PIN 15
 #define ON_BUZZER_DURATION 100
 #define OFF_BUZZER_DURATION 500
