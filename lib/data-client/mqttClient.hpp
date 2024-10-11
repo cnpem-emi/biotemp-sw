@@ -8,8 +8,7 @@
 #include <ArduinoJson.h>
 
 #include "debug-config.hpp"
-#include "tempHandler.hpp"
-#include "mqttCallbacks.hpp"
+#include "temphandler.hpp"
 
 #define CONNECTION_WAIT_TIME 500
 
@@ -67,6 +66,8 @@ class MQTTClient {
         bool isConnected = false;
         bool isConfigured = false;
 
+        PubSubClient MQTT = PubSubClient(espClient);
+
     private:
         String ip; // Device IP
         String mac_address; // Device MAC address
@@ -89,7 +90,6 @@ class MQTTClient {
 
         //WiFiClientSecure espClient; // Instace of secure client, needs certificate
         WiFiClient espClient;
-        PubSubClient MQTT = PubSubClient(espClient);
 
         // Create the connection between the device and MQTT broker
         //void connect(const char* user, const char* password);

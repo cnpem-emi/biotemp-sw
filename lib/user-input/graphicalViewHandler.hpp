@@ -88,12 +88,6 @@ class GraphicalViewHandler {
 
         void handleBuzzerDisable();
 
-        void mqttConfigRequest(StaticJsonDocument<200> biotempConfigRequest){ 
-            if(mqttClient != nullptr){ 
-                mqttClient->jsonHandler.handleConfigRequest(biotempConfigRequest);
-            }
-        };
-
     private:
         DisplayController oled;
         TempMenu temp = TempMenu(oled, tempHandler);

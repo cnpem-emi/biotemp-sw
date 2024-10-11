@@ -46,6 +46,7 @@ class Biotemp {
                 Serial.println("Trying to Publish Config");
                 mqttClient.publishConfig();
                 alreadySendConfig = true;
+                mqttClient.configCallback();
             }
 
         }

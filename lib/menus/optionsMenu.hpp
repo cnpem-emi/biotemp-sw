@@ -5,7 +5,7 @@
 #include "infoMenu.hpp"
 #include "displayController.hpp"
 
-#include<memory>
+#include <memory>
 
 #define SUBMENUS_NUM 2
 

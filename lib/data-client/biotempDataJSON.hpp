@@ -9,8 +9,7 @@
 #include "temphandler.hpp"
 #include "modes-and-layouts.hpp"
 
-#define MQTT_CONFIG_BUFFER_LEN 200
-typedef StaticJsonDocument<MQTT_CONFIG_BUFFER_LEN> ConfigRequestDocument; 
+typedef JsonDocument ConfigRequestDocument; 
 
 // extern DynamicJsonDocument configDoc;
 

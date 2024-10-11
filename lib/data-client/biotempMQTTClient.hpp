@@ -5,6 +5,10 @@
 #include "secrets.h"
 #include "biotempDataJSON.hpp"
 
+#include <functional>
+
+using namespace std::placeholders;
+
 /**************************************************************/
 /** 
 *   @brief BioTemp MQTT interface class.
@@ -39,6 +43,11 @@ class BioTempMQTTClient {
         bool isConfigured();
 
         BiotempDataJson jsonHandler; 
+
+        // Binds callback to instance
+        void configCallback(){mqtt.MQTT.setCallback(std::bind(&BioTempMQTTClient::configRequestCallback, this, _1, _2, _3));};
+
+        void configRequestCallback(char *topic, byte *payload, unsigned int length);
 
     private:
         //const char *topic = "test";

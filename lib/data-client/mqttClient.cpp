@@ -35,7 +35,7 @@ void MQTTClient::connectWifi(){
 void MQTTClient::configMQTT(const char* broker, const int port) {
     if (isConnected == true) {
         MQTT.setServer(broker, port);
-        MQTT.setCallback(configRequestCallback);
+        //MQTT.setCallback(configRequestCallback);
         if(!MQTT.connected()) {
             connect();
             isConfigured = false;
