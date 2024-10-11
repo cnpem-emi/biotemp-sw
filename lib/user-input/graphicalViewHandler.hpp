@@ -11,6 +11,7 @@
 #include "biotempMQTTClient.hpp"
 
 #include <esp32-hal-timer.h>
+#include <ArduinoJson.h>
 
 #define SPLASH_SCREEN_TIME 2000 // in milliseconds
 
@@ -86,6 +87,12 @@ class GraphicalViewHandler {
         void addMQTTClient(BioTempMQTTClient& mqtt_client){ mqttClient = &mqtt_client;};
 
         void handleBuzzerDisable();
+
+        void mqttConfigRequest(StaticJsonDocument<200> biotempConfigRequest){ 
+            if(mqttClient != nullptr){ 
+                mqttClient->jsonHandler.handleConfigRequest(biotempConfigRequest);
+            }
+        };
 
     private:
         DisplayController oled;

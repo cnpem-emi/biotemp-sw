@@ -5,10 +5,13 @@
 #include <PubSubClient.h>
 //#include <WiFiClientSecure.h>
 #include <WiFiClient.h>
+#include <ArduinoJson.h>
+
 #include "debug-config.hpp"
+#include "tempHandler.hpp"
+#include "mqttCallbacks.hpp"
 
 #define CONNECTION_WAIT_TIME 500
-
 
 /**
  * @class WiFiConnection
@@ -57,7 +60,6 @@ class MQTTClient {
         */
         /*************************************************************/
         MQTTClient(const char* mqttBroker, const int mqttPort);
-        
 
         void connectWifi();
         void setWifiParams(const char* wifi_ssid, const char* wifi_password);
@@ -75,6 +77,7 @@ class MQTTClient {
         const char* broker;
         int port;
 
+
         const char* wifiSSID;
         const char* wifiPassword;
 
@@ -83,7 +86,6 @@ class MQTTClient {
         const char* willMessage = "{\"diconnected\": 1}";
         uint8_t willQOS = 2;
         const boolean willRetain = false;
-
 
         //WiFiClientSecure espClient; // Instace of secure client, needs certificate
         WiFiClient espClient;
@@ -94,12 +96,5 @@ class MQTTClient {
         void connect();
 };
 
-/****************************************************************/
-/*!
-* @brief This function is called every time a message is received 
-*    from the broker
-*/
-/****************************************************************/
-void callback(char *topic, byte *payload, unsigned int length);
 
 #endif  // _INCLUDE_MQTTCLIENT_H_

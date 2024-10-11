@@ -1,6 +1,7 @@
 #include "temphandler.hpp"
 #include "sensorPT100.hpp"
 #include "sensorNTC.hpp"
+#include "biotempDataJSON.hpp"
 
 void TempHandler::addPT100Sensor(const std::string& sensor_id) {
     available_sensors[sensor_id] = TempSensorPtr(new SensorPT100(sensor_id));
@@ -20,9 +21,43 @@ void TempHandler::clearSensorMap(){
     isAnySensorConfig = false;
 }
 
+
+
 void TempHandler::setSensorLayout(SensorLayouts sensorLayout) {
     currentLayout = sensorLayout;
     clearSensorMap();
+    
+    // int sensor_1_type = configDoc["sensor_1_type"] | -1;
+    // int sensor_2_type = configDoc["sensor_2_type"] | -1;
+    // int sensor_3_type = configDoc["sensor_3_type"] | -1;
+
+
+    // if (sensor_1_type == 1) {
+    //     addNTCSensor(NTC_ID_1, NTC_PIN_1);
+    // } else if (sensor_1_type == 2) {
+    //     addNTCSensor(NTC_ID_2, NTC_PIN_2);
+    // } else if (sensor_1_type == 3) {
+    //     addPT100Sensor(PT100_ID);
+    // }
+
+    // if (sensor_2_type == 1) {
+    //     addNTCSensor(NTC_ID_1, NTC_PIN_1);
+    // } else if (sensor_2_type == 2) {
+    //     addNTCSensor(NTC_ID_2, NTC_PIN_2);
+    // } else if (sensor_2_type == 3) {
+    //     addPT100Sensor(PT100_ID);
+    // }
+
+    // if (sensor_3_type == 1) {
+    //     addNTCSensor(NTC_ID_1, NTC_PIN_1);
+    // } else if (sensor_3_type == 2) {
+    //     addNTCSensor(NTC_ID_2, NTC_PIN_2);
+    // } else if (sensor_3_type == 3) {
+    //     addPT100Sensor(PT100_ID);
+    // }
+    
+
+    
     switch(currentLayout) {
         case NTC1:
             addNTCSensor(NTC_ID_1, NTC_PIN_1);
@@ -36,6 +71,7 @@ void TempHandler::setSensorLayout(SensorLayouts sensorLayout) {
             break;
     }
 }
+
 
 float TempHandler::getTemperature(const std::string& sensor_id){
     return available_sensors[sensor_id]->getTemperature();

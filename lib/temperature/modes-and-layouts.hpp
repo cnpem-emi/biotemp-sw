@@ -4,6 +4,7 @@
 #define MODES_NUM 4// Number of modes
 #define SENSOR_LAYOUTS_NUM 4
 
+
 // Operation modes
 typedef enum {
     ULTRAFREEZER_MODE,

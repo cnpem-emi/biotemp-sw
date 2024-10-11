@@ -47,6 +47,7 @@ class Biotemp {
                 mqttClient.publishConfig();
                 alreadySendConfig = true;
             }
+
         }
         
     private:

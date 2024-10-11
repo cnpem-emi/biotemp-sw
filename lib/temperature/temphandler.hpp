@@ -17,13 +17,15 @@
 #define NTC_ID_1 "NTC1"
 #define NTC_ID_2 "NTC2"
 
+
+
 typedef std::map<std::string, std::shared_ptr<TemperatureSensorBase>> SensorMap;
 typedef std::shared_ptr<TemperatureSensorBase> TempSensorPtr;
 typedef std::map<std::string, float> TempResults; 
 
 class TempHandler {
     public:
-
+        
         TempHandler(){buzzer.buzzerConfig(); led.ledConfig();};
 
         /**

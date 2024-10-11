@@ -1,10 +1,4 @@
 #include "inputCallbacks.hpp"
-#include "eventTimer.hpp"
-#include "buzzer.hpp"
-
-TempHandler temperature_handler;
-Buzzer buzzer;
-
 
 /**
  * The function `knobCallback` creates a KnobEvent with the position set

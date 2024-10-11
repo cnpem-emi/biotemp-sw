@@ -9,6 +9,11 @@
 #include "temphandler.hpp"
 #include "modes-and-layouts.hpp"
 
+#define MQTT_CONFIG_BUFFER_LEN 200
+typedef StaticJsonDocument<MQTT_CONFIG_BUFFER_LEN> ConfigRequestDocument; 
+
+// extern DynamicJsonDocument configDoc;
+
 /*****************************************************/
 /*!
     @brief DataClient interface class. It is used to send the data from the sensor to other modules.
@@ -21,6 +26,9 @@ class BiotempDataJson {
         String mqttGeneratePacket();
 
         BiotempDataJson(TempHandler& temp_handler): temperature_handler{temp_handler}{}
+
+        void handleConfigRequest(ConfigRequestDocument& configJson);
+        
 
     private:
         std::map<OperationModes, std::string> MODES_DISPLAY_STR = {{ULTRAFREEZER_MODE, "UltraFreezer"},

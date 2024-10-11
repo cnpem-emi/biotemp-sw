@@ -38,6 +38,8 @@ class BioTempMQTTClient {
         bool isConnected();
         bool isConfigured();
 
+        BiotempDataJson jsonHandler; 
+
     private:
         //const char *topic = "test";
         String topic = "biotemp/biotemp_"; // MQTT topic to publish messages
@@ -45,7 +47,6 @@ class BioTempMQTTClient {
         String stateTopic;
 
         MQTTClient mqtt = MQTTClient(BROKER_URL, PORT);
-        BiotempDataJson jsonHandler; 
 };
 
 #endif  // _INCLUDE_BIOTEMPMQTTCLIENT_HPP_
