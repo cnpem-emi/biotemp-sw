@@ -55,48 +55,62 @@
  String BiotempDataJson::configPublisher() {
     JsonDocument configDoc;
     configDoc.clear();
-    
-    //@TODO change this to be able to sub and read config by the network
-    configDoc["sensor_1_type"] = -1;
-    configDoc["sensor_2_type"] = -1;
-    configDoc["sensor_3_type"] = -1; 
 
-    return configDoc.as<String>();
+    JsonArray sensorsConfigs = configDoc["topic_config"].to<JsonArray>();
+    
+    for(SensorConfig& SensorConfig : sensorsConfigValues) {
+        JsonObject sensor = sensorsConfigs.add<JsonObject>();
+        sensor["sensor_id"] = -1; 
+        sensor["sensor_type"] = -1;
+        sensor["is_enabled"] = false;
+        sensor["min_threshold"] = -1;
+        sensor["max_threshold"] = -1;
+    }
+
+    return configDoc.as<String>(); // Retorna o JSON como uma String
 }
+
 
 void BiotempDataJson::handleConfigRequest(ConfigRequestDocument& configJson){
-    // Acessa os dados do JSON
-  int sensor1Type = configJson["sensor_1_type"];
-  int sensor2Type = configJson["sensor_2_type"];
-  int sensor3Type = configJson["sensor_3_type"];
+    
+    JsonArray configArray = configJson["topic_config"].to<JsonArray>();
+    int idx = 0; 
+    for(JsonVariant configJsonObj : configArray) {
+        SensorConfig config; 
+        config.sensor_id = configJsonObj["sensor_id"];
+        config.sensor_type = configJsonObj["sensor_type"];
+        config.is_enabled = configJsonObj["is_enabled"];
+        config.min_threshold = configJsonObj["min_threshold"];
+        config.max_threshold = configJsonObj["max_threshold"];
 
-  //Lógica para alterar modos
-  //Alterar layout de acordo com config recebida
-
-  if (sensor1Type == 1) {
-        temperature_handler.addNTCSensor(NTC_ID_1, NTC_PIN_1);
-    } else if (sensor1Type == 2) {
-        temperature_handler.addNTCSensor(NTC_ID_2, NTC_PIN_2);
-    } else if (sensor1Type == 3) {
-        temperature_handler.addPT100Sensor(PT100_ID);
+        sensorsConfigValues[idx] = config;
+        idx++;
+        addSensor(config.sensor_type);
     }
+    //SensorConfig config;
+    // addSensor(config.sensor_type);
 
-    if (sensor2Type == 1) {
-        temperature_handler.addNTCSensor(NTC_ID_1, NTC_PIN_1);
-    } else if (sensor2Type == 2) {
-        temperature_handler.addNTCSensor(NTC_ID_2, NTC_PIN_2);
-    } else if (sensor2Type == 3) {
-       temperature_handler.addPT100Sensor(PT100_ID);
-    }
-
-    if (sensor3Type == 1) {
-        temperature_handler.addNTCSensor(NTC_ID_1, NTC_PIN_1);
-    } else if (sensor3Type == 2) {
-        temperature_handler.addNTCSensor(NTC_ID_2, NTC_PIN_2);
-    } else if (sensor3Type == 3) {
-        temperature_handler.addPT100Sensor(PT100_ID);
-    }  
 }
+
+
+void BiotempDataJson::addSensor(uint8_t sensorType) {
+    switch (sensorType)
+    {
+    case 1:
+        temperature_handler.addNTCSensor(NTC_ID_1, NTC_PIN_1);
+        break;
+    case 2:
+        temperature_handler.addNTCSensor(NTC_ID_2, NTC_PIN_2);
+        break;
+    case 3:
+        temperature_handler.addPT100Sensor(PT100_ID);
+        break;    
+    default:
+        break;
+    }
+}
+
+
 
 String BiotempDataJson::mqttGeneratePacket() {
     JsonDocument mqttDoc;

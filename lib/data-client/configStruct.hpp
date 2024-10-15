@@ -14,7 +14,7 @@ struct SensorConfig {
         };
 
 
-//typedef enum  {NONE = -1, NTC = 0 , PT100 = 1} SensorTypes;
+// typedef enum  {NONE = -1, NTC = 0 , PT100 = 1} SensorTypes;
 // std::map<SensorTypes, std::string> sensorTypeToLabel = {{NONE, "NONE"},
 //                                                         {NTC, "NTC"},
 //                                                         {PT100, "PT100"}};

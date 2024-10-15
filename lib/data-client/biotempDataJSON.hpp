@@ -8,6 +8,7 @@
 
 #include "temphandler.hpp"
 #include "modes-and-layouts.hpp"
+#include "configStruct.hpp"
 
 typedef JsonDocument ConfigRequestDocument; 
 
@@ -27,7 +28,7 @@ class BiotempDataJson {
         BiotempDataJson(TempHandler& temp_handler): temperature_handler{temp_handler}{}
 
         void handleConfigRequest(ConfigRequestDocument& configJson);
-        
+        void addSensor(uint8_t sensorType);
 
     private:
         std::map<OperationModes, std::string> MODES_DISPLAY_STR = {{ULTRAFREEZER_MODE, "UltraFreezer"},
@@ -42,6 +43,7 @@ class BiotempDataJson {
 
         
         TempHandler& temperature_handler;
+        SensorConfig sensorsConfigValues[SENSOR_NUM];
 };
 
 
