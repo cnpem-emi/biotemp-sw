@@ -66,6 +66,7 @@ class TempHandler {
 
         bool isThresholdTrespassed = false;
 
+
         void setOperationMode(OperationModes mode) {operation_mode = mode; threshold= mode2Threshold[mode];};
         void setSensorLayout(SensorLayouts SensorLayout);
 
@@ -95,14 +96,12 @@ class TempHandler {
         bool getSensorsHealth();
 
         void addSensor(uint8_t sensorType);
-
-        void clearSensorMap();
-        void clearSensorVector();
+        void setThresholdMin(uint8_t sensor_type, float thresholdMin);
+        void setThresholdMax(uint8_t sensor_type, float thresholdMin);
 
     private: 
-    
+        void clearSensorMap();
         LED led;
-
         std::vector<SensorConfig> sensorConfigs;
 
 };

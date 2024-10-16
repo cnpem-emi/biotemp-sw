@@ -21,9 +21,6 @@ void TempHandler::clearSensorMap(){
     isAnySensorConfig = false;
 }
 
-void TempHandler::clearSensorVector(){
-    sensorConfigs.clear();
-}
 
 void TempHandler::setSensorLayout(SensorLayouts sensorLayout) {
     currentLayout = sensorLayout;
@@ -44,9 +41,6 @@ void TempHandler::setSensorLayout(SensorLayouts sensorLayout) {
 }
 
 void TempHandler::addSensor(uint8_t sensor_type) {
-    //clearSensorMap();
-    //clearSensorVector();
-
     switch (sensor_type)
     {
     case 1:
@@ -103,3 +97,14 @@ void TempHandler::checkThreshold(){
         isThresholdTrespassed = false;
     }
 }
+
+
+        
+void TempHandler::setThresholdMin(uint8_t sensor_type, float thresholdMin) {
+    
+}
+
+void TempHandler::setThresholdMax(uint8_t sensor_type, float thresholdMax) {
+    
+}
+

@@ -21,8 +21,6 @@
 
 
 void BiotempDataJson::handleConfigRequest(ConfigRequestDocument& configJson) {
-    temperature_handler.clearSensorMap();
-
     // Criar um vetor temporário para armazenar as novas configurações
     std::vector<SensorConfig> newConfigs;
 
@@ -45,7 +43,10 @@ void BiotempDataJson::handleConfigRequest(ConfigRequestDocument& configJson) {
             newConfigs.push_back(sensorConfig);
 
             temperature_handler.addSensor(sensor_type);
-            
+
+            //temperature_handler.setThresholdMin(sensorConfig.min_threshold);
+            //temperature_handler.setThresholdMax(sensorConfig.max_threshold);
+
         }
     }
 }
