@@ -2,6 +2,7 @@
 
 void BioTempMQTTClient::mqttConfig() {
     mqtt.config(WIFI_SSID, WIFI_PASSWORD);
+    mqtt.MQTT.setBufferSize(1000);
 }
 
 void BioTempMQTTClient::publish(const char* topic, String message) {

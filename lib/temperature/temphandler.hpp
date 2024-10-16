@@ -4,6 +4,7 @@
 #include <map>
 #include <string>
 #include <memory>
+#include <vector>
 
 #include "temperatureSensorBase.hpp"
 #include "modes-and-layouts.hpp"
@@ -21,7 +22,7 @@
 
 typedef std::map<std::string, std::shared_ptr<TemperatureSensorBase>> SensorMap;
 typedef std::shared_ptr<TemperatureSensorBase> TempSensorPtr;
-typedef std::map<std::string, float> TempResults; 
+typedef std::map<std::string, float> TempResults;
 
 class TempHandler {
     public:
@@ -93,6 +94,8 @@ class TempHandler {
          *  (i.e., `checkSensorHealth` returns true for each sensor), otherwise returns false. 
          */
         bool getSensorsHealth();
+
+        void addSensor(uint8_t sensorType);
 
     private: 
         void clearSensorMap();

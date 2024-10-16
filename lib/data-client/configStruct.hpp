@@ -1,9 +1,8 @@
 #ifndef _INCLUDE_CONFIGSTRUCT_HPP_
 #define _INCLUDE_CONFIGSTRUCT_HPP_
 
-#include <map>
-
 #define SENSOR_NUM 3
+#include <vector>
 
 struct SensorConfig {
             uint8_t sensor_id;
@@ -13,10 +12,7 @@ struct SensorConfig {
             float max_threshold;
         };
 
+//SensorConfig sensorsConfigValues[SENSOR_NUM];
 
-// typedef enum  {NONE = -1, NTC = 0 , PT100 = 1} SensorTypes;
-// std::map<SensorTypes, std::string> sensorTypeToLabel = {{NONE, "NONE"},
-//                                                         {NTC, "NTC"},
-//                                                         {PT100, "PT100"}};
 
 #endif 

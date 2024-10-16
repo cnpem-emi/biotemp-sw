@@ -27,37 +27,6 @@ void TempHandler::setSensorLayout(SensorLayouts sensorLayout) {
     currentLayout = sensorLayout;
     clearSensorMap();
     
-    // int sensor_1_type = configDoc["sensor_1_type"] | -1;
-    // int sensor_2_type = configDoc["sensor_2_type"] | -1;
-    // int sensor_3_type = configDoc["sensor_3_type"] | -1;
-
-
-    // if (sensor_1_type == 1) {
-    //     addNTCSensor(NTC_ID_1, NTC_PIN_1);
-    // } else if (sensor_1_type == 2) {
-    //     addNTCSensor(NTC_ID_2, NTC_PIN_2);
-    // } else if (sensor_1_type == 3) {
-    //     addPT100Sensor(PT100_ID);
-    // }
-
-    // if (sensor_2_type == 1) {
-    //     addNTCSensor(NTC_ID_1, NTC_PIN_1);
-    // } else if (sensor_2_type == 2) {
-    //     addNTCSensor(NTC_ID_2, NTC_PIN_2);
-    // } else if (sensor_2_type == 3) {
-    //     addPT100Sensor(PT100_ID);
-    // }
-
-    // if (sensor_3_type == 1) {
-    //     addNTCSensor(NTC_ID_1, NTC_PIN_1);
-    // } else if (sensor_3_type == 2) {
-    //     addNTCSensor(NTC_ID_2, NTC_PIN_2);
-    // } else if (sensor_3_type == 3) {
-    //     addPT100Sensor(PT100_ID);
-    // }
-    
-
-    
     switch(currentLayout) {
         case NTC1:
             addNTCSensor(NTC_ID_1, NTC_PIN_1);
@@ -69,6 +38,23 @@ void TempHandler::setSensorLayout(SensorLayouts sensorLayout) {
         case PT100:
             addPT100Sensor(PT100_ID);
             break;
+    }
+}
+
+void TempHandler::addSensor(uint8_t sensor_type) {
+    switch (sensor_type)
+    {
+    case 1:
+        addNTCSensor(NTC_ID_1, NTC_PIN_1);
+        break;
+    case 2:
+        addNTCSensor(NTC_ID_2, NTC_PIN_2);
+        break;
+    case 3:
+        addPT100Sensor(PT100_ID);
+        break;    
+    default:
+        break;
     }
 }
 
