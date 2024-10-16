@@ -45,9 +45,6 @@ class BiotempDataJson {
         
         TempHandler& temperature_handler;
 
-        //Vector to store sensor configuration
-        std::vector<SensorConfig> sensorConfigs;
-
         
 };
 

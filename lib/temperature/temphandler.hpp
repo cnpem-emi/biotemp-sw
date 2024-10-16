@@ -10,6 +10,7 @@
 #include "modes-and-layouts.hpp"
 #include "buzzer.hpp"
 #include "LED.hpp"
+#include "configStruct.hpp"
 
 //Change this if want to add more sensors
 #define PT100_ID "PT100"
@@ -17,8 +18,6 @@
 #define NTC_PIN_2 2
 #define NTC_ID_1 "NTC1"
 #define NTC_ID_2 "NTC2"
-
-
 
 typedef std::map<std::string, std::shared_ptr<TemperatureSensorBase>> SensorMap;
 typedef std::shared_ptr<TemperatureSensorBase> TempSensorPtr;
@@ -97,9 +96,14 @@ class TempHandler {
 
         void addSensor(uint8_t sensorType);
 
-    private: 
         void clearSensorMap();
+        void clearSensorVector();
+
+    private: 
+    
         LED led;
+
+        std::vector<SensorConfig> sensorConfigs;
 
 };
 

@@ -20,9 +20,15 @@
 }
 
 
-void BiotempDataJson::handleConfigRequest(ConfigRequestDocument& configJson){
-    sensorConfigs.clear();
+void BiotempDataJson::handleConfigRequest(ConfigRequestDocument& configJson) {
+    temperature_handler.clearSensorMap();
+
+    // Criar um vetor temporário para armazenar as novas configurações
+    std::vector<SensorConfig> newConfigs;
+
     JsonArray topicConfig = configJson["topic_config"];
+
+    newConfigs.clear();
 
     for (JsonObject sensorConfigJson : topicConfig) {
 
@@ -35,11 +41,11 @@ void BiotempDataJson::handleConfigRequest(ConfigRequestDocument& configJson){
             sensorConfig.is_enabled = sensorConfigJson["is_enabled"];
             sensorConfig.min_threshold = sensorConfigJson["min_threshold"];
             sensorConfig.max_threshold = sensorConfigJson["max_threshold"];
-
-            // Adiciona a configuração do sensor ao vetor
-            sensorConfigs.push_back(sensorConfig);
+            
+            newConfigs.push_back(sensorConfig);
 
             temperature_handler.addSensor(sensor_type);
+            
         }
     }
 }
