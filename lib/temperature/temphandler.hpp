@@ -20,12 +20,15 @@
 #define NTC_ID_2 "NTC2"
 
 typedef std::map<std::string, std::shared_ptr<TemperatureSensorBase>> SensorMap;
+
 typedef std::shared_ptr<TemperatureSensorBase> TempSensorPtr;
 typedef std::map<std::string, float> TempResults;
 
 class TempHandler {
     public:
         
+        float temperature;
+
         TempHandler(){buzzer.buzzerConfig(); led.ledConfig();};
 
         /**
@@ -62,6 +65,7 @@ class TempHandler {
          * specified `sensor_id`.
          */
         float getTemperature(const std::string& sensor_id);
+
         TempResults getAllTemperatures();
 
         bool isThresholdTrespassed = false;
@@ -77,7 +81,15 @@ class TempHandler {
 
         float threshold = mode2Threshold[AMBIENT_MODE];  
 
-        void checkThreshold();
+        //void checkThreshold();
+
+        void checkThreshold(uint8_t sensor_id, float setThresholdMin, float setThresholdMax);
+
+        const std::vector<SensorConfig>& getSensorConfigs() const {
+        return sensorConfigs;
+        }
+
+
 
         // Flag that represents that we have any sensor available
         bool isAnySensorConfig = false;
@@ -94,15 +106,15 @@ class TempHandler {
          *  (i.e., `checkSensorHealth` returns true for each sensor), otherwise returns false. 
          */
         bool getSensorsHealth();
-
         void addSensor(uint8_t sensorType);
-        void setThresholdMin(uint8_t sensor_type, float thresholdMin);
-        void setThresholdMax(uint8_t sensor_type, float thresholdMin);
+        
 
     private: 
         void clearSensorMap();
         LED led;
+
         std::vector<SensorConfig> sensorConfigs;
+        
 
 };
 

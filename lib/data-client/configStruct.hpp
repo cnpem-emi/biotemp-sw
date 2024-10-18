@@ -12,7 +12,4 @@ struct SensorConfig {
             float max_threshold;
         };
 
-//SensorConfig sensorsConfigValues[SENSOR_NUM];
-
-
 #endif 

@@ -106,10 +106,18 @@ void GraphicalViewHandler::updateScreenSaver() {
 
 
 void GraphicalViewHandler::mainLoop(){
-
-    if(tempHandler != nullptr)
-        tempHandler->checkThreshold();
     
+    if (tempHandler != nullptr) {
+        // Iterar sobre as configurações de sensores disponíveis
+        for (const SensorConfig& config : tempHandler->getSensorConfigs()) { // Supondo que sensorConfigs esteja acessível
+            // Chama checkThreshold passando o sensor_id e os limites
+            tempHandler->checkThreshold(config.sensor_id, config.min_threshold, config.max_threshold);
+        }
+    }
+    
+    // if(tempHandler != nullptr)
+    //     tempHandler->checkThreshold();
+        
     if( isKnobEventScheduled) { 
         if(isScreenSaverOn){
             mainMenu.showMenu(); 

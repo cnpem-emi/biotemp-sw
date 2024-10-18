@@ -45,7 +45,7 @@ class BiotempDataJson {
         
         TempHandler& temperature_handler;
 
-        
+    
 };
 
 

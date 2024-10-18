@@ -9,7 +9,7 @@
 
     for(int i=0; i<3; i++) {
         JsonObject sensor = topicConfig.add<JsonObject>();
-        sensor["sensor_id"] = -1; 
+        sensor["sensor_id"] = "-1"; 
         sensor["sensor_type"] = -1;
         sensor["is_enabled"] = false;
         sensor["min_threshold"] = -1;
@@ -18,6 +18,9 @@
    
     return configDoc.as<String>(); 
 }
+
+
+
 
 
 void BiotempDataJson::handleConfigRequest(ConfigRequestDocument& configJson) {
@@ -31,24 +34,25 @@ void BiotempDataJson::handleConfigRequest(ConfigRequestDocument& configJson) {
     for (JsonObject sensorConfigJson : topicConfig) {
 
         uint8_t sensor_type = sensorConfigJson["sensor_type"];
+        uint8_t sensor_id = sensorConfigJson["sensor_id"];
+        float min_threshold = sensorConfigJson["min_threshold"];
+        float max_threshold = sensorConfigJson["max_threshold"];
+
 
         if(sensor_type != -1) {
             SensorConfig sensorConfig;
-            sensorConfig.sensor_id = sensorConfigJson["sensor_id"];
+            sensorConfig.sensor_id = sensor_id;
             sensorConfig.sensor_type = sensor_type;
             sensorConfig.is_enabled = sensorConfigJson["is_enabled"];
-            sensorConfig.min_threshold = sensorConfigJson["min_threshold"];
-            sensorConfig.max_threshold = sensorConfigJson["max_threshold"];
+            sensorConfig.min_threshold = min_threshold;
+            sensorConfig.max_threshold = max_threshold;
             
             newConfigs.push_back(sensorConfig);
-
             temperature_handler.addSensor(sensor_type);
-
-            //temperature_handler.setThresholdMin(sensorConfig.min_threshold);
-            //temperature_handler.setThresholdMax(sensorConfig.max_threshold);
-
+            temperature_handler.checkThreshold(sensor_id, min_threshold, max_threshold);
         }
     }
+      
 }
 
 String BiotempDataJson::mqttGeneratePacket() {
