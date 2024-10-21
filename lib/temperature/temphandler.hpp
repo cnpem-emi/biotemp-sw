@@ -83,7 +83,7 @@ class TempHandler {
 
         //void checkThreshold();
 
-        void checkThreshold(uint8_t sensor_id, float setThresholdMin, float setThresholdMax);
+        void checkThreshold(uint8_t sensorIDint, float setThresholdMin, float setThresholdMax);
 
         const std::vector<SensorConfig>& getSensorConfigs() const {
         return sensorConfigs;
@@ -108,9 +108,9 @@ class TempHandler {
         bool getSensorsHealth();
         void addSensor(uint8_t sensorType);
         
-
-    private: 
         void clearSensorMap();
+    private: 
+        
         LED led;
 
         std::vector<SensorConfig> sensorConfigs;

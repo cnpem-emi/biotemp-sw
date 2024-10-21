@@ -51,6 +51,13 @@ void GraphicalViewHandler::config(TempHandler& tempHandler, BioTempMQTTClient& m
     oled.displayConfig();
     addTempHandler(tempHandler);
     addMQTTClient(mqttClient);
+
+    // Verifique os thresholds imediatamente após a configuração
+    for (const SensorConfig& config : tempHandler.getSensorConfigs()) {
+        if (config.sensor_id != 0) {
+            tempHandler.checkThreshold(config.sensor_id, config.min_threshold, config.max_threshold);
+        }
+    }
 }
 
 void GraphicalViewHandler::splashScreen(const unsigned char Logo[]){
@@ -104,20 +111,25 @@ void GraphicalViewHandler::updateScreenSaver() {
     }
 }
 
+void GraphicalViewHandler::onConfigReceiver() {
+    // Chama checkThreshold para todos os sensores configurado
+    for (const SensorConfig& config : tempHandler->getSensorConfigs()) {
+        if (config.sensor_id != 0) {
+            tempHandler->checkThreshold(config.sensor_id, config.min_threshold, config.max_threshold);
+        }
+    }
+}
+
 
 void GraphicalViewHandler::mainLoop(){
     
     if (tempHandler != nullptr) {
-        // Iterar sobre as configurações de sensores disponíveis
-        for (const SensorConfig& config : tempHandler->getSensorConfigs()) { // Supondo que sensorConfigs esteja acessível
+        for (const SensorConfig& config : tempHandler->getSensorConfigs()) {
             // Chama checkThreshold passando o sensor_id e os limites
             tempHandler->checkThreshold(config.sensor_id, config.min_threshold, config.max_threshold);
         }
     }
-    
-    // if(tempHandler != nullptr)
-    //     tempHandler->checkThreshold();
-        
+
     if( isKnobEventScheduled) { 
         if(isScreenSaverOn){
             mainMenu.showMenu(); 
@@ -149,7 +161,7 @@ void GraphicalViewHandler::mainLoop(){
       if(mqttClient != nullptr && mqttClient->isConfigured()) {  
         DEBUG(Serial.println("Publishing Temperature...");)
         mqttClient->publishTemp();
-        }
+      }
 
       mainMenu.requestScreenSaver = false;
       if (isScreenSaverOn == true) {
@@ -161,8 +173,6 @@ void GraphicalViewHandler::mainLoop(){
        isScreenSaverOn = true;
       }
     }
-
-
 }
 
 

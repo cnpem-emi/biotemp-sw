@@ -103,47 +103,33 @@ bool TempHandler::getSensorsHealth(){
 // }
 
 
-void TempHandler::checkThreshold(uint8_t sensor_id, float setThresholdMin, float setThresholdMax){
+void TempHandler::checkThreshold(uint8_t sensorIDint, float setThresholdMin, float setThresholdMax) {
     uint8_t triggered_count = 0;
-    float currentTemperature;
+    float currentTemperature = 0;
+    //Serial.printf("Verificando sensor_id: %d\n", sensorIDint);
+    //Serial.printf("Limites - Min: %.2f, Max: %.2f\n", setThresholdMin, setThresholdMax);
 
-    // Converter sensor_id de uint8_t para string, supondo que seja um número
-    std::string sensorIdStr = std::to_string(sensor_id);
-
-    Serial.printf("Verificando sensor_id: %d\n", sensor_id);
-    Serial.printf("Limites - Min: %.2f, Max: %.2f\n", setThresholdMin, setThresholdMax);
-
-     
-
-     // Itera sobre os sensores disponíveis
     for (const auto& it : available_sensors) {
-        // Acessa a temperatura do sensor atual
-        currentTemperature = (it.second)->getTemperature(); // Aqui, it.second é um shared_ptr para o sensor
+        currentTemperature = (it.second)->getTemperature();
         Serial.printf("Temperatura atual do sensor %s: %.2f\n", it.first.c_str(), currentTemperature);
+        Serial.printf("Comparando it.second->getSensorId() com sensorId: %d\n", sensorIDint);
 
-        // Adicionando logs para debug
-        Serial.printf("Comparando it.first: %s com sensor_id: %d\n", it.first.c_str(), sensor_id);
-
-        // Compara o sensor_id atual (como string) com o sensorIdStr (também como string)
-        if (it.first == std::to_string(sensor_id)) {
+        // Compara o sensor_id atual com o sensorIDint
+        if (it.second->getSensorIDint() == sensorIDint) {
+            // Verifica se a temperatura atual ultrapassa os limites
             if (currentTemperature < setThresholdMin || currentTemperature > setThresholdMax) {
                 isThresholdTrespassed = true;
-                Serial.println("OU TO AQUI DENTRO");
                 triggered_count++;
-
                 buzzer.buzzerON();
                 led.ledON();
-            } else {
-                Serial.println("Temperatura dentro dos limites.");
+            } 
+            if (triggered_count == 0) {
+                buzzer.buzzerOFF(); 
+                led.ledOFF();       
+                isThresholdTrespassed = false; 
             }
-        }
-    }
-
-
-    // Se nenhum limite foi excedido, desliga buzzer e LED
-    if (triggered_count == 0) {
-        buzzer.buzzerOFF();
-        led.ledOFF();
-        isThresholdTrespassed = false;
+        }     
     }
 }
+
+

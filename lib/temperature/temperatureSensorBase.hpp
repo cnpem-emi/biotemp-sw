@@ -18,6 +18,8 @@ public:
     virtual void disableSensor() = 0;
     virtual float getTemperature() = 0;
     virtual bool checkSensorHealth() = 0;
+
+    virtual uint8_t getSensorIDint() = 0;
 };
 
 #endif // SENSOR_BASE_HPP

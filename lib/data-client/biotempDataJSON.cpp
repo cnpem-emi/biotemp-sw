@@ -9,7 +9,7 @@
 
     for(int i=0; i<3; i++) {
         JsonObject sensor = topicConfig.add<JsonObject>();
-        sensor["sensor_id"] = "-1"; 
+        sensor["sensor_id"] = -1; 
         sensor["sensor_type"] = -1;
         sensor["is_enabled"] = false;
         sensor["min_threshold"] = -1;
@@ -20,11 +20,11 @@
 }
 
 
-
-
-
 void BiotempDataJson::handleConfigRequest(ConfigRequestDocument& configJson) {
-    // Criar um vetor temporário para armazenar as novas configurações
+    //added clear vector function to uptdate display after differing configurations
+    temperature_handler.clearSensorMap();
+   
+   // Criar um vetor temporário para armazenar as novas configurações
     std::vector<SensorConfig> newConfigs;
 
     JsonArray topicConfig = configJson["topic_config"];
@@ -48,6 +48,7 @@ void BiotempDataJson::handleConfigRequest(ConfigRequestDocument& configJson) {
             sensorConfig.max_threshold = max_threshold;
             
             newConfigs.push_back(sensorConfig);
+
             temperature_handler.addSensor(sensor_type);
             temperature_handler.checkThreshold(sensor_id, min_threshold, max_threshold);
         }

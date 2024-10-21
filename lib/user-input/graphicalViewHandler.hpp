@@ -88,6 +88,8 @@ class GraphicalViewHandler {
 
         void handleBuzzerDisable();
 
+        void onConfigReceiver();
+
     private:
         DisplayController oled;
         TempMenu temp = TempMenu(oled, tempHandler);
