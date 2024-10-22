@@ -22,7 +22,6 @@
 void BiotempDataJson::handleConfigRequest(ConfigRequestDocument& configJson) {
     // garrante que após novas requisições de configuração, limpe as ultimas configs registradas
     temperature_handler.clearSensorMap();
-   
 
     // Criar um vetor temporário para armazenar as novas configurações
     std::vector<SensorConfig> newConfigs;
@@ -33,19 +32,17 @@ void BiotempDataJson::handleConfigRequest(ConfigRequestDocument& configJson) {
     for (JsonObject sensorConfigJson : topicConfig) {
         int8_t sensor_type = sensorConfigJson["sensor_type"];
         int8_t sensor_id = sensorConfigJson["sensor_id"];
+        bool is_enabled = sensorConfigJson["is_enabled"];
         float min_threshold = sensorConfigJson["min_threshold"];
         float max_threshold = sensorConfigJson["max_threshold"];
 
-        // Log para cada sensor lido
-        // Serial.printf("Sensor ID: %d, Tipo: %d, Min Threshold: %.2f, Max Threshold: %.2f\n",
-        //               sensor_id, sensor_type, min_threshold, max_threshold);
+    
 
-        // Verifica se o sensor_type é válido
-        if(sensor_type != -1) {
+        if(sensor_type > 0 && is_enabled) {
             SensorConfig sensorConfig;
             sensorConfig.sensor_id = sensor_id;
             sensorConfig.sensor_type = sensor_type;
-            sensorConfig.is_enabled = sensorConfigJson["is_enabled"];
+            sensorConfig.is_enabled = is_enabled;
             sensorConfig.min_threshold = min_threshold;
             sensorConfig.max_threshold = max_threshold;
             
@@ -54,12 +51,19 @@ void BiotempDataJson::handleConfigRequest(ConfigRequestDocument& configJson) {
 
             // Método para escolher qual o tipo de sensor desejado
             temperature_handler.addSensor(sensor_type);
-            // Método para avaliar os intervalos de temperatura para cada sensor independentes
-            temperature_handler.checkThreshold(sensor_id, min_threshold, max_threshold);
+
         } 
     }
+
     // Atualize o tempHandler com as novas configurações
     temperature_handler.setSensorConfigs(newConfigs); 
+
+    // Depois de configurar todos os sensores, verifica os thresholds
+    for (const SensorConfig& config : newConfigs) {
+        if (config.is_enabled) { 
+            temperature_handler.checkThreshold(config.is_enabled, config.sensor_id, config.min_threshold, config.max_threshold);
+        }
+    }
 }
 
 String BiotempDataJson::mqttGeneratePacket() {

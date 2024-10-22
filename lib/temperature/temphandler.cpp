@@ -106,30 +106,42 @@ void TempHandler::setSensorConfigs(const std::vector<SensorConfig>& newConfigs) 
     sensorConfigs = newConfigs;
 }
 
-void TempHandler::checkThreshold(uint8_t sensorIDint, float setThresholdMin, float setThresholdMax) {
+
+bool TempHandler::checkThreshold(bool is_enabled, uint8_t sensorIDint, float setThresholdMin, float setThresholdMax) {
     float currentTemperature = 0;
     uint8_t triggered_count = 0;
 
     for (const auto& it : available_sensors) {
-        currentTemperature = (it.second)->getTemperature();
-        //Serial.printf("Temperatura atual do sensor %s: %.2f\n", it.first.c_str(), currentTemperature);
 
-        // Verifica se a temperatura atual ultrapassa os limites
-        if (currentTemperature < setThresholdMin || currentTemperature > setThresholdMax) {
+        currentTemperature = (it.second)->getTemperature();
+        int8_t currentSensorID = (it.second)->getSensorIDint();
+
+        //Serial.printf("Sensor ID atual: %d, Sensor ID que está sendo verificado: %d\n", currentSensorID, sensorIDint);
+
+        if(currentSensorID == sensorIDint && is_enabled) {
             
-            isThresholdTrespassed = true;
-            triggered_count++;
-            
-            //Serial.printf("Sensor %s violou os limites!\n", it.first.c_str());
-            
-            buzzer.buzzerON(); 
-            led.ledON(); 
+            // Verifica se a temperatura atual ultrapassa os limites
+            if (currentTemperature < setThresholdMin || currentTemperature > setThresholdMax) {
+                
+                isThresholdTrespassed = true;
+                triggered_count++;
+                
+                //Serial.printf("Sensor %s violou os limites!\n", it.first.c_str());
+                
+                buzzer.buzzerON(); 
+                led.ledON(); 
+                return true;
+            }
         }
     }
-    // Se nenhum sensor violou os limites, desative o buzzer e o LED
-    if (triggered_count == 0) {
-        buzzer.buzzerOFF(); 
-        led.ledOFF();
-        isThresholdTrespassed = false; 
-    }
+    return false;
+   
 }
+
+void TempHandler::buzzer_turn_off(){
+    buzzer.buzzerOFF(); 
+    led.ledOFF();
+    isThresholdTrespassed = false;     
+}
+
+

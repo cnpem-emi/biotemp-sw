@@ -55,7 +55,7 @@ void GraphicalViewHandler::config(TempHandler& tempHandler, BioTempMQTTClient& m
     // Verifique os thresholds imediatamente após a configuração
     for (const SensorConfig& config : tempHandler.getSensorConfigs()) {
         if (config.sensor_id != 0) {
-            tempHandler.checkThreshold(config.sensor_id, config.min_threshold, config.max_threshold);
+            tempHandler.checkThreshold(config.is_enabled, config.sensor_id, config.min_threshold, config.max_threshold);
         }
     }
 }
@@ -115,7 +115,7 @@ void GraphicalViewHandler::onConfigReceiver() {
     // Chama checkThreshold para todos os sensores configurado
     for (const SensorConfig& config : tempHandler->getSensorConfigs()) {
         if (config.sensor_id != 0) {
-            tempHandler->checkThreshold(config.sensor_id, config.min_threshold, config.max_threshold);
+            tempHandler->checkThreshold(config.is_enabled, config.sensor_id, config.min_threshold, config.max_threshold);
         }
     }
 }
@@ -124,9 +124,11 @@ void GraphicalViewHandler::onConfigReceiver() {
 void GraphicalViewHandler::mainLoop(){
 
     if (tempHandler != nullptr && !tempHandler->getSensorConfigs().empty()) {
+        bool buzzer_test = false;
         for (const SensorConfig& config : tempHandler->getSensorConfigs()) {
-            tempHandler->checkThreshold(config.sensor_id, config.min_threshold, config.max_threshold);
+            if (tempHandler->checkThreshold(config.is_enabled, config.sensor_id, config.min_threshold, config.max_threshold)){buzzer_test = true;}
         }
+        if (!buzzer_test){tempHandler->buzzer_turn_off();}
     }
 
     if( isKnobEventScheduled) { 
