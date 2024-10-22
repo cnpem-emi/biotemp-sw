@@ -19,7 +19,7 @@ public:
     virtual float getTemperature() = 0;
     virtual bool checkSensorHealth() = 0;
 
-    virtual uint8_t getSensorIDint() = 0;
+    virtual int8_t getSensorIDint() = 0;
 };
 
 #endif // SENSOR_BASE_HPP

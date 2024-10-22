@@ -60,6 +60,6 @@ bool SensorNTC::checkSensorHealth() {
     return !(analogRead(sensor_pin) <=  NOT_HEALTHY_THRESHOLD);
 }
 
-uint8_t SensorNTC::getSensorIDint() {
+int8_t SensorNTC::getSensorIDint() {
     return sensorIDint;
 }

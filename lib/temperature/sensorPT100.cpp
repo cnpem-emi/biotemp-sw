@@ -36,6 +36,6 @@ bool SensorPT100::checkSensorHealth() {
     return !(analogRead(SENSOR_PIN) <=  NOT_HEALTHY_THRESHOLD);
 }
 
-uint8_t SensorPT100::getSensorIDint() {
+int8_t SensorPT100::getSensorIDint() {
     return sensorIDint;
 }

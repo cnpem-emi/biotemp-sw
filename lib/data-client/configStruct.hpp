@@ -5,7 +5,7 @@
 #include <vector>
 
 struct SensorConfig {
-            uint8_t sensor_id;
+            int8_t sensor_id;
             uint8_t sensor_type;
             bool is_enabled;
             float min_threshold;

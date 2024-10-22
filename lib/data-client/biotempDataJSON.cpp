@@ -1,6 +1,6 @@
 #include "biotempDataJSON.hpp"
 
-//this function is just to simulate the publisher in the broker, delete it later pls
+// Método para simular o formato que iremos receber as configurações do broker/interface
  String BiotempDataJson::configPublisher() {
     JsonDocument configDoc;
     configDoc.clear();
@@ -15,30 +15,32 @@
         sensor["min_threshold"] = -1;
         sensor["max_threshold"] = -1;
     }
-   
     return configDoc.as<String>(); 
 }
 
 
 void BiotempDataJson::handleConfigRequest(ConfigRequestDocument& configJson) {
-    //added clear vector function to uptdate display after differing configurations
+    // garrante que após novas requisições de configuração, limpe as ultimas configs registradas
     temperature_handler.clearSensorMap();
    
-   // Criar um vetor temporário para armazenar as novas configurações
+
+    // Criar um vetor temporário para armazenar as novas configurações
     std::vector<SensorConfig> newConfigs;
-
     JsonArray topicConfig = configJson["topic_config"];
-
     newConfigs.clear();
 
+    // Iterando sobre as configurações recebidas
     for (JsonObject sensorConfigJson : topicConfig) {
-
-        uint8_t sensor_type = sensorConfigJson["sensor_type"];
-        uint8_t sensor_id = sensorConfigJson["sensor_id"];
+        int8_t sensor_type = sensorConfigJson["sensor_type"];
+        int8_t sensor_id = sensorConfigJson["sensor_id"];
         float min_threshold = sensorConfigJson["min_threshold"];
         float max_threshold = sensorConfigJson["max_threshold"];
 
+        // Log para cada sensor lido
+        // Serial.printf("Sensor ID: %d, Tipo: %d, Min Threshold: %.2f, Max Threshold: %.2f\n",
+        //               sensor_id, sensor_type, min_threshold, max_threshold);
 
+        // Verifica se o sensor_type é válido
         if(sensor_type != -1) {
             SensorConfig sensorConfig;
             sensorConfig.sensor_id = sensor_id;
@@ -47,13 +49,17 @@ void BiotempDataJson::handleConfigRequest(ConfigRequestDocument& configJson) {
             sensorConfig.min_threshold = min_threshold;
             sensorConfig.max_threshold = max_threshold;
             
+            // Adiciona a configuração ao vetor
             newConfigs.push_back(sensorConfig);
 
+            // Método para escolher qual o tipo de sensor desejado
             temperature_handler.addSensor(sensor_type);
+            // Método para avaliar os intervalos de temperatura para cada sensor independentes
             temperature_handler.checkThreshold(sensor_id, min_threshold, max_threshold);
-        }
+        } 
     }
-      
+    // Atualize o tempHandler com as novas configurações
+    temperature_handler.setSensorConfigs(newConfigs); 
 }
 
 String BiotempDataJson::mqttGeneratePacket() {

@@ -35,11 +35,11 @@ public:
     float getTemperature() override;
     bool checkSensorHealth() override;
 
-    uint8_t getSensorIDint() override;
+    int8_t getSensorIDint() override;
 
 private:
     Adafruit_MAX31865 max_module = Adafruit_MAX31865(CS_PIN, DI_PIN, DO_PIN, CLK_PIN);
-    uint8_t sensorIDint;
+    int8_t sensorIDint;
 };
 
 #endif

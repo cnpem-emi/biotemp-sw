@@ -122,10 +122,9 @@ void GraphicalViewHandler::onConfigReceiver() {
 
 
 void GraphicalViewHandler::mainLoop(){
-    
-    if (tempHandler != nullptr) {
+
+    if (tempHandler != nullptr && !tempHandler->getSensorConfigs().empty()) {
         for (const SensorConfig& config : tempHandler->getSensorConfigs()) {
-            // Chama checkThreshold passando o sensor_id e os limites
             tempHandler->checkThreshold(config.sensor_id, config.min_threshold, config.max_threshold);
         }
     }
@@ -137,7 +136,6 @@ void GraphicalViewHandler::mainLoop(){
         } else {
             mainMenu.handleKnobEvent(scheduledKnobEvent);
         }
-
         isKnobEventScheduled = false;
         return;
     }

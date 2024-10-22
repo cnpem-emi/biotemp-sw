@@ -102,34 +102,34 @@ bool TempHandler::getSensorsHealth(){
 //     }
 // }
 
+void TempHandler::setSensorConfigs(const std::vector<SensorConfig>& newConfigs) {
+    sensorConfigs = newConfigs;
+}
 
 void TempHandler::checkThreshold(uint8_t sensorIDint, float setThresholdMin, float setThresholdMax) {
-    uint8_t triggered_count = 0;
     float currentTemperature = 0;
-    //Serial.printf("Verificando sensor_id: %d\n", sensorIDint);
-    //Serial.printf("Limites - Min: %.2f, Max: %.2f\n", setThresholdMin, setThresholdMax);
+    uint8_t triggered_count = 0;
 
     for (const auto& it : available_sensors) {
         currentTemperature = (it.second)->getTemperature();
-        Serial.printf("Temperatura atual do sensor %s: %.2f\n", it.first.c_str(), currentTemperature);
-        Serial.printf("Comparando it.second->getSensorId() com sensorId: %d\n", sensorIDint);
+        //Serial.printf("Temperatura atual do sensor %s: %.2f\n", it.first.c_str(), currentTemperature);
 
-        // Compara o sensor_id atual com o sensorIDint
-        if (it.second->getSensorIDint() == sensorIDint) {
-            // Verifica se a temperatura atual ultrapassa os limites
-            if (currentTemperature < setThresholdMin || currentTemperature > setThresholdMax) {
-                isThresholdTrespassed = true;
-                triggered_count++;
-                buzzer.buzzerON();
-                led.ledON();
-            } 
-            if (triggered_count == 0) {
-                buzzer.buzzerOFF(); 
-                led.ledOFF();       
-                isThresholdTrespassed = false; 
-            }
-        }     
+        // Verifica se a temperatura atual ultrapassa os limites
+        if (currentTemperature < setThresholdMin || currentTemperature > setThresholdMax) {
+            
+            isThresholdTrespassed = true;
+            triggered_count++;
+            
+            //Serial.printf("Sensor %s violou os limites!\n", it.first.c_str());
+            
+            buzzer.buzzerON(); 
+            led.ledON(); 
+        }
+    }
+    // Se nenhum sensor violou os limites, desative o buzzer e o LED
+    if (triggered_count == 0) {
+        buzzer.buzzerOFF(); 
+        led.ledOFF();
+        isThresholdTrespassed = false; 
     }
 }
-
-

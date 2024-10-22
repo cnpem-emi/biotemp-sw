@@ -39,7 +39,7 @@ class SensorNTC : public TemperatureSensorBase {
         float getTemperature() override;
         bool checkSensorHealth() override;
 
-        uint8_t getSensorIDint() override;
+        int8_t getSensorIDint() override;
 
     private:
         /*************************************************************/
@@ -51,6 +51,6 @@ class SensorNTC : public TemperatureSensorBase {
         float readADCPin();
         int sensor_pin;
 
-        uint8_t sensorIDint;
+        int8_t sensorIDint;
 };  
 #endif

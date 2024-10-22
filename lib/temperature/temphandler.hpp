@@ -107,15 +107,13 @@ class TempHandler {
          */
         bool getSensorsHealth();
         void addSensor(uint8_t sensorType);
-        
+        void setSensorConfigs(const std::vector<SensorConfig>& newConfigs);
         void clearSensorMap();
     private: 
-        
         LED led;
-
         std::vector<SensorConfig> sensorConfigs;
-        
 
 };
+       
 
 #endif  //TEMPHANDLER_HPP_
