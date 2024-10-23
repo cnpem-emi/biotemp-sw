@@ -81,14 +81,14 @@ class TempHandler {
 
         float threshold = mode2Threshold[AMBIENT_MODE];  
 
-        //void checkThreshold();
+        
         void buzzer_turn_off();
-        //void checkThreshold(bool is_enabled, uint8_t sensorIDint, float setThresholdMin, float setThresholdMax);
-        bool checkThreshold(bool is_enabled, uint8_t sensorIDint, float setThresholdMin, float setThresholdMax);
+        
+        bool checkThreshold(bool is_enabled, int8_t sensorIDint, float setThresholdMin, float setThresholdMax);
+        
         const std::vector<SensorConfig>& getSensorConfigs() const {
         return sensorConfigs;
         }
-
 
 
         // Flag that represents that we have any sensor available

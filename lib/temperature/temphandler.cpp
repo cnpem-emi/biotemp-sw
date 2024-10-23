@@ -9,7 +9,6 @@ void TempHandler::addPT100Sensor(const std::string& sensor_id) {
     isAnySensorConfig = true;
 }
 
-
 void TempHandler::addNTCSensor(const std::string& sensor_id, const int sensor_pin){
     available_sensors[sensor_id] =  TempSensorPtr(new SensorNTC(sensor_pin));
     available_sensors[sensor_id]->enableSensor();
@@ -20,7 +19,6 @@ void TempHandler::clearSensorMap(){
     available_sensors.clear();
     isAnySensorConfig = false;
 }
-
 
 void TempHandler::setSensorLayout(SensorLayouts sensorLayout) {
     currentLayout = sensorLayout;
@@ -57,7 +55,6 @@ void TempHandler::addSensor(uint8_t sensor_type) {
     }
 }
 
-
 float TempHandler::getTemperature(const std::string& sensor_id){
     return available_sensors[sensor_id]->getTemperature();
 }
@@ -70,7 +67,6 @@ TempResults TempHandler::getAllTemperatures(){
     return tempResults;
 }
 
-
 bool TempHandler::getSensorsHealth(){
     for ( auto it = available_sensors.begin(); it != available_sensors.end(); ++it) {
         if(!(it->second)->checkSensorHealth()){ return false;}
@@ -78,36 +74,11 @@ bool TempHandler::getSensorsHealth(){
     return true;
 }
 
-
-// void TempHandler::checkThreshold(){
-//     uint8_t triggered_count = 0;
-
-    
-//     for ( auto it = available_sensors.begin(); it != available_sensors.end(); ++it) {
-
-//         if((it->second)->getTemperature() > threshold){
-//             isThresholdTrespassed = true;
-            
-//             triggered_count++;
-
-//             buzzer.buzzerON();
-//             led.ledON();
-//         }
-//     }
-
-//     if(triggered_count == 0) {
-//         buzzer.buzzerOFF();
-//         led.ledOFF();
-//         isThresholdTrespassed = false;
-//     }
-// }
-
 void TempHandler::setSensorConfigs(const std::vector<SensorConfig>& newConfigs) {
     sensorConfigs = newConfigs;
 }
 
-
-bool TempHandler::checkThreshold(bool is_enabled, uint8_t sensorIDint, float setThresholdMin, float setThresholdMax) {
+bool TempHandler::checkThreshold(bool is_enabled, int8_t sensorIDint, float setThresholdMin, float setThresholdMax) {
     float currentTemperature = 0;
     uint8_t triggered_count = 0;
 
@@ -118,24 +89,21 @@ bool TempHandler::checkThreshold(bool is_enabled, uint8_t sensorIDint, float set
 
         //Serial.printf("Sensor ID atual: %d, Sensor ID que está sendo verificado: %d\n", currentSensorID, sensorIDint);
 
-        if(currentSensorID == sensorIDint && is_enabled) {
-            
-            // Verifica se a temperatura atual ultrapassa os limites
-            if (currentTemperature < setThresholdMin || currentTemperature > setThresholdMax) {
-                
-                isThresholdTrespassed = true;
-                triggered_count++;
-                
-                //Serial.printf("Sensor %s violou os limites!\n", it.first.c_str());
-                
-                buzzer.buzzerON(); 
-                led.ledON(); 
-                return true;
+        if(currentSensorID == sensorIDint) {
+            if (is_enabled) {
+                if (currentTemperature < setThresholdMin || currentTemperature > setThresholdMax) {
+                    isThresholdTrespassed = true;
+                    triggered_count++;
+                    
+                    buzzer.buzzerON(); 
+                    led.ledON();
+
+                    return true;
+                }
             }
         }
     }
     return false;
-   
 }
 
 void TempHandler::buzzer_turn_off(){

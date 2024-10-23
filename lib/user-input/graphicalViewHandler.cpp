@@ -122,14 +122,14 @@ void GraphicalViewHandler::onConfigReceiver() {
 
 
 void GraphicalViewHandler::mainLoop(){
-
+    bool buzzer = false;
     if (tempHandler != nullptr && !tempHandler->getSensorConfigs().empty()) {
-        bool buzzer_test = false;
+        
         for (const SensorConfig& config : tempHandler->getSensorConfigs()) {
-            if (tempHandler->checkThreshold(config.is_enabled, config.sensor_id, config.min_threshold, config.max_threshold)){buzzer_test = true;}
+            if (tempHandler->checkThreshold(config.is_enabled, config.sensor_id, config.min_threshold, config.max_threshold)){buzzer = true;}
         }
-        if (!buzzer_test){tempHandler->buzzer_turn_off();}
     }
+    if (!buzzer){tempHandler->buzzer_turn_off();}
 
     if( isKnobEventScheduled) { 
         if(isScreenSaverOn){

@@ -18,7 +18,6 @@
     return configDoc.as<String>(); 
 }
 
-
 void BiotempDataJson::handleConfigRequest(ConfigRequestDocument& configJson) {
     // garrante que após novas requisições de configuração, limpe as ultimas configs registradas
     temperature_handler.clearSensorMap();
@@ -35,8 +34,6 @@ void BiotempDataJson::handleConfigRequest(ConfigRequestDocument& configJson) {
         bool is_enabled = sensorConfigJson["is_enabled"];
         float min_threshold = sensorConfigJson["min_threshold"];
         float max_threshold = sensorConfigJson["max_threshold"];
-
-    
 
         if(sensor_type > 0 && is_enabled) {
             SensorConfig sensorConfig;

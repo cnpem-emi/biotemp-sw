@@ -18,6 +18,7 @@
 #define RNOMINAL 100.0
 
 #define SENSOR_PIN 3
+#define SENSOR_ID_PT100 3
 
 /*****************************************************/
 /*!

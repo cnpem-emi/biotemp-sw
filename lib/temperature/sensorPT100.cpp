@@ -6,7 +6,7 @@
 */
 SensorPT100::SensorPT100(const std::string& id){
     sensor_id = id;
-    sensorIDint = 3;
+    sensorIDint = SENSOR_ID_PT100; // Define sensorIDint para associar o PT100 com o threshold correspondente na interface (ID do PT100 = 3)
     max_module.begin(MAX31865_3WIRE);
 }
 
