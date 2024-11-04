@@ -10,6 +10,8 @@
 #include "modes-and-layouts.hpp"
 #include "configStruct.hpp"
 
+#define NUM_SENSORS 3
+
 typedef JsonDocument ConfigRequestDocument; 
 
 // extern DynamicJsonDocument configDoc;

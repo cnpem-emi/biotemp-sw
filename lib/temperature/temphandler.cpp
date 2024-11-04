@@ -38,8 +38,8 @@ void TempHandler::setSensorLayout(SensorLayouts sensorLayout) {
     }
 }
 
-void TempHandler::addSensor(uint8_t sensor_type) {
-    switch (sensor_type)
+void TempHandler::addSensor(uint8_t sensor_id) {
+    switch (sensor_id)
     {
     case 1:
         addNTCSensor(NTC_ID_1, NTC_PIN_1);

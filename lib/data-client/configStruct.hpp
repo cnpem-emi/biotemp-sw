@@ -6,7 +6,7 @@
 
 struct SensorConfig {
             int8_t sensor_id;
-            uint8_t sensor_type;
+            //uint8_t sensor_type;
             bool is_enabled;
             float min_threshold;
             float max_threshold;

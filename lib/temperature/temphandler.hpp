@@ -106,7 +106,7 @@ class TempHandler {
          *  (i.e., `checkSensorHealth` returns true for each sensor), otherwise returns false. 
          */
         bool getSensorsHealth();
-        void addSensor(uint8_t sensorType);
+        void addSensor(uint8_t sensorID);
         void setSensorConfigs(const std::vector<SensorConfig>& newConfigs);
         void clearSensorMap();
     private: 
