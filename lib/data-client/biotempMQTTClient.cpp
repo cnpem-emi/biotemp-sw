@@ -9,7 +9,6 @@ void BioTempMQTTClient::publish(const char* topic, String message) {
     mqtt.publishMessage(topic, message, false);
 }
 
-
 void BioTempMQTTClient::publishConfig() {
     String configTopic;
     topic += getMAC();
@@ -17,10 +16,15 @@ void BioTempMQTTClient::publishConfig() {
     mqtt.publishMessage(configTopic.c_str(), jsonHandler.configPublisher(), false);
 }
 
-void BioTempMQTTClient::publishTemp () {
+void BioTempMQTTClient::publishTemp() {
     stateTopic = topic + "/state";
     mqtt.publishMessage(stateTopic.c_str(), jsonHandler.mqttGeneratePacket(), false);
 
+}
+
+void BioTempMQTTClient::publishReadBack() {
+    readBackTopic = topic + "/read_back";
+    mqtt.publishMessage(readBackTopic.c_str(), jsonHandler.readBackJSON(), false);
 }
 
 bool BioTempMQTTClient::isConfigured(){
@@ -73,5 +77,7 @@ void BioTempMQTTClient::configRequestCallback(char *topic, byte *payload, unsign
   }
 
   jsonHandler.handleConfigRequest(doc);
+  
+  publishReadBack();
 
 }

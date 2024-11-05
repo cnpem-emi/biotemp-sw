@@ -5,6 +5,7 @@
 #include <string>
 #include <memory>
 #include <vector>
+#include <ArduinoJson.h>
 
 #include "temperatureSensorBase.hpp"
 #include "modes-and-layouts.hpp"
@@ -18,6 +19,9 @@
 #define NTC_PIN_2 2
 #define NTC_ID_1 "NTC1"
 #define NTC_ID_2 "NTC2"
+
+#define MAX_SENSOR_THRESHOLD 50
+#define MIN_SENSOR_THRESHOLD -100
 
 typedef std::map<std::string, std::shared_ptr<TemperatureSensorBase>> SensorMap;
 
@@ -109,6 +113,11 @@ class TempHandler {
         void addSensor(uint8_t sensorID);
         void setSensorConfigs(const std::vector<SensorConfig>& newConfigs);
         void clearSensorMap();
+        
+        //uint8_t errorCodeGenerate(JsonObject& sensorConfig);
+
+        std::vector<uint8_t> errorCodeGenerate(JsonObject& sensorConfig);
+        
     private: 
         LED led;
         std::vector<SensorConfig> sensorConfigs;

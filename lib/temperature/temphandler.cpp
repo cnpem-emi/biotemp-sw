@@ -113,3 +113,32 @@ void TempHandler::buzzer_turn_off(){
 }
 
 
+std::vector<uint8_t> TempHandler::errorCodeGenerate(JsonObject& sensorConfig) {
+    std::vector<uint8_t> error_codes(NUM_SENSORS, 0b0000); // Vetor para armazenar códigos de erro para cada sensor
+
+    for (int i = 1; i <= NUM_SENSORS; i++) {
+        // Gera as chaves para cada sensor
+        String sensorIsEnabledKey = "sensor_" + String(i) + "_is_enabled";
+        String sensorMinThresholdKey = "sensor_" + String(i) + "_min_threshold";
+        String sensorMaxThresholdKey = "sensor_" + String(i) + "_max_threshold";
+
+        // Verifica se "sensor_x_is_enabled" é booleano
+        if (!sensorConfig[sensorIsEnabledKey].is<bool>()) {
+            error_codes[i - 1] |= 0b0001; 
+        }
+
+        // Verifica se "sensor_x_min_threshold" é um float e está no intervalo permitido que é -100°C
+        float min_threshold = 0.;
+        if (!sensorConfig[sensorMinThresholdKey].is<float>() || (min_threshold = sensorConfig[sensorMinThresholdKey], min_threshold < MIN_SENSOR_THRESHOLD)) {
+            error_codes[i - 1] |= 0b0010; 
+        } 
+
+        // Verifica se "sensor_x_max_threshold" é um float e está no intervalo permitido que é 50°C
+        float max_threshold = 0.;
+        if (!sensorConfig[sensorMaxThresholdKey].is<float>() || (max_threshold = sensorConfig[sensorMaxThresholdKey], max_threshold > MAX_SENSOR_THRESHOLD )) {
+            error_codes[i - 1] |= 0b0100; 
+        } 
+    }
+
+    return error_codes;
+}

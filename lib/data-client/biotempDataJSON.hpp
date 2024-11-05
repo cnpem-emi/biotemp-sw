@@ -9,6 +9,7 @@
 #include "temphandler.hpp"
 #include "modes-and-layouts.hpp"
 #include "configStruct.hpp"
+//#include "biotempMQTTClient.hpp"
 
 #define NUM_SENSORS 3
 
@@ -23,15 +24,21 @@ typedef JsonDocument ConfigRequestDocument;
 /*****************************************************/
 class BiotempDataJson {
     public:
+        
         // Gets the temperature from the sensor
         String configPublisher();
-        String mqttGeneratePacket();
-
-        BiotempDataJson(TempHandler& temp_handler): temperature_handler{temp_handler}{}
 
         void handleConfigRequest(ConfigRequestDocument& configJson);
 
-        
+        String mqttGeneratePacket();
+
+        void setSensorConfig(JsonObject& config);
+        void setErrorCodes(const std::vector<uint8_t>& errors);
+        String readBackJSON();
+
+        BiotempDataJson(TempHandler& temp_handler): temperature_handler{temp_handler}{};
+
+        std::vector<SensorConfig> sensorConfigs; // Para armazenar os dados dos sensores
 
     private:
         std::map<OperationModes, std::string> MODES_DISPLAY_STR = {{ULTRAFREEZER_MODE, "UltraFreezer"},
@@ -47,7 +54,11 @@ class BiotempDataJson {
         
         TempHandler& temperature_handler;
 
-    
+        JsonObject sensorConfig;              // Armazena a configuração do sensor
+        
+        std::vector<uint8_t> errorCodes;      // Armazena os códigos de erro
+
+
 };
 
 

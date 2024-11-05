@@ -3,6 +3,7 @@
 
 #include "mqttClient.hpp"
 #include "secrets.h"
+
 #include "biotempDataJSON.hpp"
 
 #include <functional>
@@ -16,7 +17,10 @@ using namespace std::placeholders;
 /**************************************************************/
 class BioTempMQTTClient {
     public:
-        BioTempMQTTClient(TempHandler& temp_handler): jsonHandler{BiotempDataJson(temp_handler)}{};
+        
+        BioTempMQTTClient(TempHandler& temp_handler): jsonHandler{BiotempDataJson(temp_handler)}{}
+        
+        BiotempDataJson jsonHandler;
     /**************************************************************/
     /** 
     *   @brief Publish a message to the specified topic.
@@ -28,6 +32,7 @@ class BioTempMQTTClient {
         
         void publishConfig();
         void publishTemp();
+        void publishReadBack();
 
         // Configures the MQTT module in the BioTemp context.
         void mqttConfig();
@@ -42,8 +47,6 @@ class BioTempMQTTClient {
         bool isConnected();
         bool isConfigured();
 
-        BiotempDataJson jsonHandler; 
-
         // Binds callback to instance
         void configCallback(){mqtt.MQTT.setCallback(std::bind(&BioTempMQTTClient::configRequestCallback, this, _1, _2, _3));};
 
@@ -54,6 +57,7 @@ class BioTempMQTTClient {
         String topic = "biotemp/biotemp_"; // MQTT topic to publish messages
 
         String stateTopic;
+        String readBackTopic;
 
         MQTTClient mqtt = MQTTClient(BROKER_URL, PORT);
 };
