@@ -38,6 +38,8 @@ class InfoMenu : public MenuBase{
         void handleKnobEvent(KnobEvent event) override;
         void handlePressEvent(ButtonPressEvent event) override;
 
+        void showScreenMAC();
+
         bool espRegisteredStatus = false;
 
     private:

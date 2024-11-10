@@ -2,7 +2,7 @@
 #define _EVENTTIMER_HPP_
 
 #include <esp32-hal-timer.h>
-#include <graphicalViewHandler.hpp>
+#include "graphicalViewHandler.hpp"
 
 #define PRESCALER 1000 // Scales down the APB clock (0 -> 65536)[16 bits]
 

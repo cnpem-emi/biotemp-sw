@@ -55,6 +55,7 @@ void TempMenu::handlePressEvent(ButtonPressEvent event) {
             break;
     }
 }
+
 void TempMenu::setSensorLayout(SensorLayouts sensorLayout){
     currentLayout = sensorLayout;
     tempHandler->setSensorLayout(sensorLayout);

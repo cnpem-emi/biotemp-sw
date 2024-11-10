@@ -131,7 +131,24 @@ void GraphicalViewHandler::mainLoop(){
     }
     if (!buzzer){tempHandler->buzzer_turn_off();}
 
-    if( isKnobEventScheduled) { 
+
+    if(pushButton.isPressed()) {
+        if(isScreenSaverOn){
+            info.showScreenMAC();
+            isScreenSaverOn = false;
+        } else {
+            isScreenSaverOn = true;
+        }
+        if (tempHandler!=nullptr) {
+            if (tempHandler->buzzer.isBuzzerTriggered == true) {
+                tempHandler->buzzer.toggle(false);
+            }
+        }
+        return;
+    }
+
+
+    if(isKnobEventScheduled) { 
         if(isScreenSaverOn){
             mainMenu.showMenu(); 
             isScreenSaverOn = false;

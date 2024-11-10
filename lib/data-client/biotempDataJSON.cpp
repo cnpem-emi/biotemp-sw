@@ -75,10 +75,10 @@ void BiotempDataJson::handleConfigRequest(ConfigRequestDocument& configJson) {
         }
     }
 
+    // Gera o JSON do readback que será publicado pelo publishReadBack na callBack
     readBackJSON();
     
 }
-
 
 
 String BiotempDataJson::mqttGeneratePacket() {
@@ -104,13 +104,15 @@ String BiotempDataJson::mqttGeneratePacket() {
    return mqttDoc.as<String>();
 }
 
+// Armazena a configuração do sensor
 void BiotempDataJson::setSensorConfig(JsonObject& config) {
-        sensorConfig = config;  // Armazena a configuração do sensor
-    }
+        sensorConfig = config;  
+}
 
+// Armazena os códigos de erro
 void BiotempDataJson::setErrorCodes(const std::vector<uint8_t>& errors) {
-        errorCodes = errors;  // Armazena os códigos de erro
-    }
+        errorCodes = errors;  
+}
 
 
 String BiotempDataJson::readBackJSON() {

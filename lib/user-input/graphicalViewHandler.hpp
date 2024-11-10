@@ -10,6 +10,11 @@
 #include "temphandler.hpp"
 #include "biotempMQTTClient.hpp"
 
+#include "InputControllerPushButton.hpp"
+
+
+
+
 #include <esp32-hal-timer.h>
 #include <ArduinoJson.h>
 
@@ -28,10 +33,14 @@ class GraphicalViewHandler {
 
         bool screenSaverEventScheduled = false;
 
+        InputControllerPushButton pushButton;
+
         /** 
          * Turns off the screen saver and displays the main menu.
          */
         void showOptionsMenu();
+        
+        //void showMacScreen();
 
         /** 
          * Updates the screen saver flag and then passes the event to the `mainMenu` object.
@@ -40,6 +49,8 @@ class GraphicalViewHandler {
          *  contains information about the positivion update of the knob. 
          */
         void handleKnobEvent(KnobEvent event);
+
+        void handlePushButtonEvent(PushButtonEvent event);
 
 
         /** 
@@ -50,6 +61,8 @@ class GraphicalViewHandler {
          * about a button press event, such as the button that was pressed and any other underlying related information.
          */
         void handlePressEvent(ButtonPressEvent event);
+
+        void handlePressPushButtonEvent(PushButtonPressEvent event);
 
         // Dipslay configuration abstraction.
         void config(TempHandler& tempHandler, BioTempMQTTClient& mqttClient);
@@ -103,6 +116,14 @@ class GraphicalViewHandler {
 
         bool isKnobEventScheduled = false;
         KnobEvent scheduledKnobEvent;
-    };
+        
+        //--------------PB-------------------?
+
+        bool isPressPushButtonScheduled = false;
+        PushButtonPressEvent scheduledPressPushButonEvent;
+
+        bool isPushButtonEventScheduled = false;
+        PushButtonEvent scheduledPushButtonEvent;
+};
 
 #endif 

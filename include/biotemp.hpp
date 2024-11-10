@@ -3,16 +3,19 @@
 
 #include "global_instances.hpp"
 #include "InputController.hpp"
+#include "InputControllerPushButton.hpp"
 #include "biotempMQTTClient.hpp"
 #include "graphicalViewHandler.hpp"
 #include "eventTimer.hpp"
 #include "debug-config.hpp"
+
 
 #define MAX_ENCODER_POSITION 3
 #define INTERRUPT_TIME_S 5
 
 // Check Global Instances for more info about this extern choice
 extern GraphicalViewHandler handler;
+
 
 class Biotemp {
     public:
@@ -22,6 +25,8 @@ class Biotemp {
             //handler.config(temperature_handler, mqttClient); 
             handler.config(temperature_handler, mqttClient); 
             encoder.config(MAX_ENCODER_POSITION);
+
+            pushbutton.configPushButton();
 
             // Network IOC stuff
             mqttClient.mqttConfig();
@@ -57,6 +62,7 @@ class Biotemp {
         InputController encoder;
         TempHandler temperature_handler;
         BioTempMQTTClient mqttClient{temperature_handler};
+        InputControllerPushButton pushbutton;
 };
 
 #endif
