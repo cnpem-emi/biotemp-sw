@@ -129,8 +129,9 @@ void GraphicalViewHandler::mainLoop(){
             if (tempHandler->checkThreshold(config.is_enabled, config.sensor_id, config.min_threshold, config.max_threshold)){buzzer = true;}
         }
     }
-    if (!buzzer){tempHandler->buzzer_turn_off();}
-
+    if (!buzzer){
+        tempHandler->buzzer_turn_off();
+    }
 
     if(pushButton.isPressed()) {
         if(isScreenSaverOn){
@@ -146,7 +147,6 @@ void GraphicalViewHandler::mainLoop(){
         }
         return;
     }
-
 
     if(isKnobEventScheduled) { 
         if(isScreenSaverOn){

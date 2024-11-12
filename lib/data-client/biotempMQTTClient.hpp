@@ -43,6 +43,7 @@ class BioTempMQTTClient {
 
         //Returns the device MAC address.
         String getMAC();
+        String getMacColon();
 
         bool isConnected();
         bool isConfigured();

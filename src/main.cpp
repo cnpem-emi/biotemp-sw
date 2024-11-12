@@ -20,4 +20,3 @@ void setup() {
 void loop() {
   biotemp.mainLoop();
 }
-

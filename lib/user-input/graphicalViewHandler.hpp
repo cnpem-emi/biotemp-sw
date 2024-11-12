@@ -20,6 +20,7 @@
 
 #define SPLASH_SCREEN_TIME 2000 // in milliseconds
 
+
 /*********************************************************/
 /*!
     @brief Display Handler interface class. This class handles 

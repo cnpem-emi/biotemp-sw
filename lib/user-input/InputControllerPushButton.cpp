@@ -3,7 +3,7 @@
 ezButton button(PUSH_BUTTON_PIN); // create ezButton object that attach to pin 12
 
 void InputControllerPushButton::configPushButton() {
-    pinMode(PUSH_BUTTON_PIN, INPUT_PULLUP);
+    //pinMode(PUSH_BUTTON_PIN, INPUT_PULLUP);
     button.setDebounceTime(DEBOUNCE_TIME); // set debounce time
 }
 

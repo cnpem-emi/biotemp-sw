@@ -108,10 +108,8 @@ std::string InfoMenu::handleOptionValue(SettingsOptions option) {
 
 void InfoMenu::showScreenMAC() {
     disp->clearDisplay();
-    disp->showMenuTitle("MAC ADDRESS");
-
+    disp->displayText("MAC ADDR:", 1, false, 2);
     std::string macAddress;
-    macAddress = mqttClient->getMAC().c_str();
-
-    disp->displayText(macAddress, 1, false);
+    macAddress = mqttClient->getMacColon().c_str();
+    disp->displayText(macAddress, 1, true, 2, 1);
 }

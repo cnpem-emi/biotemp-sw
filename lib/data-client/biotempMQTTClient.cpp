@@ -49,6 +49,11 @@ String BioTempMQTTClient::getMAC() {
     return mac;
 }
 
+String BioTempMQTTClient::getMacColon(){
+    String macColon = mqtt.getMAC();
+    return macColon;
+}
+
 void BioTempMQTTClient::configRequestCallback(char *topic, byte *payload, unsigned int length) {
     std::string payloadStr;
     payloadStr.reserve(length);

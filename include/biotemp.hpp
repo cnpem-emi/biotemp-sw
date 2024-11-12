@@ -11,7 +11,7 @@
 
 
 #define MAX_ENCODER_POSITION 3
-#define INTERRUPT_TIME_S 5
+#define INTERRUPT_TIME_S 3
 
 // Check Global Instances for more info about this extern choice
 extern GraphicalViewHandler handler;
@@ -41,8 +41,11 @@ class Biotemp {
         }
 
         void mainLoop(){
+            // MUST call the loop() function first
+            button.loop(); 
+
             // most of the heavy-lifting is done by the handler
-            handler.mainLoop(); 
+            handler.mainLoop();
 
             // IMPORTANT: this need to be refreshed frequently
             mqttClient.mqttLoop();
@@ -52,7 +55,6 @@ class Biotemp {
                 mqttClient.publishConfig();
                 alreadySendConfig = true;
                 mqttClient.configCallback();
-                //mqttClient.publishReadBack();
             }
 
         }
