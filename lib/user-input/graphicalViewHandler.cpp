@@ -1,45 +1,5 @@
 #include "graphicalViewHandler.hpp"
 
-void GraphicalViewHandler::showOptionsMenu() {
-    isScreenSaverOn = false;
-    mainMenu.showMenu();
-}
-
-void GraphicalViewHandler::handleKnobEvent(KnobEvent event) {
-    event.isScreenSaverOn = isScreenSaverOn;
-
-    if (isScreenSaverOn == true) {
-        isScreenSaverOn = false;
-    }
-
-    // This is done to avoid multiple processing threads
-    if(!isKnobEventScheduled){
-        isKnobEventScheduled = true;
-        scheduledKnobEvent = event;
-    }
-
-    if (tempHandler!=nullptr) {
-        if (tempHandler->buzzer.isBuzzerTriggered == true) {
-            tempHandler->buzzer.toggle(false);
-        }
-    }
-
-}
-
-void GraphicalViewHandler::handlePressEvent(ButtonPressEvent event) {
-    event.isScreenSaverOn = isScreenSaverOn;
-    if (isScreenSaverOn == true) {
-        isScreenSaverOn = false;
-    }
-
-    // This is done to avoid multiple processing threads
-    if(!isPressEventScheduled){
-        isPressEventScheduled = true;
-        scheduledPressEvent = event;
-    }
-    //event.pressed = false;
-}
-
 void GraphicalViewHandler::handleBuzzerDisable() {
     if(tempHandler!=nullptr) {
         tempHandler->buzzer.handleDisable();
@@ -147,32 +107,9 @@ void GraphicalViewHandler::mainLoop(){
         }
         return;
     }
-
-    if(isKnobEventScheduled) { 
-        if(isScreenSaverOn){
-            mainMenu.showMenu(); 
-            isScreenSaverOn = false;
-        } else {
-            mainMenu.handleKnobEvent(scheduledKnobEvent);
-        }
-        isKnobEventScheduled = false;
-        return;
-    }
-
-    if( isPressEventScheduled) { 
-        if(isScreenSaverOn){
-            mainMenu.showMenu();
-            isScreenSaverOn = false;
-        } else {
-            mainMenu.handlePressEvent(scheduledPressEvent);
-        };
-        
-        isPressEventScheduled = false;
-        return;
-    }
  
     // Checks if Screen saver needs to be shown
-    if (screenSaverEventScheduled == true || mainMenu.requestScreenSaver == true) 
+    if (screenSaverEventScheduled == true) 
     { 
 
       if(mqttClient != nullptr && mqttClient->isConfigured()) {  
@@ -180,7 +117,6 @@ void GraphicalViewHandler::mainLoop(){
         mqttClient->publishTemp();
       }
 
-      mainMenu.requestScreenSaver = false;
       if (isScreenSaverOn == true) {
         updateScreenSaver();
         screenSaverEventScheduled = false;
@@ -191,7 +127,3 @@ void GraphicalViewHandler::mainLoop(){
       }
     }
 }
-
-
-
-

@@ -7,16 +7,16 @@
 #define _INCLUDE_INPUTEVENT_HPP_
 
 //------------------- ENCODER --------------
-typedef struct {
-    int position;
-    bool isScreenSaverOn;
-} KnobEvent;
+// typedef struct {
+//     int position;
+//     bool isScreenSaverOn;
+// } KnobEvent;
 
-typedef struct {
-    bool pressed;
-    bool isScreenSaverOn;
-    int position;
-} ButtonPressEvent;
+// typedef struct {
+//     bool pressed;
+//     bool isScreenSaverOn;
+//     int position;
+// } ButtonPressEvent;
 
 //------------------- PB --------------
 typedef struct {

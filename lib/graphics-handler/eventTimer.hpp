@@ -22,4 +22,4 @@ void IRAM_ATTR Timer0_ISR();
 /******************************************************************/
 void configTimer(int t_out);
 
-#endif 
+#endif // EVENTTIMER_HPP

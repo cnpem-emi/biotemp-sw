@@ -40,25 +40,11 @@ class TempMenu : public MenuBase {
             @param display The display object where the menu will be shown.
         */
         /******************************************************/
-        void showMenu() override;
+        //void showMenu() override;
+        void showMenu();
 
         void updateMenu(int arrowPosition);
 
-        /******************************************************/
-        /*!
-            @brief Handles knob input controller events.
-            @param event The callback event from the input controller.
-        */
-        /******************************************************/
-        void handleKnobEvent(KnobEvent event) override;
-
-        /******************************************************/
-        /*!
-            @brief Handles press input controller events.
-            @param event The callback event from the input controller.
-        */
-        /******************************************************/
-        void handlePressEvent(ButtonPressEvent event) override;
 
     private:
         DisplayController* disp;

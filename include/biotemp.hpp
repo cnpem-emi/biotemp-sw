@@ -2,30 +2,24 @@
 #define _BIOTEMP_HPP_
 
 #include "global_instances.hpp"
-#include "InputController.hpp"
 #include "InputControllerPushButton.hpp"
 #include "biotempMQTTClient.hpp"
 #include "graphicalViewHandler.hpp"
 #include "eventTimer.hpp"
 #include "debug-config.hpp"
 
-
-#define MAX_ENCODER_POSITION 3
 #define INTERRUPT_TIME_S 3
 
 // Check Global Instances for more info about this extern choice
 extern GraphicalViewHandler handler;
-
 
 class Biotemp {
     public:
         // IMPORTANT: only put this function into arduino setup
         void setup() {
             // It is important to config things before using them
-            //handler.config(temperature_handler, mqttClient); 
             handler.config(temperature_handler, mqttClient); 
-            encoder.config(MAX_ENCODER_POSITION);
-
+            
             pushbutton.configPushButton();
 
             // Network IOC stuff
@@ -61,10 +55,9 @@ class Biotemp {
         
     private:
         bool alreadySendConfig = false;
-        InputController encoder;
         TempHandler temperature_handler;
         BioTempMQTTClient mqttClient{temperature_handler};
         InputControllerPushButton pushbutton;
 };
 
-#endif
+#endif // BIOTEMP_HPP_

@@ -32,12 +32,9 @@ class OptionsMenu : public MenuBase{
         bool isScreenSaverOn = true; // True if this menu is shown on the screen, false otherwise.
         
         // Shows the main menu containing submenus.
-        void showMenu() override;
+        //void showMenu() override;
+        void showMenu();
         void updateMenu(int arrowPosition); 
-
-        void handleKnobEvent(KnobEvent event) override;
-
-        void handlePressEvent(ButtonPressEvent event) override;
 
     private:
         int arrowPosition = 0; // Position of the arrow shown on screen.
