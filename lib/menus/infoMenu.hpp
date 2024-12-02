@@ -3,12 +3,11 @@
 
 #include <map>
 
-#include "menuBase.hpp"
-//#include "displayController.hpp" //coloquei direto no graphicalviewhandler
+#include "displayController.hpp"
 #include "temphandler.hpp"
 #include "biotempMQTTClient.hpp"
 
-class InfoMenu : public MenuBase{
+class InfoMenu {
     public:
         InfoMenu(DisplayController display_controller, 
                  TempHandler* &temperatureHandler,

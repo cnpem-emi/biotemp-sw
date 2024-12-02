@@ -1,6 +1,5 @@
 #include "infoMenu.hpp"
 
-
 InfoMenu::InfoMenu(DisplayController display_controller, 
                    TempHandler* &temperatureHandler,
                    BioTempMQTTClient* &mqtt_client) 

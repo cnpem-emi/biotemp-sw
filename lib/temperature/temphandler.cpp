@@ -20,24 +20,6 @@ void TempHandler::clearSensorMap(){
     isAnySensorConfig = false;
 }
 
-void TempHandler::setSensorLayout(SensorLayouts sensorLayout) {
-    currentLayout = sensorLayout;
-    clearSensorMap();
-    
-    switch(currentLayout) {
-        case NTC1:
-            addNTCSensor(NTC_ID_1, NTC_PIN_1);
-            break; 
-        case NTC2:
-            addNTCSensor(NTC_ID_1, NTC_PIN_1);
-            addNTCSensor(NTC_ID_2, NTC_PIN_2);
-            break;
-        case PT100:
-            addPT100Sensor(PT100_ID);
-            break;
-    }
-}
-
 void TempHandler::addSensor(uint8_t sensor_id) {
     switch (sensor_id)
     {

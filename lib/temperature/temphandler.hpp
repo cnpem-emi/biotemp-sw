@@ -8,7 +8,6 @@
 #include <ArduinoJson.h>
 
 #include "temperatureSensorBase.hpp"
-#include "modes-and-layouts.hpp"
 #include "buzzer.hpp"
 #include "LED.hpp"
 #include "configStruct.hpp"
@@ -74,18 +73,8 @@ class TempHandler {
 
         bool isThresholdTrespassed = false;
 
-
-        void setOperationMode(OperationModes mode) {operation_mode = mode; threshold= mode2Threshold[mode];};
-        void setSensorLayout(SensorLayouts SensorLayout);
-
-        std::map<OperationModes, float> mode2Threshold = {{ FREEZER_MODE,    -20.0},
-                                                          { ULTRAFREEZER_MODE, -80.0},
-                                                          { AMBIENT_MODE,       25.0},
-                                                          { REFRIGERATOR_MODE, 5.0}}; 
-
-        float threshold = mode2Threshold[AMBIENT_MODE];  
-
         
+
         void buzzer_turn_off();
         
         bool checkThreshold(bool is_enabled, int8_t sensorIDint, float setThresholdMin, float setThresholdMax);
@@ -94,13 +83,10 @@ class TempHandler {
         return sensorConfigs;
         }
 
-
         // Flag that represents that we have any sensor available
         bool isAnySensorConfig = false;
         Buzzer buzzer; 
-
-        OperationModes operation_mode = AMBIENT_MODE;
-        SensorLayouts currentLayout = NONE; 
+        
 
         /**
          * iterates through available sensors and returns false if any sensor's

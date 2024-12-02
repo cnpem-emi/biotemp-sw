@@ -12,7 +12,7 @@ void GraphicalViewHandler::config(TempHandler& tempHandler, BioTempMQTTClient& m
     addTempHandler(tempHandler);
     addMQTTClient(mqttClient);
 
-    // Verifique os thresholds imediatamente após a configuração
+    // Checks all thresholds imediately after receiving the interface config
     for (const SensorConfig& config : tempHandler.getSensorConfigs()) {
         if (config.sensor_id != 0) {
             tempHandler.checkThreshold(config.is_enabled, config.sensor_id, config.min_threshold, config.max_threshold);
@@ -72,7 +72,7 @@ void GraphicalViewHandler::updateScreenSaver() {
 }
 
 void GraphicalViewHandler::onConfigReceiver() {
-    // Chama checkThreshold para todos os sensores configurado
+    // Important for call checkthresholds for all sensors configured
     for (const SensorConfig& config : tempHandler->getSensorConfigs()) {
         if (config.sensor_id != 0) {
             tempHandler->checkThreshold(config.is_enabled, config.sensor_id, config.min_threshold, config.max_threshold);
