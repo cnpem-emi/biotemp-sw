@@ -20,17 +20,20 @@ void TempHandler::clearSensorMap(){
     isAnySensorConfig = false;
 }
 
-void TempHandler::addSensor(uint8_t sensor_id) {
+void TempHandler::addSensor(uint8_t sensor_id, float gain, float offset) {
     switch (sensor_id)
     {
     case 1:
         addNTCSensor(NTC_ID_1, NTC_PIN_1);
+        available_sensors[NTC_ID_1]->setCalibration(gain, offset);
         break;
     case 2:
         addNTCSensor(NTC_ID_2, NTC_PIN_2);
+        available_sensors[NTC_ID_2]->setCalibration(gain, offset);
         break;
     case 3:
         addPT100Sensor(PT100_ID);
+        available_sensors[PT100_ID]->setCalibration(gain, offset);
         break;    
     default:
         break;
@@ -69,8 +72,6 @@ bool TempHandler::checkThreshold(bool is_enabled, int8_t sensorIDint, float setT
         currentTemperature = (it.second)->getTemperature();
         int8_t currentSensorID = (it.second)->getSensorIDint();
 
-        //Serial.printf("Sensor ID atual: %d, Sensor ID que está sendo verificado: %d\n", currentSensorID, sensorIDint);
-
         if(currentSensorID == sensorIDint) {
             if (is_enabled) {
                 if (currentTemperature < setThresholdMin || currentTemperature > setThresholdMax) {
@@ -94,32 +95,46 @@ void TempHandler::buzzer_turn_off(){
     isThresholdTrespassed = false;     
 }
 
-
 std::vector<uint8_t> TempHandler::errorCodeGenerate(JsonObject& sensorConfig) {
-    std::vector<uint8_t> error_codes(NUM_SENSORS, 0b0000); // Vetor para armazenar códigos de erro para cada sensor
+    std::vector<uint8_t> error_codes(NUM_SENSORS, 0b000000); // Vetor para armazenar códigos de erro para cada sensor
 
     for (int i = 1; i <= NUM_SENSORS; i++) {
         // Gera as chaves para cada sensor
         String sensorIsEnabledKey = "sensor_" + String(i) + "_is_enabled";
         String sensorMinThresholdKey = "sensor_" + String(i) + "_min_threshold";
         String sensorMaxThresholdKey = "sensor_" + String(i) + "_max_threshold";
+        String sensorGainKey = "sensor_" + String(i) + "_gain";
+        String sensorOffSetKey = "sensor_" + String(i) + "_offSet";
 
         // Verifica se "sensor_x_is_enabled" é booleano
         if (!sensorConfig[sensorIsEnabledKey].is<bool>()) {
-            error_codes[i - 1] |= 0b0001; 
+            error_codes[i - 1] |= 0b000001; 
         }
 
         // Verifica se "sensor_x_min_threshold" é um float e está no intervalo permitido que é -100°C
         float min_threshold = 0.;
         if (!sensorConfig[sensorMinThresholdKey].is<float>() || (min_threshold = sensorConfig[sensorMinThresholdKey], min_threshold < MIN_SENSOR_THRESHOLD)) {
-            error_codes[i - 1] |= 0b0010; 
+            error_codes[i - 1] |= 0b000010; 
         } 
 
         // Verifica se "sensor_x_max_threshold" é um float e está no intervalo permitido que é 50°C
         float max_threshold = 0.;
         if (!sensorConfig[sensorMaxThresholdKey].is<float>() || (max_threshold = sensorConfig[sensorMaxThresholdKey], max_threshold > MAX_SENSOR_THRESHOLD )) {
-            error_codes[i - 1] |= 0b0100; 
-        } 
+            error_codes[i - 1] |= 0b000100; 
+        }
+
+        // Verifica se "sensor_x_gain_error" é um float
+        float gain;
+        if (!sensorConfig[sensorGainKey].is<float>()) {
+            error_codes[i - 1] |= 0b001000; 
+        }
+
+        // Verifica se "sensor_x_gain_error" é um float
+        float offset;
+        if (!sensorConfig[sensorOffSetKey].is<float>()) {
+            error_codes[i - 1] |= 0b010000; 
+        }
+
     }
 
     return error_codes;

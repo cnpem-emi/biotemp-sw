@@ -18,9 +18,17 @@ void SensorPT100::disableSensor() {
     is_enabled = false;
 }
 
+void SensorPT100::setCalibration(float gain, float offset) {
+    this->gain = gain;
+    this->offset = offset;
+}
+
+
 float SensorPT100::getTemperature() {
     float tempRTD;
     tempRTD = max_module.temperature(RNOMINAL, RREF);
+
+    tempRTD = gain*tempRTD +offset;
 
     return tempRTD;
 }

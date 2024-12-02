@@ -8,14 +8,20 @@
         sensor["sensor_1_is_enabled"] = false;
         sensor["sensor_1_min_threshold"] = -1;
         sensor["sensor_1_max_threshold"] = -1;
+        sensor["sensor_1_gain"] = 1;
+        sensor["sensor_1_offSet"] = 0;
 
         sensor["sensor_2_is_enabled"] = false;
         sensor["sensor_2_min_threshold"] = -1;
         sensor["sensor_2_max_threshold"] = -1;
+        sensor["sensor_2_gain"] = 1;
+        sensor["sensor_2_OffSet"] = 0;
 
         sensor["sensor_3_is_enabled"] = false;
         sensor["sensor_3_min_threshold"] = -1;
         sensor["sensor_3_max_threshold"] = -1;
+        sensor["sensor_3_gain"] = 1;
+        sensor["sensor_3_OffSet"] = 0;
     
     return sensor.as<String>();
 }
@@ -42,11 +48,15 @@ void BiotempDataJson::handleConfigRequest(ConfigRequestDocument& configJson) {
         String sensorIsEnabledKey = "sensor_" + String(i) + "_is_enabled";
         String sensorMinThresholdKey = "sensor_" + String(i) + "_min_threshold";
         String sensorMaxThresholdKey = "sensor_" + String(i) + "_max_threshold";
+        String sensorGainKey = "sensor_" + String(i) + "_gain";
+        String sensorOffSetKey = "sensor_" + String(i) + "_offSet";
 
         // Lê as configurações do JSON
         bool is_enabled = sensorConfig[sensorIsEnabledKey];
         float min_threshold = sensorConfig[sensorMinThresholdKey];
         float max_threshold = sensorConfig[sensorMaxThresholdKey];
+        float gain = sensorConfig[sensorGainKey];
+        float off_set = sensorConfig[sensorOffSetKey];
 
         // Verifica se o sensor está habilitado
         if(is_enabled == true && sensorConfig[sensorIsEnabledKey].is<bool>()) {
@@ -55,22 +65,26 @@ void BiotempDataJson::handleConfigRequest(ConfigRequestDocument& configJson) {
         sensorConfigEntry.is_enabled = is_enabled;
         sensorConfigEntry.min_threshold = min_threshold;
         sensorConfigEntry.max_threshold = max_threshold;
+        sensorConfigEntry.gain = gain;
+        sensorConfigEntry.offSet = off_set;
+
 
         // Adiciona a configuração ao vetor
         newConfigs.push_back(sensorConfigEntry);
 
-        // Método para setar o sensor
-        temperature_handler.addSensor(sensorConfigEntry.sensor_id);
+        // Método para setar o sensor e sua respectiva calibration
+        temperature_handler.addSensor(sensorConfigEntry.sensor_id, sensorConfigEntry.gain, sensorConfigEntry.offSet);
 
         }
     }
 
     // Atualiza o temperature_handler com as novas configurações
     temperature_handler.setSensorConfigs(newConfigs);
+    
 
     // Depois de configurar todos os sensores, verifica os thresholds
     for (const SensorConfig& config : newConfigs) {
-        if (config.is_enabled) { 
+        if (config.is_enabled) {
             temperature_handler.checkThreshold(config.is_enabled, config.sensor_id, config.min_threshold, config.max_threshold);
         }
     }
@@ -91,7 +105,6 @@ String BiotempDataJson::mqttGeneratePacket() {
         mqttDoc[std::string{"temp_"} + std::to_string(i)] = 0;
     }
     
-    // Please generalize this
     std::map<std::string, std::string> SensorName2Id = {{"NTC1", "1"},
                                                         {"NTC2", "2"},
                                                         {"PT100", "3"}};
@@ -106,12 +119,12 @@ String BiotempDataJson::mqttGeneratePacket() {
 
 // Armazena a configuração do sensor
 void BiotempDataJson::setSensorConfig(JsonObject& config) {
-        sensorConfig = config;  
+    sensorConfig = config;  
 }
 
 // Armazena os códigos de erro
 void BiotempDataJson::setErrorCodes(const std::vector<uint8_t>& errors) {
-        errorCodes = errors;  
+    errorCodes = errors;  
 }
 
 
@@ -122,12 +135,18 @@ String BiotempDataJson::readBackJSON() {
         String sensorIsEnabledKey = "sensor_" + String(i) + "_is_enabled";
         String sensorMinThresholdKey = "sensor_" + String(i) + "_min_threshold";
         String sensorMaxThresholdKey = "sensor_" + String(i) + "_max_threshold";
+        String sensorGainKey = "sensor_" + String(i) + "_gain";
+        String sensorOffSetKey = "sensor_" + String(i) + "_offSet";
+        
         String sensorErrorCodeKey = "sensor_" + String(i) + "_error_code";
 
         // Adiciona as configurações e o código de erro à resposta
         readBackJSON[sensorIsEnabledKey] = sensorConfig[sensorIsEnabledKey];
         readBackJSON[sensorMinThresholdKey] = sensorConfig[sensorMinThresholdKey];
         readBackJSON[sensorMaxThresholdKey] = sensorConfig[sensorMaxThresholdKey];
+        readBackJSON[sensorGainKey] = sensorConfig[sensorGainKey];
+        readBackJSON[sensorOffSetKey] = sensorConfig[sensorOffSetKey];
+
         readBackJSON[sensorErrorCodeKey] = errorCodes[i - 1];  // Acessa o código de erro correspondente
     }
 

@@ -73,8 +73,6 @@ class TempHandler {
 
         bool isThresholdTrespassed = false;
 
-        
-
         void buzzer_turn_off();
         
         bool checkThreshold(bool is_enabled, int8_t sensorIDint, float setThresholdMin, float setThresholdMax);
@@ -96,7 +94,7 @@ class TempHandler {
          *  (i.e., `checkSensorHealth` returns true for each sensor), otherwise returns false. 
          */
         bool getSensorsHealth();
-        void addSensor(uint8_t sensorID);
+        void addSensor(uint8_t sensorID, float gain, float offset);
         void setSensorConfigs(const std::vector<SensorConfig>& newConfigs);
         void clearSensorMap();
         

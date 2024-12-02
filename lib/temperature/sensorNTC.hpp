@@ -41,6 +41,8 @@ class SensorNTC : public TemperatureSensorBase {
 
         int8_t getSensorIDint() override;
 
+        void setCalibration(float gain, float offset) override;
+
     private:
         /*************************************************************/
         /*!
@@ -52,5 +54,8 @@ class SensorNTC : public TemperatureSensorBase {
         int sensor_pin;
 
         int8_t sensorIDint;
+
+        float gain = 1.;
+        float offset = 0.;
 };  
 #endif

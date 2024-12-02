@@ -25,6 +25,11 @@ void SensorNTC::disableSensor() {
     is_enabled = false;
 }
 
+void SensorNTC::setCalibration(float gain, float offset) {
+    this->gain = gain;
+    this->offset = offset;
+}
+
 float SensorNTC::getTemperature() {
     float voltage_adc; // Voltage measured from the ADC
     float resistence_ntc; // NTC resistance
@@ -37,6 +42,8 @@ float SensorNTC::getTemperature() {
     // Gets the temperature in Kelvin
     temperature = (BETA_COEFF*T_0)/(std::log(resistence_ntc/R_0)*T_0 + BETA_COEFF); 
     temperature = temperature - 273.15; // Converts to Celsius
+
+    temperature = gain*temperature + offset;
 
     return temperature;
 }

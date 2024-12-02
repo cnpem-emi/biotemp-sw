@@ -38,10 +38,16 @@ public:
 
     int8_t getSensorIDint() override;
 
+    void setCalibration(float gain, float offset) override;
+
+
 private:
     Adafruit_MAX31865 max_module = Adafruit_MAX31865(CS_PIN, DI_PIN, DO_PIN, CLK_PIN);
     
     int8_t sensorIDint;
+
+    float gain = 1.;
+    float offset = 0.;
 };
 
 #endif
