@@ -11,7 +11,7 @@ struct SensorConfig {
             float min_threshold = 0;
             float max_threshold = 0;
             float gain = 1.0;
-            float offSet = 0;
+            float offset = 0;
             uint8_t error_code = 0;
         };
 

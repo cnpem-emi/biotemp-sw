@@ -28,7 +28,7 @@ float SensorPT100::getTemperature() {
     float tempRTD;
     tempRTD = max_module.temperature(RNOMINAL, RREF);
 
-    tempRTD = gain*tempRTD +offset;
+    tempRTD = gain*tempRTD + offset;
 
     return tempRTD;
 }
