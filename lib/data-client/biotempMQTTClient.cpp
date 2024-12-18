@@ -9,21 +9,23 @@ void BioTempMQTTClient::publish(const char* topic, String message) {
     mqtt.publishMessage(topic, message, false);
 }
 
-void BioTempMQTTClient::publishConfig() {
-    String configTopic;
-    topic += getMAC();
-    configTopic = topic + "/config";
-    mqtt.publishMessage(configTopic.c_str(), jsonHandler.configPublisher(), false);
-}
+// void BioTempMQTTClient::publishConfig() {
+//     String configTopic;
+//     topic += getMAC();
+//     configTopic = topic + "/config";
+//     mqtt.publishMessage(configTopic.c_str(), jsonHandler.configPublisher(), false);
+// }
 
 void BioTempMQTTClient::publishTemp() {
-    stateTopic = topic + "/state";
+    String stateTopic;
+    stateTopic = topic + getMAC() + "/state";
     mqtt.publishMessage(stateTopic.c_str(), jsonHandler.mqttGeneratePacket(), false);
 
 }
 
 void BioTempMQTTClient::publishReadBack() {
-    readBackTopic = topic + "/read_back";
+    String readBackTopic;
+    readBackTopic = topic + getMAC()+ "/read_back";
     mqtt.publishMessage(readBackTopic.c_str(), jsonHandler.readBackJSON(), false);
 }
 
@@ -62,7 +64,6 @@ void BioTempMQTTClient::configRequestCallback(char *topic, byte *payload, unsign
           Serial.println(topic);
           Serial.print("Message:");) 
 
-          Serial.println("im here");  
     for (int i = 0; i < length; i++) {
         Serial.print((char) payload[i]);
         payloadStr += (char) payload[i];

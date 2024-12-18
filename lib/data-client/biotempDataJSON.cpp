@@ -9,19 +9,19 @@
         sensor["sensor_1_min_threshold"] = -1;
         sensor["sensor_1_max_threshold"] = -1;
         sensor["sensor_1_gain"] = 1;
-        sensor["sensor_1_offset"] = 0;
+        sensor["sensor_1_offset"] = 0.0;
 
         sensor["sensor_2_is_enabled"] = false;
         sensor["sensor_2_min_threshold"] = -1;
         sensor["sensor_2_max_threshold"] = -1;
         sensor["sensor_2_gain"] = 1;
-        sensor["sensor_2_offset"] = 0;
+        sensor["sensor_2_offset"] = 0.0;
 
         sensor["sensor_3_is_enabled"] = false;
         sensor["sensor_3_min_threshold"] = -1;
         sensor["sensor_3_max_threshold"] = -1;
         sensor["sensor_3_gain"] = 1;
-        sensor["sensor_3_offset"] = 0;
+        sensor["sensor_3_offset"] = 0.0;
     
     return sensor.as<String>();
 }
@@ -111,7 +111,7 @@ String BiotempDataJson::mqttGeneratePacket() {
 
     for ( auto it = tempResults.begin(); it != tempResults.end(); ++it) {
         std::string sensorId = SensorName2Id[it->first];
-        mqttDoc[std::string{"temp_"} + sensorId ] = String((it->second));
+        mqttDoc[std::string{"temp_"} + sensorId ] = (it->second);
     }
 
    return mqttDoc.as<String>();

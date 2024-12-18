@@ -8,7 +8,7 @@
 #include "eventTimer.hpp"
 #include "debug-config.hpp"
 
-#define INTERRUPT_TIME_S 3
+#define INTERRUPT_TIME_S 30
 
 // Check Global Instances for more info about this extern choice
 extern GraphicalViewHandler handler;
@@ -45,8 +45,8 @@ class Biotemp {
             mqttClient.mqttLoop();
 
             if(!alreadySendConfig && mqttClient.isConnected()){
-                Serial.println("Trying to Publish Config");
-                mqttClient.publishConfig();
+                //Serial.println("Trying to Publish Config");
+                //mqttClient.publishConfig();
                 alreadySendConfig = true;
                 mqttClient.configCallback();
             }

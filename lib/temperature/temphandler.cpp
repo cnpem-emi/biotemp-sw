@@ -124,16 +124,15 @@ std::vector<uint8_t> TempHandler::errorCodeGenerate(JsonObject& sensorConfig) {
         }
 
         // Verifica se "sensor_x_gain_error" é um float
-        float gain;
         if (!sensorConfig[sensorGainKey].is<float>()) {
             error_codes[i - 1] |= 0b001000; 
         }
 
-        // Verifica se "sensor_x_gain_error" é um float
-        float offset;
-        if (!sensorConfig[sensorOffSetKey].is<float>()) {
-            error_codes[i - 1] |= 0b010000; 
+        // Verifica se "sensor_x_gain_error" 
+        if (!sensorConfig[sensorOffSetKey].is<int>() && !sensorConfig[sensorOffSetKey].is<float>() && !sensorConfig[sensorOffSetKey].isNull()) {
+            error_codes[i - 1] |= 0b010000;
         }
+
 
     }
 
