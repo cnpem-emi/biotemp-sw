@@ -2,24 +2,31 @@
 
 void BioTempMQTTClient::mqttConfig() {
     mqtt.config(WIFI_SSID, WIFI_PASSWORD);
+    mqtt.MQTT.setBufferSize(1000);
 }
 
 void BioTempMQTTClient::publish(const char* topic, String message) {
     mqtt.publishMessage(topic, message, false);
 }
 
-//na aplicação final, geralmente as inscrições e publicações devem usar o nome completo do tópico,
-//tipo biotemp/biotemp_8065994B310A/state ou biotemp/biotemp_8065994B310A/config
-void BioTempMQTTClient::publishConfig() {
-    String configTopic;
-    topic += getMAC();
-    configTopic = topic + "/config";
-    mqtt.publishMessage(configTopic.c_str(), jsonHandler.configPublisher(), false);
+// void BioTempMQTTClient::publishConfig() {
+//     String configTopic;
+//     topic += getMAC();
+//     configTopic = topic + "/config";
+//     mqtt.publishMessage(configTopic.c_str(), jsonHandler.configPublisher(), false);
+// }
+
+void BioTempMQTTClient::publishTemp() {
+    String stateTopic;
+    stateTopic = topic + getMAC() + "/state";
+    mqtt.publishMessage(stateTopic.c_str(), jsonHandler.mqttGeneratePacket(), false);
+
 }
 
-void BioTempMQTTClient::publishTemp () {
-    stateTopic = topic + "/state";
-    mqtt.publishMessage(stateTopic.c_str(), jsonHandler.mqttGeneratePacket(), false);
+void BioTempMQTTClient::publishReadBack() {
+    String readBackTopic;
+    readBackTopic = topic + getMAC()+ "/read_back";
+    mqtt.publishMessage(readBackTopic.c_str(), jsonHandler.readBackJSON(), false);
 }
 
 bool BioTempMQTTClient::isConfigured(){
@@ -42,4 +49,41 @@ String BioTempMQTTClient::getMAC() {
     String mac = mqtt.getMAC();
     mac.replace(":", "");
     return mac;
+}
+
+String BioTempMQTTClient::getMacColon(){
+    String macColon = mqtt.getMAC();
+    return macColon;
+}
+
+void BioTempMQTTClient::configRequestCallback(char *topic, byte *payload, unsigned int length) {
+    std::string payloadStr;
+    payloadStr.reserve(length);
+    
+    DEBUG(Serial.print("Message arrived in topic: ");
+          Serial.println(topic);
+          Serial.print("Message:");) 
+
+    for (int i = 0; i < length; i++) {
+        Serial.print((char) payload[i]);
+        payloadStr += (char) payload[i];
+    }
+    DEBUG(Serial.println();
+          Serial.println("-----------------------");)
+
+  // Cria um buffer para o JSON
+  ConfigRequestDocument doc; 
+
+  // Faz o parsing do JSON
+  DeserializationError error = deserializeJson(doc, payloadStr);  
+  if (error) {
+    Serial.print("Falha ao fazer o parsing do JSON: ");
+    Serial.println(error.f_str());
+    return;
+  }
+
+  jsonHandler.handleConfigRequest(doc);
+  
+  publishReadBack();
+
 }

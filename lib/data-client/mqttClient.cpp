@@ -35,7 +35,7 @@ void MQTTClient::connectWifi(){
 void MQTTClient::configMQTT(const char* broker, const int port) {
     if (isConnected == true) {
         MQTT.setServer(broker, port);
-        MQTT.setCallback(callback);
+        //MQTT.setCallback(configRequestCallback);
         if(!MQTT.connected()) {
             connect();
             isConfigured = false;
@@ -63,17 +63,6 @@ String MQTTClient::getMAC() {
     return mac_address;
 }
 
-void callback(char *topic, byte *payload, unsigned int length) {
-    DEBUG(Serial.print("Message arrived in topic: ");
-          Serial.println(topic);
-          Serial.print("Message:");) 
-
-    for (int i = 0; i < length; i++) {
-        Serial.print((char) payload[i]);
-    }
-    DEBUG(Serial.println();
-          Serial.println("-----------------------");)
-}
 
 void MQTTClient::publishMessage(const char* topic, String payload , boolean retained=true){
     Serial.print("Sending:");
@@ -104,7 +93,8 @@ void MQTTClient::connect() {
     
     if (MQTT.connect(client_id.c_str(), (topicBase + willTopic).c_str(), willQOS, willRetain, willMessage)) {
         DEBUG(Serial.println("Broker connected");)
-        //MQTT.subscribe(topic); //Verificar necessidade
+        std::string configTopic = topicBase + "/config";
+        MQTT.subscribe(configTopic.c_str());
     } else {
         DEBUG(Serial.print("failed with state ");
               Serial.print(MQTT.state());)
@@ -113,7 +103,8 @@ void MQTTClient::connect() {
     }
 }
 
-MQTTClient::MQTTClient(const char* mqttBroker, const int mqttPort) {
+MQTTClient::MQTTClient(const char* mqttBroker, const int mqttPort){
     broker = mqttBroker;
     port = mqttPort;
 }
+

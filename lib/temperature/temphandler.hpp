@@ -4,11 +4,13 @@
 #include <map>
 #include <string>
 #include <memory>
+#include <vector>
+#include <ArduinoJson.h>
 
 #include "temperatureSensorBase.hpp"
-#include "modes-and-layouts.hpp"
 #include "buzzer.hpp"
 #include "LED.hpp"
+#include "configStruct.hpp"
 
 //Change this if want to add more sensors
 #define PT100_ID "PT100"
@@ -17,12 +19,18 @@
 #define NTC_ID_1 "NTC1"
 #define NTC_ID_2 "NTC2"
 
+#define MAX_SENSOR_THRESHOLD 50
+#define MIN_SENSOR_THRESHOLD -100
+
 typedef std::map<std::string, std::shared_ptr<TemperatureSensorBase>> SensorMap;
+
 typedef std::shared_ptr<TemperatureSensorBase> TempSensorPtr;
-typedef std::map<std::string, float> TempResults; 
+typedef std::map<std::string, float> TempResults;
 
 class TempHandler {
     public:
+        
+        float temperature;
 
         TempHandler(){buzzer.buzzerConfig(); led.ledConfig();};
 
@@ -60,28 +68,23 @@ class TempHandler {
          * specified `sensor_id`.
          */
         float getTemperature(const std::string& sensor_id);
+
         TempResults getAllTemperatures();
 
         bool isThresholdTrespassed = false;
 
-        void setOperationMode(OperationModes mode) {operation_mode = mode; threshold= mode2Threshold[mode];};
-        void setSensorLayout(SensorLayouts SensorLayout);
-
-        std::map<OperationModes, float> mode2Threshold = {{ FREEZER_MODE,    -20.0},
-                                                          { ULTRAFREEZER_MODE, -80.0},
-                                                          { AMBIENT_MODE,       25.0},
-                                                          { REFRIGERATOR_MODE, 5.0}}; 
-
-        float threshold = mode2Threshold[AMBIENT_MODE];  
-
-        void checkThreshold();
+        void buzzer_turn_off();
+        
+        bool checkThreshold(bool is_enabled, int8_t sensorIDint, float setThresholdMin, float setThresholdMax);
+        
+        const std::vector<SensorConfig>& getSensorConfigs() const {
+        return sensorConfigs;
+        }
 
         // Flag that represents that we have any sensor available
         bool isAnySensorConfig = false;
         Buzzer buzzer; 
-
-        OperationModes operation_mode = AMBIENT_MODE;
-        SensorLayouts currentLayout = NONE; 
+        
 
         /**
          * iterates through available sensors and returns false if any sensor's
@@ -91,11 +94,19 @@ class TempHandler {
          *  (i.e., `checkSensorHealth` returns true for each sensor), otherwise returns false. 
          */
         bool getSensorsHealth();
-
-    private: 
+        void addSensor(uint8_t sensorID, float gain, float offset);
+        void setSensorConfigs(const std::vector<SensorConfig>& newConfigs);
         void clearSensorMap();
+        
+        //uint8_t errorCodeGenerate(JsonObject& sensorConfig);
+
+        std::vector<uint8_t> errorCodeGenerate(JsonObject& sensorConfig);
+        
+    private: 
         LED led;
+        std::vector<SensorConfig> sensorConfigs;
 
 };
+       
 
 #endif  //TEMPHANDLER_HPP_

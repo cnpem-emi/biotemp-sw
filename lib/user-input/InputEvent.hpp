@@ -9,12 +9,12 @@
 typedef struct {
     int position;
     bool isScreenSaverOn;
-} KnobEvent;
+} PushButtonEvent;
 
 typedef struct {
     bool pressed;
     bool isScreenSaverOn;
-    int position;
-} ButtonPressEvent;
+} PushButtonPressEvent;
 
-#endif 
+
+#endif // _INPUTEVENT_HPP_

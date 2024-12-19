@@ -18,7 +18,7 @@
 #define RNOMINAL 100.0
 
 #define SENSOR_PIN 3
-#define NOT_HEALTHY_THRESHOLD 1500 // based on ESP32 ADC
+#define SENSOR_ID_PT100 3
 
 /*****************************************************/
 /*!
@@ -36,8 +36,18 @@ public:
     float getTemperature() override;
     bool checkSensorHealth() override;
 
+    int8_t getSensorIDint() override;
+
+    void setCalibration(float gain, float offset) override;
+
+
 private:
     Adafruit_MAX31865 max_module = Adafruit_MAX31865(CS_PIN, DI_PIN, DO_PIN, CLK_PIN);
+    
+    int8_t sensorIDint;
+
+    float gain = 1.;
+    float offset = 0.;
 };
 
 #endif

@@ -2,12 +2,16 @@
 #define _INCLUDE_BIOTEMPJSON_HPP_
 
 #include <Arduino.h>
-#include <vector>
 #include <ArduinoJson.h>
 #include <string>
+#include <vector>
 
 #include "temphandler.hpp"
-#include "modes-and-layouts.hpp"
+#include "configStruct.hpp"
+
+#define NUM_SENSORS 3
+
+typedef JsonDocument ConfigRequestDocument; 
 
 /*****************************************************/
 /*!
@@ -16,25 +20,31 @@
 /*****************************************************/
 class BiotempDataJson {
     public:
+        
         // Gets the temperature from the sensor
         String configPublisher();
+
+        void handleConfigRequest(ConfigRequestDocument& configJson);
+
         String mqttGeneratePacket();
 
-        BiotempDataJson(TempHandler& temp_handler): temperature_handler{temp_handler}{}
+        void setSensorConfig(JsonObject& config);
+
+        void setErrorCodes(const std::vector<uint8_t>& errors);
+
+        String readBackJSON();
+
+        BiotempDataJson(TempHandler& temp_handler): temperature_handler{temp_handler}{};
+
+        std::vector<SensorConfig> sensorConfigs; // Stores the sensors data
 
     private:
-        std::map<OperationModes, std::string> MODES_DISPLAY_STR = {{ULTRAFREEZER_MODE, "UltraFreezer"},
-                                                                   {FREEZER_MODE, "Freezer"},
-                                                                   {REFRIGERATOR_MODE, "Refrigerator"},
-                                                                   {AMBIENT_MODE, "Ambient"}};
-
-        std::map<SensorLayouts, std::string> SENSOR_LAYOUTS_STR = {{NONE, "None"},
-                                                                   {NTC1, "NTC1"},
-                                                                   {NTC2, "NTC2"},
-                                                                   {PT100, "PT100"}};
-
         
         TempHandler& temperature_handler;
+        JsonObject sensorConfig;              // Stores the sensor configuration  
+        std::vector<uint8_t> errorCodes;      // Stores the error codes
+
+
 };
 
 

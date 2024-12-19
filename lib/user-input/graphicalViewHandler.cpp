@@ -1,44 +1,23 @@
 #include "graphicalViewHandler.hpp"
 
-void GraphicalViewHandler::showOptionsMenu() {
-    isScreenSaverOn = false;
-    mainMenu.showMenu();
+void GraphicalViewHandler::handleBuzzerDisable() {
+    if(tempHandler!=nullptr) {
+        tempHandler->buzzer.handleDisable();
+
+    }
 }
-
-void GraphicalViewHandler::handleKnobEvent(KnobEvent event) {
-    event.isScreenSaverOn = isScreenSaverOn;
-
-    if (isScreenSaverOn == true) {
-        isScreenSaverOn = false;
-    }
-
-    // This is done to avoid multiple processing threads
-    if(!isKnobEventScheduled){
-        isKnobEventScheduled = true;
-        scheduledKnobEvent = event;
-    }
-
-}
-
-void GraphicalViewHandler::handlePressEvent(ButtonPressEvent event) {
-    event.isScreenSaverOn = isScreenSaverOn;
-    if (isScreenSaverOn == true) {
-        isScreenSaverOn = false;
-    }
-
-    // This is done to avoid multiple processing threads
-    if(!isPressEventScheduled){
-        isPressEventScheduled = true;
-        scheduledPressEvent = event;
-    }
-    //event.pressed = false;
-}
-
 
 void GraphicalViewHandler::config(TempHandler& tempHandler, BioTempMQTTClient& mqttClient) {
     oled.displayConfig();
     addTempHandler(tempHandler);
     addMQTTClient(mqttClient);
+
+    // Checks all thresholds imediately after receiving the interface config
+    for (const SensorConfig& config : tempHandler.getSensorConfigs()) {
+        if (config.sensor_id != 0) {
+            tempHandler.checkThreshold(config.is_enabled, config.sensor_id, config.min_threshold, config.max_threshold);
+        }
+    }
 }
 
 void GraphicalViewHandler::splashScreen(const unsigned char Logo[]){
@@ -55,9 +34,10 @@ void GraphicalViewHandler::showScreenSaver(){
 
 void GraphicalViewHandler::updateScreenSaver() {
     oled.clearDisplay();
-    oled.showMenuTitle("BioTemp");
+    //oled.showMenuTitle("BioTemp");
 
     if(tempHandler->available_sensors.empty()) {
+        oled.showMenuTitle("BioTemp");
         oled.displayText("Please Configure", 1, true);
         oled.displayText("  Temperature Sensor", 2, false);
         return;
@@ -68,18 +48,18 @@ void GraphicalViewHandler::updateScreenSaver() {
 
     for ( auto it = tempHandler->available_sensors.begin();
           it != tempHandler->available_sensors.end(); ++it) {
-        oled.displayText("  ", i, false);
         oled.displayText((it->first), i, false);
         oled.displayText(": ", i, false);
 
         // Displays temperature
         if((it->second)->checkSensorHealth()){
-            oled.displayText((it->second)->getTemperature(), i, false);
+            oled.displayText((it->second)->getTemperature(), i, false, TITLE_TEXT_SIZE);
             oled.displayText(" oC", i, false);
+
         }
         else{ oled.displayText("No Temp.", i, false);} 
 
-        oled.displayText(" ", i, true);  
+        oled.displayText(" ", i, true);
         i++;
     }
 
@@ -91,46 +71,52 @@ void GraphicalViewHandler::updateScreenSaver() {
     }
 }
 
+void GraphicalViewHandler::onConfigReceiver() {
+    // Important for call checkthresholds for all sensors configured
+    for (const SensorConfig& config : tempHandler->getSensorConfigs()) {
+        if (config.sensor_id != 0) {
+            tempHandler->checkThreshold(config.is_enabled, config.sensor_id, config.min_threshold, config.max_threshold);
+        }
+    }
+}
+
 
 void GraphicalViewHandler::mainLoop(){
-
-    if(tempHandler != nullptr)
-        tempHandler->checkThreshold();
-    
-    if( isKnobEventScheduled) { 
-        if(isScreenSaverOn){
-            mainMenu.showMenu(); 
-            isScreenSaverOn = false;
-        } else {
-            mainMenu.handleKnobEvent(scheduledKnobEvent);
+    bool buzzer = false;
+    if (tempHandler != nullptr && !tempHandler->getSensorConfigs().empty()) {
+        
+        for (const SensorConfig& config : tempHandler->getSensorConfigs()) {
+            if (tempHandler->checkThreshold(config.is_enabled, config.sensor_id, config.min_threshold, config.max_threshold)){buzzer = true;}
         }
-
-        isKnobEventScheduled = false;
-        return;
+    }
+    if (!buzzer){
+        tempHandler->buzzer_turn_off();
     }
 
-    if( isPressEventScheduled) { 
+    if(pushButton.isPressed()) {
         if(isScreenSaverOn){
-            mainMenu.showMenu();
+            info.showScreenMAC();
             isScreenSaverOn = false;
         } else {
-            mainMenu.handlePressEvent(scheduledPressEvent);
-        };
-        
-        isPressEventScheduled = false;
+            isScreenSaverOn = true;
+        }
+        if (tempHandler!=nullptr) {
+            if (tempHandler->buzzer.isBuzzerTriggered == true) {
+                tempHandler->buzzer.toggle(false);
+            }
+        }
         return;
     }
  
     // Checks if Screen saver needs to be shown
-    if (screenSaverEventScheduled == true || mainMenu.requestScreenSaver == true) 
+    if (screenSaverEventScheduled == true) 
     { 
 
       if(mqttClient != nullptr && mqttClient->isConfigured()) {  
         DEBUG(Serial.println("Publishing Temperature...");)
         mqttClient->publishTemp();
-        }
+      }
 
-      mainMenu.requestScreenSaver = false;
       if (isScreenSaverOn == true) {
         updateScreenSaver();
         screenSaverEventScheduled = false;
@@ -140,10 +126,4 @@ void GraphicalViewHandler::mainLoop(){
        isScreenSaverOn = true;
       }
     }
-
-
 }
-
-
-
-

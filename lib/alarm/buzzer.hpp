@@ -4,11 +4,13 @@
 #include "sensorNTC.hpp"
 #include "LED.hpp"
 
+#define BUZZER_COUNTER_MAX 10 // Equivale a aproximadamente 41 segundos
 #define BUZZER_PIN 15
 #define ON_BUZZER_DURATION 100
 #define OFF_BUZZER_DURATION 500
 #define BUZZER_PWM_CHANNEL 0
-#define BUZZER_FREQUENCY 2000 // Frequência em Hz (2000 Hz = 2 kHz)
+//#define BUZZER_FREQUENCY 2500 // Frequência de 2.5kHz é a freq de ressonância do buzzer, por isso o volume fica muito alto
+#define BUZZER_FREQUENCY 1000 // Frequência utilizada para fazer debugs e não ficar surdo
 #define BUZZER_PWM_RESOLUTION 8 // Resolução do PWM (8 bits)
 
 class Buzzer
@@ -39,10 +41,14 @@ class Buzzer
         void toggle(bool enable);
 
         bool isEnabled = true;
+
+        void handleDisable();
+        bool isBuzzerTriggered = false;
     
     private:
         int buzzerState = HIGH;
         long rememberTime = 0;
+        int buzzerCounter = 0;
 
 };
 

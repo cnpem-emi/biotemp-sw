@@ -10,10 +10,6 @@
 #define R_0 10000 // NTC reference resistance: R(T_0)
 #define R_DIV 56000 // Voltage divider resistor
 
-
-
-#define NOT_HEALTHY_THRESHOLD 1500 // based on ESP32 ADC
-
 #define NTCID1 "NTC1"
 #define NTCID2 "NTC2"
 
@@ -43,6 +39,10 @@ class SensorNTC : public TemperatureSensorBase {
         float getTemperature() override;
         bool checkSensorHealth() override;
 
+        int8_t getSensorIDint() override;
+
+        void setCalibration(float gain, float offset) override;
+
     private:
         /*************************************************************/
         /*!
@@ -52,5 +52,10 @@ class SensorNTC : public TemperatureSensorBase {
         /*************************************************************/
         float readADCPin();
         int sensor_pin;
-};
+
+        int8_t sensorIDint;
+
+        float gain = 1.;
+        float offset = 0.;
+};  
 #endif

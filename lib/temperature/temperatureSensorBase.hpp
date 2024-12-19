@@ -1,6 +1,8 @@
 #ifndef SENSOR_BASE_HPP
 #define SENSOR_BASE_HPP
 
+#define NOT_HEALTHY_THRESHOLD 1
+
 #include<string>
 
 class TemperatureSensorBase {
@@ -16,6 +18,9 @@ public:
     virtual void disableSensor() = 0;
     virtual float getTemperature() = 0;
     virtual bool checkSensorHealth() = 0;
+    virtual void setCalibration(float gain, float offset) = 0;
+
+    virtual int8_t getSensorIDint() = 0;
 };
 
 #endif // SENSOR_BASE_HPP

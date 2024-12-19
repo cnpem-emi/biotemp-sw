@@ -1,18 +1,21 @@
 #ifndef _INCLUDE_GRAPHICALVIEWHANDLER_HPP_
 #define _INCLUDE_GRAPHICALVIEWHANDLER_HPP_
 
-#include "optionsMenu.hpp"
 #include "InputEvent.hpp"
-#include "tempMenu.hpp"
 #include "infoMenu.hpp"
 #include "splashScreen.hpp"
 #include "sensorNTC.hpp"
 #include "temphandler.hpp"
 #include "biotempMQTTClient.hpp"
+#include "InputControllerPushButton.hpp"
+
+#include "displayController.hpp"
 
 #include <esp32-hal-timer.h>
+#include <ArduinoJson.h>
 
-#define SPLASH_SCREEN_TIME 1000 // in milliseconds
+#define SPLASH_SCREEN_TIME 2000 // in milliseconds
+
 
 /*********************************************************/
 /*!
@@ -24,33 +27,11 @@ class GraphicalViewHandler {
     public:
         bool isScreenSaverOn = true;
         bool userRecentlyInteracted = false;
-
         bool screenSaverEventScheduled = false;
 
-        /** 
-         * Turns off the screen saver and displays the main menu.
-         */
-        void showOptionsMenu();
+        InputControllerPushButton pushButton;
 
-        /** 
-         * Updates the screen saver flag and then passes the event to the `mainMenu` object.
-         * 
-         * @param event The `event` parameter is an object of type `KnobEvent`, 
-         *  contains information about the positivion update of the knob. 
-         */
-        void handleKnobEvent(KnobEvent event);
-
-
-        /** 
-         * Updates the screen saver status, handles the button press event in the main menu,
-         * and resets the pressed state of the event.
-         * 
-         * @param event The `event` parameter is of type `ButtonPressEvent`, which contains information
-         * about a button press event, such as the button that was pressed and any other underlying related information.
-         */
-        void handlePressEvent(ButtonPressEvent event);
-
-        // Dipslay configuration abstraction.
+        // Display configuration abstraction.
         void config(TempHandler& tempHandler, BioTempMQTTClient& mqttClient);
 
         /** 
@@ -85,19 +66,21 @@ class GraphicalViewHandler {
         void addTempHandler(TempHandler& temperatureHandler){ tempHandler = &temperatureHandler;};
         void addMQTTClient(BioTempMQTTClient& mqtt_client){ mqttClient = &mqtt_client;};
 
+        void handleBuzzerDisable();
+
+        void onConfigReceiver();
+
     private:
         DisplayController oled;
-        TempMenu temp = TempMenu(oled, tempHandler);
         InfoMenu info = InfoMenu(oled, tempHandler, mqttClient);
-        OptionsMenu mainMenu = OptionsMenu(oled, temp, info);
         TempHandler* tempHandler;
         BioTempMQTTClient* mqttClient;
 
-        bool isPressEventScheduled = false;
-        ButtonPressEvent scheduledPressEvent;
+        bool isPressPushButtonScheduled = false;
+        PushButtonPressEvent scheduledPressPushButonEvent;
 
-        bool isKnobEventScheduled = false;
-        KnobEvent scheduledKnobEvent;
-    };
+        bool isPushButtonEventScheduled = false;
+        PushButtonEvent scheduledPushButtonEvent;
+};
 
 #endif 
